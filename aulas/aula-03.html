@@ -36,6 +36,7 @@
       <nav class="nav" id="menu" aria-label="Partes da aula">
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
+        <a href="#caso">Caso</a>
         <a href="#atividade">Atividade</a>
         <a href="#materiais">Materiais</a>
         <a href="#entrega">Entrega</a>
@@ -76,6 +77,7 @@
         </div>
         <h1>Desenhando a lógica</h1>
         <p class="subtitulo">Fluxogramas no Whiteboard e no Flowgorithm, antes de qualquer linha de Python.</p>
+
       </div>
     </section>
 
@@ -129,6 +131,34 @@
               <p class="dica"><strong>Dica:</strong> faça o teste de mesa com um valor comum, um valor no limite (exatamente 18 anos, por exemplo) e um valor estranho (idade negativa).</p>
             </div>
             
+          </div>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Verificar a idade para criar a conta</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Pessoa que quer se cadastrar</p>
+            <p><strong>Objetivo:</strong> Criar uma conta num serviço que exige 18 anos ou mais.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>A pessoa informa o ano de nascimento.</li>
+              <li>O sistema calcula a idade.</li>
+              <li>Se tiver 18 anos ou mais, libera o cadastro.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>A pessoa tem menos de 18: o sistema explica o motivo e não cadastra.</li>
+              <li>O ano digitado é no futuro: o sistema avisa que o dado é inválido.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Desenhe o fluxograma: quantos losangos de decisão aparecem?</li>
+              <li>Que valores você usaria no teste de mesa para provar que funciona?</li>
+            </ol>
           </div>
         </section>
 
