@@ -1,122 +1,566 @@
-<!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<!doctype html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PyQuiz // Revisão de Lógica em Python</title>
-  <meta name="description" content="Quiz interativo para revisão de lógica de programação em Python — Curso de Tecnologia em Segurança da Informação. 1º Bimestre">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: título e descrição da disciplina -->
+  <title>Lógica com Python · Stela</title>
+  <meta name="description" content="Lógica de Programação com Python. Segurança da Informação, Faculdade de Tecnologia e Inovação Senac DF. Profa. Maristela.">
+
+  <link rel="icon" href="assets/img/estrela.webp">
+  <script src="assets/js/placa.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="assets/css/estilo.css">
+  <link rel="stylesheet" href="assets/css/disciplina.css">
+  <link rel="stylesheet" href="assets/css/aula.css">
+  <link rel="stylesheet" href="assets/css/neon.css">
 </head>
 <body>
-  <canvas id="matrix-rain" class="matrix-rain" aria-hidden="true"></canvas>
-  <div class="scanlines" aria-hidden="true"></div>
 
-  <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
-
-  <header class="site-header">
-    <div class="logo" aria-hidden="true">
-      <span class="logo-bracket">&lt;</span>PyQuiz<span class="logo-bracket">/&gt;</span>
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+        <a class="marca-disc" href="./" title="Página inicial da disciplina">Python</a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Seções da disciplina">
+        <a href="#linguagem">O Python</a>
+        <a href="#ementa">Ementa</a>
+        <a href="#aulas">Aulas</a>
+        <a href="#avaliacao">Avaliação</a>
+        <a href="#atividades">Atividades</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+      </div>
     </div>
-    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Alternar para modo claro">
-      <span class="icon-moon" aria-hidden="true">🌙</span>
-      <span class="icon-sun" aria-hidden="true">☀️</span>
-      <span class="toggle-text">tema</span>
-    </button>
   </header>
 
-  <main id="main-content">
-    <!-- TELA DE IDENTIFICAÇÃO -->
-    <section id="gate-screen" class="screen card terminal" aria-labelledby="gate-title">
-      <h1 id="gate-title">&gt; Revisão de Lógica em Python_</h1>
-      <p class="subtitle">Curso Superior em Tecnologia de Segurança da Informação</p>
-      <p class="intro-text">Antes de iniciar, identifique-se para o sistema:</p>
+  <main id="inicio">
 
-      <form id="gate-form" novalidate>
-        <label for="student-name">Nome completo</label>
-        <input type="text" id="student-name" name="student-name" placeholder="Digite seu nome completo"
-               autocomplete="name" required minlength="3" aria-describedby="name-error">
-        <span id="name-error" class="field-error" role="alert" aria-live="assertive"></span>
-        <button type="submit" class="btn btn-primary">&gt; Iniciar Quiz_</button>
-      </form>
+    <!-- ===================== ABERTURA ===================== -->
+    <section class="abertura">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve abertura-grade">
+        <div>
+          <p class="trilha-migalhas" data-revela>
+            <a href="/">Stela</a> <span aria-hidden="true">/</span>
+            <a href="/#cursos">SI</a> <span aria-hidden="true">/</span>
+            <span>Lógica com Python</span>
+          </p>
 
-      <ul class="rules-list">
-        <li>🎯 30 questões sobre algoritmos, variáveis, operadores e entrada/saída</li>
-        <li>🔀 Perguntas e alternativas embaralhadas a cada tentativa</li>
-        <li>⚡ Feedback imediato a cada resposta</li>
-      </ul>
+          <!-- EDITE AQUI: nome oficial da disciplina e o título de boas-vindas -->
+          <p class="nome-oficial etiqueta ouro" data-revela style="--i:1">Lógica de Programação com Python</p>
+          <h1 data-revela style="--i:1">Bem-vindos à programação em <span class="neon">Python</span></h1>
+          <p class="subtitulo" data-revela style="--i:2">Do primeiro algoritmo desenhado no papel à ferramenta de segurança que você mesmo programa.</p>
+          <p class="chamada" data-revela style="--i:3">
+            Antes de digitar código, a gente aprende a pensar como o computador. Depois o pensamento vira Python:
+            validar senhas, contar tentativas de login, cifrar mensagens e, no fim, construir uma ferramenta de
+            segurança da informação de verdade.
+          </p>
+
+          <div class="acoes" data-revela style="--i:4">
+            <a class="botao" href="#atividades">Ver as atividades</a>
+            <a class="botao contorno" href="#ementa">Ver a ementa</a>
+          </div>
+        </div>
+
+        <!-- EDITE AQUI: logo da linguagem e janela de código de boas-vindas -->
+        <div class="vitrine" data-revela style="--i:2">
+          <span class="tec logo-flutua neon-halo" title="Python"><img src="assets/img/tec/python.svg" alt="Python" width="32" height="32"></span>
+          <div class="janela">
+            <div class="janela-barra">
+              <span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="janela-titulo">bem-vindos.py</span>
+            </div>
+            <pre class="codigo" aria-label="Código Python que mostra a mensagem: Bem-vindos, filhotes!"><code><span class="linha"><span class="num">1</span><span class="com"># SI · 1º e 2º semestres · 70h</span></span><span class="linha"><span class="num">2</span><span class="var">turma</span> = <span class="str">"filhotes"</span></span><span class="linha"><span class="num">3</span><span class="var">energia</span> = <span class="fn">float</span>(<span class="str">"inf"</span>)</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="fn">print</span>(<span class="str">f"Bem-vindos, <span class="var">{turma}</span>!"</span>)</span></code></pre>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- TELA DO QUIZ -->
-    <section id="quiz-screen" class="screen card hidden" aria-labelledby="quiz-heading">
-      <h1 id="quiz-heading" class="sr-only">Quiz em andamento</h1>
-
-      <div class="hud">
-        <div class="hud-item">
-          <span class="hud-label">Agente</span>
-          <span id="player-name" class="hud-value">—</span>
+    <!-- ===================== RAIO-X DA LINGUAGEM ===================== -->
+    <section class="bloco alt" id="linguagem">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">P1 · raio-x da linguagem</span>
+          <h2>Afinal, o que é esse tal de Python?</h2>
+          <p>
+            É a linguagem que se lê quase como inglês. Simples para começar e poderosa para a vida toda: vai de
+            automação a inteligência artificial, e é uma das favoritas de quem trabalha com segurança da informação.
+          </p>
         </div>
-        <div class="hud-item">
-          <span class="hud-label">Questão</span>
-          <span id="question-counter" class="hud-value">1 / 30</span>
+
+        <ol class="fluxo" aria-label="Do problema ao programa" data-revela>
+          <li><strong>Problema</strong><span>Uma situação real, como bloquear quem erra a senha três vezes.</span></li>
+          <li><strong>Algoritmo</strong><span>O passo a passo em português ou num fluxograma.</span></li>
+          <li><strong>Python</strong><span>O algoritmo vira código no VS Code.</span></li>
+          <li><strong>Execução</strong><span>O computador segue as instruções e mostra o resultado.</span></li>
+        </ol>
+
+        <div class="curiosidades">
+          <div class="cartao destaque luz" data-revela>
+            <span class="tec" title="Python"><img src="assets/img/tec/python.svg" alt="" width="32" height="32"></span>
+            <span class="olho">C1 · popularidade</span>
+            <span class="numero">Nº 1</span>
+            <h3>no ranking das linguagens</h3>
+            <p>Python lidera o índice TIOBE, que mede a popularidade das linguagens de programação, com folga sobre a segunda colocada.</p>
+            <p class="fonte">Fonte: <a href="https://www.tiobe.com/tiobe-index/">índice TIOBE</a>, setembro de 2026.</p>
+          </div>
+          <div class="cartao luz" data-revela style="--i:1">
+            <span class="olho">C2 · nome</span>
+            <h3>Nome de comédia, não de cobra</h3>
+            <p>Guido van Rossum batizou a linguagem em homenagem ao grupo de humor britânico Monty Python. A cobra veio depois.</p>
+          </div>
+          <div class="cartao luz" data-revela style="--i:2">
+            <span class="olho">C3 · origem</span>
+            <h3>Nasceu em 1991</h3>
+            <p>A primeira versão pública saiu em 1991. Mais de 30 anos depois, ela continua crescendo.</p>
+          </div>
+          <div class="cartao luz" data-revela style="--i:1">
+            <span class="olho">C4 · segurança</span>
+            <h3>Queridinha de quem protege sistemas</h3>
+            <p>Ferramentas conhecidas de segurança, como o sqlmap e o Scapy, são escritas em Python. Você vai entender por quê.</p>
+          </div>
+          <div class="cartao luz" data-revela style="--i:2">
+            <span class="olho">C5 · filosofia</span>
+            <h3>Digite <code>import this</code></h3>
+            <p>Aparece o "Zen do Python", com frases como "bonito é melhor que feio" e "legibilidade conta". É o manual de boas maneiras da linguagem.</p>
+          </div>
+          <div class="cartao inteiro luz" data-revela style="--i:3">
+            <span class="olho">C6 · aqui mesmo</span>
+            <h3>Python rodando dentro do navegador</h3>
+            <p>Os exercícios da atividade remota executam Python direto nesta página, sem instalar nada. Por trás está o Pyodide, uma versão do Python feita para a web.</p>
+          </div>
         </div>
-        <div class="hud-item">
-          <span class="hud-label">Pontos</span>
-          <span id="score-display" class="hud-value">0</span>
-        </div>
-        <div class="hud-item streak-item">
-          <span class="hud-label">Sequência</span>
-          <span id="streak-display" class="hud-value">🔥 0</span>
-        </div>
-      </div>
-
-      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso do quiz">
-        <div id="progress-fill" class="progress-fill"></div>
-      </div>
-
-      <p class="topic-badge" id="topic-badge">Algoritmo</p>
-
-      <form id="question-form">
-        <fieldset>
-          <legend id="question-text">Carregando pergunta...</legend>
-          <div id="options-container" class="options-container"></div>
-        </fieldset>
-
-        <p id="feedback-message" class="feedback-message" role="alert" aria-live="assertive"></p>
-
-        <div class="quiz-actions">
-          <button type="submit" id="confirm-btn" class="btn btn-primary">Confirmar_</button>
-          <button type="button" id="next-btn" class="btn btn-secondary hidden">Próxima &gt;&gt;</button>
-        </div>
-      </form>
-    </section>
-
-    <!-- TELA DE RESULTADO -->
-    <section id="results-screen" class="screen card hidden" aria-labelledby="results-heading">
-      <h1 id="results-heading">Fim de Missão!</h1>
-      <p id="result-name" class="result-name"></p>
-      <div id="result-emoji" class="result-emoji" aria-hidden="true">🏆</div>
-      <p id="result-message" class="result-message"></p>
-
-      <div class="result-stats">
-        <p>Acertos: <strong id="result-correct">0</strong> / <span id="result-total">30</span></p>
-        <p>Aproveitamento: <strong id="result-percentage">0%</strong></p>
-        <p>Maior sequência de acertos: <strong id="result-streak">0</strong> 🔥</p>
-      </div>
-
-      <div class="result-actions">
-        <button id="restart-btn" class="btn btn-primary" type="button">&gt; Refazer Quiz_</button>
-        <button id="save-btn" class="btn btn-secondary" type="button">&gt; Salvar Resultado_</button>
       </div>
     </section>
+
+    <!-- ===================== FICHA DA DISCIPLINA ===================== -->
+    <section class="bloco faixa" aria-label="Ficha da disciplina">
+      <div class="envolve">
+        <div class="ficha">
+          <div class="cartao" data-revela>
+            <span class="olho">Curso</span>
+            <strong>Segurança da Informação</strong>
+            <span>Faculdade de Tecnologia e Inovação Senac DF</span>
+          </div>
+          <div class="cartao" data-revela style="--i:1">
+            <span class="olho">Semestre</span>
+            <strong>1º e 2º semestres</strong>
+            <span>Matutino</span>
+          </div>
+          <div class="cartao" data-revela style="--i:2">
+            <span class="olho">Carga horária</span>
+            <strong>70 horas</strong>
+            <span>60h presenciais e 10h a distância</span>
+          </div>
+          <a class="cartao luz" href="/" data-revela style="--i:3">
+            <span class="olho">Professora</span>
+            <strong>Maristela Oliveira</strong>
+            <span>ou só Stela</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EMENTA E OBJETIVOS ===================== -->
+    <section class="bloco alt" id="ementa">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">E1 · ementa</span>
+          <h2>Pensar antes de programar</h2>
+          <p>A ementa oficial, palavra por palavra. O resto do semestre é colocar isso em prática.</p>
+        </div>
+
+        <div class="ementa">
+          <div data-revela>
+            <!-- EDITE AQUI: ementa oficial (copie do plano de ensino, sem mudar) -->
+            <p class="ementa-texto">
+              Apresentar os fundamentos da lógica de programação por meio da linguagem Python, desenvolvendo a
+              capacidade de resolver problemas computacionais por meio da construção de algoritmos estruturados,
+              utilizando boas práticas de codificação e pensamento lógico.
+            </p>
+            <div class="palavras" aria-label="Palavras-chave">
+              <span class="etiqueta ouro">Lógica de programação</span>
+              <span class="etiqueta ouro">Algoritmos estruturados</span>
+              <span class="etiqueta ouro">Linguagem Python</span>
+              <span class="etiqueta ouro">Resolução de problemas computacionais</span>
+              <span class="etiqueta ouro">Boas práticas de codificação</span>
+              <span class="etiqueta ouro">Pensamento lógico</span>
+            </div>
+          </div>
+
+          <div class="janela" data-revela style="--i:1">
+            <div class="janela-barra">
+              <span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="janela-titulo">objetivos.md</span>
+            </div>
+            <div class="janela-corpo">
+              <h3>Aonde a gente quer chegar</h3>
+              <p class="objetivo-geral">
+                Capacitar os alunos a construir algoritmos estruturados e programas na linguagem Python, aplicando o
+                pensamento lógico e as boas práticas de codificação na resolução de problemas computacionais do
+                cenário profissional da segurança da informação.
+              </p>
+              <ul class="lista-check">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>Compreender os fundamentos da lógica de programação e a construção de algoritmos estruturados.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>Aplicar variáveis, tipos de dados, operadores e estruturas de decisão e repetição em programas Python.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>Utilizar estruturas de dados e funções da linguagem Python na resolução de problemas computacionais.</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m8 12.5 2.5 2.5L16 9.5"/></svg>Empregar boas práticas de codificação na construção, depuração e documentação de programas.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTEÚDO PROGRAMÁTICO ===================== -->
+    <section class="bloco" id="conteudo">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">U1–U5 · conteúdo programático</span>
+          <h2>Cinco unidades, uma ferramenta de segurança</h2>
+          <p>Cada unidade acrescenta uma peça. No fim, elas viram o projeto final.</p>
+        </div>
+        <div class="unidades">
+          <div class="cartao unidade" data-revela>
+            <div class="unidade-topo"><span class="olho">Unidade 1</span><span class="etiqueta">aulas 1 a 3</span></div>
+            <h3>Fundamentos da lógica de programação</h3>
+            <p>Pensar como o computador, antes de falar com ele.</p>
+            <ul><li>Pensamento lógico e computacional</li><li>Conceito de algoritmo e sequência lógica</li><li>Representação de algoritmos: descrição narrativa, pseudocódigo e fluxograma</li></ul>
+          </div>
+          <div class="cartao unidade" data-revela style="--i:1">
+            <div class="unidade-topo"><span class="olho">Unidade 2</span><span class="etiqueta">aulas 4 a 6</span></div>
+            <h3>Introdução à linguagem Python</h3>
+            <p>O primeiro "olá" e as primeiras contas.</p>
+            <ul><li>Ambiente de desenvolvimento e execução de programas Python</li><li>Variáveis, tipos de dados e conversão de tipos</li><li>Entrada e saída de dados</li><li>Operadores aritméticos, relacionais e lógicos</li></ul>
+          </div>
+          <div class="cartao unidade" data-revela style="--i:2">
+            <div class="unidade-topo"><span class="olho">Unidade 3</span><span class="etiqueta">aulas 7 a 11</span></div>
+            <h3>Algoritmos estruturados: decisão e repetição</h3>
+            <p>O programa escolhe caminhos e repete até acertar.</p>
+            <ul><li>Estruturas de decisão (if, elif e else)</li><li>Estruturas de repetição (while e for)</li><li>Contadores, acumuladores e controle de laços</li></ul>
+          </div>
+          <div class="cartao unidade" data-revela style="--i:3">
+            <div class="unidade-topo"><span class="olho">Unidade 4</span><span class="etiqueta">aulas 12 a 15</span></div>
+            <h3>Estruturas de dados e funções</h3>
+            <p>Listas de IPs, dicionários de permissões e código que se reaproveita.</p>
+            <ul><li>Strings, listas, tuplas e dicionários</li><li>Funções: definição, parâmetros, retorno e escopo</li><li>Módulos e bibliotecas padrão</li></ul>
+          </div>
+          <div class="cartao unidade" data-revela>
+            <div class="unidade-topo"><span class="olho">Unidade 5</span><span class="etiqueta">aulas 16 e 17</span></div>
+            <h3>Boas práticas e resolução de problemas</h3>
+            <p>Código limpo, erros tratados e uma ferramenta de segurança funcionando.</p>
+            <ul><li>Boas práticas de codificação (PEP 8, nomenclatura e comentários)</li><li>Tratamento de exceções e depuração de programas</li><li>Resolução de problemas computacionais aplicados à segurança da informação</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== AULAS ===================== -->
+    <!--
+      EDITE AQUI: uma linha por aula, com a data em data-a (AAAA-MM-DD). Turma única: não precisa de data-b.
+      O aulas.js destaca sozinho a próxima aula. Quando a página da aula existir, coloque o link no título.
+    -->
+    <section class="bloco alt" id="aulas">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">A1–A18 · aulas</span>
+          <h2>Dezoito encontros, uma trilha</h2>
+          <p>Segundas de manhã e alguns sábados. A próxima aula aparece destacada.</p>
+        </div>
+        <ol class="log lista-aulas" data-revela>
+          <li class="commit" data-a="2026-08-10">
+            <div class="commit-linha"><h3>Conhecendo a disciplina e o pensamento computacional</h3><span class="hash">A01</span></div>
+            <div class="meta"><span>segunda, 10/08</span> · <span>Apresentação vivencial</span></div>
+          </li>
+          <li class="commit" data-a="2026-08-17">
+            <div class="commit-linha"><h3>O que é um algoritmo?</h3><span class="hash">A02</span></div>
+            <div class="meta"><span>segunda, 17/08</span> · <span>Situação-problema</span></div>
+          </li>
+          <li class="commit" data-a="2026-08-24">
+            <div class="commit-linha"><h3>Desenhando a lógica com fluxogramas</h3><span class="hash">A03</span></div>
+            <div class="meta"><span>segunda, 24/08</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-08-29">
+            <div class="commit-linha"><h3>Preparando o ambiente: meu primeiro programa em Python</h3><span class="hash">A04</span></div>
+            <div class="meta"><span>sábado, 29/08</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-08-31">
+            <div class="commit-linha"><h3>Variáveis, tipos e entrada de dados</h3><span class="hash">A05</span></div>
+            <div class="meta"><span>segunda, 31/08</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-09-14">
+            <div class="commit-linha"><h3>Operadores e expressões</h3><span class="hash">A06</span></div>
+            <div class="meta"><span>segunda, 14/09</span> · <span>Aprendizagem baseada em problemas</span></div>
+          </li>
+          <li class="commit" data-a="2026-09-19">
+            <div class="commit-linha"><h3>Como um sistema decide quem pode entrar?</h3><span class="hash">A07</span></div>
+            <div class="meta"><span>sábado, 19/09</span> · <span>Situação-problema</span></div>
+          </li>
+          <li class="commit" data-a="2026-09-21">
+            <div class="commit-linha"><h3>Revisão e atividade avaliativa prática do 1º bimestre</h3><span class="hash">A08</span></div>
+            <div class="meta"><span>segunda, 21/09</span> · <span>Amostra de trabalho</span></div>
+          </li>
+          <li class="commit" data-a="2026-09-28">
+            <div class="commit-linha"><h3>Avaliação do 1º bimestre</h3><span class="hash">A09</span></div>
+            <div class="meta"><span>segunda, 28/09</span> · <span>Avaliação</span></div>
+          </li>
+          <li class="commit" data-a="2026-10-05">
+            <div class="commit-linha"><h3>Repetindo até acertar: a estrutura while</h3><span class="hash">A10</span></div>
+            <div class="meta"><span>segunda, 05/10</span> · <span>Situação-problema</span> <span>· hoje: segunda chamada da prova e atividade remota</span> <a class="etiqueta ouro" href="atividade-remota/">atividade remota →</a></div>
+          </li>
+          <li class="commit" data-a="2026-10-17">
+            <div class="commit-linha"><h3>Repetição com for e range()</h3><span class="hash">A11</span></div>
+            <div class="meta"><span>sábado, 17/10</span> · <span>Aprendizagem em ação</span></div>
+          </li>
+          <li class="commit" data-a="2026-10-19">
+            <div class="commit-linha"><h3>Strings: validando senhas e cifrando mensagens</h3><span class="hash">A12</span></div>
+            <div class="meta"><span>segunda, 19/10</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-10-26">
+            <div class="commit-linha"><h3>Listas: analisando registros de acesso</h3><span class="hash">A13</span></div>
+            <div class="meta"><span>segunda, 26/10</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-11-09">
+            <div class="commit-linha"><h3>Tuplas e dicionários: usuários e permissões</h3><span class="hash">A14</span></div>
+            <div class="meta"><span>segunda, 09/11</span> · <span>Laboratório de práticas</span></div>
+          </li>
+          <li class="commit" data-a="2026-11-14">
+            <div class="commit-linha"><h3>Funções: organizando e reaproveitando código</h3><span class="hash">A15</span></div>
+            <div class="meta"><span>sábado, 14/11</span> · <span>Projeto</span></div>
+          </li>
+          <li class="commit" data-a="2026-11-16">
+            <div class="commit-linha"><h3>Módulos, exceções, boas práticas e desenvolvimento do projeto</h3><span class="hash">A16</span></div>
+            <div class="meta"><span>segunda, 16/11</span> · <span>Projeto</span></div>
+          </li>
+          <li class="commit" data-a="2026-11-23">
+            <div class="commit-linha"><h3>Apresentação dos projetos finais</h3><span class="hash">A17</span></div>
+            <div class="meta"><span>segunda, 23/11</span> · <span>Exposição prática</span></div>
+          </li>
+          <li class="commit" data-a="2026-12-07">
+            <div class="commit-linha"><h3>Devolutiva e encerramento</h3><span class="hash">A18</span></div>
+            <div class="meta"><span>segunda, 07/12</span> · <span>Encerramento</span></div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== COMO AS AULAS FUNCIONAM ===================== -->
+    <section class="bloco" id="metodo">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">M1 · metodologia</span>
+          <h2>Do papel ao código, do código à segurança</h2>
+        </div>
+        <div class="metodo">
+          <div class="texto" data-revela>
+            <p>
+              Primeiro a lógica: pseudocódigo e fluxogramas no Flowgorithm e no Whiteboard. Depois o Python no VS Code,
+              com desafios progressivos tirados do dia a dia da segurança da informação: validar senhas, controlar
+              tentativas de acesso, cifrar mensagens.
+            </p>
+            <p>
+              O curso Python Essentials da NetAcad acompanha a disciplina e prepara para a certificação PCEP. A IA
+              entra com senso crítico, para explicar e revisar código, e tem dia sem IA para você ver o quanto já
+              anda sozinho.
+            </p>
+            <p class="citacao">Curto-circuito? Lê a mensagem de erro: ela diz a linha e quase sempre dá a dica.</p>
+          </div>
+          <div class="janela" data-revela style="--i:1">
+            <div class="janela-barra">
+              <span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="janela-titulo">ferramentas</span>
+            </div>
+            <div class="janela-corpo">
+              <p class="prompt" aria-hidden="true"><b>stela@placa</b> <span>~/python</span> $ ls ferramentas/</p>
+              <div class="ferramentas">
+                <span class="etiqueta"><span class="tec" title="Python"><img src="assets/img/tec/python.svg" alt="" width="32" height="32"></span>Python</span>
+                <span class="etiqueta"><span class="tec" title="VS Code"><img src="assets/img/tec/vscode.svg" alt="" width="32" height="32"></span>VS Code</span>
+                <span class="etiqueta">Flowgorithm</span>
+                <span class="etiqueta">NetAcad Python Essentials</span>
+                <span class="etiqueta"><span class="tec" title="GitHub"><img src="assets/img/tec/github.svg" alt="" width="32" height="32"></span>GitHub</span>
+                <span class="etiqueta">Teams, Loop e Whiteboard</span>
+                <span class="etiqueta verde">IA para explicar e revisar</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== AVALIAÇÃO ===================== -->
+    <section class="bloco alt" id="avaliacao">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">A1 · avaliação</span>
+          <h2>Como a nota é montada</h2>
+          <p>Dez pontos por bimestre. No segundo, a nota principal vem do projeto final.</p>
+        </div>
+        <div class="avaliacao">
+          <div class="cartao" data-revela>
+            <span class="olho">1º bimestre</span>
+            <h3>10 pontos</h3>
+            <div class="pontos" aria-hidden="true"><span style="--pts:6"></span><span style="--pts:4"></span></div>
+            <ul class="partes">
+              <li><span>Prova objetiva</span><strong>6,0</strong></li>
+              <li><span>Atividade avaliativa prática</span><strong>4,0</strong></li>
+            </ul>
+          </div>
+          <div class="cartao" data-revela style="--i:1">
+            <span class="olho">2º bimestre</span>
+            <h3>10 pontos</h3>
+            <div class="pontos" aria-hidden="true"><span style="--pts:7"></span><span style="--pts:2"></span><span style="--pts:1"></span></div>
+            <ul class="partes">
+              <li><span>Apresentação do projeto final</span><strong>7,0</strong></li>
+              <li><span>Avaliação Integrada</span><strong>2,0</strong></li>
+              <li><span>Participação na Jornada Interdisciplinar</span><strong>1,0</strong></li>
+            </ul>
+          </div>
+        </div>
+        <p class="aprovacao" data-revela>Para ser aprovado: média final de 6,0 e pelo menos 75% de frequência.</p>
+      </div>
+    </section>
+
+    <!-- ===================== ATIVIDADES E MATERIAIS ===================== -->
+    <section class="bloco" id="atividades">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">J1 · conectores</span>
+          <h2>Atividades e materiais</h2>
+          <p>Tudo o que a gente usa na disciplina, num lugar só.</p>
+        </div>
+        <div class="repos">
+          <a class="repo luz" href="atividade-remota/" data-revela>
+            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>atividade-remota</span>
+            <h4>Plantão de segurança (05/10)</h4>
+            <p>Cinco exercícios que rodam e se corrigem no próprio site. Para quem já fez a prova do 1º bimestre.</p>
+            <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta verde">atividade remota</span></span>
+          </a>
+          <a class="repo luz" href="quiz/" data-revela style="--i:1">
+            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Python-Logica/quiz</span>
+            <h4>PyQuiz: revisão do 1º bimestre</h4>
+            <p>30 questões embaralhadas, com explicação em cada resposta, num visual hacker.</p>
+            <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta ouro">revisão</span></span>
+          </a>
+          <a class="repo luz" href="https://github.com/MARISTELAOLIVEIRA/logica-python" data-revela style="--i:2">
+            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>logica-python</span>
+            <h4>Exercícios no GitHub Classroom</h4>
+            <p>Básicos, condicionais, repetições, funções e desafios, com testes para conferir.</p>
+            <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="assets/img/tec/github.svg" alt="" width="20" height="20"></span>GitHub</span><span class="etiqueta">no GitHub</span></span>
+          </a>
+          <a class="repo luz" href="https://www.netacad.com/" data-revela style="--i:3">
+            <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>NetAcad</span>
+            <h4>Python Essentials</h4>
+            <p>A trilha que acompanha a disciplina e prepara para a certificação PCEP.</p>
+            <span class="repo-pe"><span class="ling" style="--cor:#1ba0d7"><i></i>Plataforma</span><span class="etiqueta">trilha</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BIBLIOGRAFIA ===================== -->
+    <section class="bloco alt" id="bibliografia">
+      <div class="envolve">
+        <div class="cab" data-revela>
+          <span class="olho">B1 · bibliografia</span>
+          <h2>Para ir além da aula</h2>
+        </div>
+        <div class="biblio">
+          <div class="cartao" data-revela>
+            <span class="olho">Básica</span>
+            <ol>
+              <li><strong>Aprenda a programar com Python</strong>SOARES, L.; FORTES, G. São Paulo: Casa do Código, 2022. E-book.</li>
+              <li><strong>Algoritmos: teoria e prática</strong>CORMEN, Thomas H.; LEISERSON, Charles E.; RIVEST, Ronald L. 2. ed. Rio de Janeiro: Campus, 2012.</li>
+              <li><strong>Python: escreva seus primeiros programas</strong>CRUZ, F. Casa do Código, 2015. E-book.</li>
+            </ol>
+          </div>
+          <div class="cartao" data-revela style="--i:1">
+            <span class="olho">Complementar</span>
+            <ol>
+              <li><strong>Algoritmos e programação de computadores</strong>PIVA JUNIOR, Dilermando; ENGELBRECHT, Angela de Mendonça; NAKAMITI, Gilberto Shigueo. Rio de Janeiro: Campus, 2012.</li>
+              <li><strong>Algoritmos: lógica para desenvolvimento de programação de computadores</strong>MANZANO, José Augusto N. G.; OLIVEIRA, Jays Figueiredo. 22. ed. São Paulo: Érica, 2009.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <footer class="site-footer">
-    <p>Desenvolvido para fins educacionais — <strong>Profª Maristela</strong> © 2026</p>
+  <!-- ===================== RODAPÉ ===================== -->
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-grade">
+        <div class="rodape-marca">
+          <img src="assets/img/coracao.webp" alt="" width="40" height="38">
+          <strong>Lógica de Programação com Python</strong>
+          <span>Uma disciplina do curso de Segurança da Informação da Faculdade de Tecnologia e Inovação Senac DF.</span>
+        </div>
+        <nav aria-label="Nesta disciplina">
+          <h2>Nesta disciplina</h2>
+          <ul>
+            <li><a href="#linguagem">Raio-X do Python</a></li>
+            <li><a href="#ementa">Ementa e objetivos</a></li>
+            <li><a href="#aulas">Aulas</a></li>
+            <li><a href="#avaliacao">Avaliação</a></li>
+            <li><a href="#atividades">Atividades e materiais</a></li>
+            <li><a href="atividade-remota/">Atividade remota</a></li>
+            <li><a href="quiz/">PyQuiz</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Outras disciplinas">
+          <h2>Outras disciplinas</h2>
+          <ul>
+            <li><a href="/prog-web-js/">Programação Web em JavaScript</a></li>
+            <li><a href="/prog-web-php/">Web II: PHP</a></li>
+            <li><a href="/lab-inovacao-3/">Laboratório de Inovação III</a></li>
+            <li><a href="/lab-inovacao-4/">Laboratório de Inovação IV</a></li>
+            <li><a href="/seguranca-nuvem/">Segurança em Nuvem</a></li>
+            <li><a href="/arc/">Administração de Recursos Computacionais</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Professora">
+          <h2>Professora</h2>
+          <ul>
+            <li><a href="/">Portal da Stela</a></li>
+            <li><a href="/#cursos">Cursos e turmas</a></li>
+            <li><a href="/#neuro">Neurodiversidade</a></li>
+            <li><a href="/#contato">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="rodape-fim">
+        <span>Feito com ♥ e sucata eletrônica.</span>
+        <span>print("bons estudos!")</span>
+      </div>
+    </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="assets/js/aulas.js"></script>
+  <script src="assets/js/matrix.js"></script>
 </body>
 </html>
