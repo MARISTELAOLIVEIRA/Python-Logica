@@ -36,6 +36,7 @@
       <nav class="nav" id="menu" aria-label="Partes da aula">
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
+        <a href="#caso">Caso</a>
         <a href="#atividade">Atividade</a>
         <a href="#materiais">Materiais</a>
         <a href="#entrega">Entrega</a>
@@ -76,6 +77,7 @@
         </div>
         <h1>Quanto tempo para quebrar uma senha?</h1>
         <p class="subtitulo">Operadores aritméticos, relacionais e lógicos, com uma conta que assusta.</p>
+
       </div>
     </section>
 
@@ -154,6 +156,34 @@
               <div class="tabela-rola"><table class="metodos"><thead><tr><th>Expressão</th><th>Resultado</th></tr></thead><tbody><tr><td><code>True and False</code></td><td>False</td></tr><tr><td><code>True or False</code></td><td>True</td></tr><tr><td><code>not True</code></td><td>False</td></tr><tr><td><code>False or False</code></td><td>False</td></tr></tbody></table></div>
             </div>
             <pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="var">senha_ok</span> = <span class="tag">True</span></span><span class="linha"><span class="num">2</span><span class="var">horario_ok</span> = <span class="tag">False</span></span><span class="linha"><span class="num">3</span><span class="fn">print</span>(<span class="var">senha_ok</span> <span class="tag">and</span> <span class="var">horario_ok</span>)   <span class="com"># False</span></span><span class="linha"><span class="num">4</span><span class="fn">print</span>(<span class="var">senha_ok</span> <span class="tag">or</span> <span class="var">horario_ok</span>)    <span class="com"># True</span></span><span class="linha"><span class="num">5</span><span class="fn">print</span>(<span class="tag">not</span> <span class="var">horario_ok</span>)            <span class="com"># True</span></span></code></pre>
+          </div>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Avaliar se a senha aguenta um ataque</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Equipe de segurança</p>
+            <p><strong>Objetivo:</strong> Saber quanto tempo um atacante levaria para descobrir uma senha numérica.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>A equipe informa quantos dígitos a senha tem.</li>
+              <li>O sistema calcula quantas combinações existem.</li>
+              <li>Calcula o tempo a 1.000 tentativas por segundo.</li>
+              <li>Mostra o resultado em horas.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>A senha tem letras também: o número de possibilidades por posição muda de 10 para 36 ou mais.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Que operador calcula as combinações?</li>
+              <li>O que muda mais o resultado: um dígito a mais ou um computador mais rápido?</li>
+            </ol>
           </div>
         </section>
 

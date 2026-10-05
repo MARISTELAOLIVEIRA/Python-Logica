@@ -36,6 +36,7 @@
       <nav class="nav" id="menu" aria-label="Partes da aula">
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
+        <a href="#caso">Caso</a>
         <a href="#atividade">Atividade</a>
         <a href="#materiais">Materiais</a>
         <a href="#entrega">Entrega</a>
@@ -76,6 +77,7 @@
         </div>
         <h1>O que é um algoritmo?</h1>
         <p class="subtitulo">Receita de bolo, bloqueio de cartão perdido e um desenho às cegas.</p>
+
       </div>
     </section>
 
@@ -146,6 +148,35 @@
               <p>Ele não roda em lugar nenhum, mas obriga você a ser preciso.</p>
             </div>
             <pre class="codigo"><code><span class="linha"><span class="num">1</span>Algoritmo BloquearCartao</span><span class="linha"><span class="num">2</span>Inicio</span><span class="linha"><span class="num">3</span>  escreva &quot;Digite o número do cartão:&quot;</span><span class="linha"><span class="num">4</span>  leia numero</span><span class="linha"><span class="num">5</span>  escreva &quot;Confirme com S ou N:&quot;</span><span class="linha"><span class="num">6</span>  leia resposta</span><span class="linha"><span class="num">7</span>  se resposta = &quot;S&quot; entao</span><span class="linha"><span class="num">8</span>    escreva &quot;Cartão &quot;, numero, &quot; bloqueado.&quot;</span><span class="linha"><span class="num">9</span>  senao</span><span class="linha"><span class="num">10</span>    escreva &quot;Operação cancelada.&quot;</span><span class="linha"><span class="num">11</span>  fimse</span><span class="linha"><span class="num">12</span>Fim</span></code></pre>
+          </div>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Bloquear um cartão perdido</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Cliente do banco</p>
+            <p><strong>Objetivo:</strong> Impedir que alguém use o cartão perdido.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>O cliente abre o aplicativo do banco.</li>
+              <li>Escolhe o cartão.</li>
+              <li>Confirma o bloqueio.</li>
+              <li>O banco mostra a confirmação e o número do protocolo.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>O cliente desiste na hora de confirmar: nada é bloqueado.</li>
+              <li>O cartão já estava bloqueado: o sistema avisa e não bloqueia de novo.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Escreva esse caso em pseudocódigo. Onde aparece um "se"?</li>
+              <li>Qual passo uma descrição narrativa costuma esquecer?</li>
+            </ol>
           </div>
         </section>
 

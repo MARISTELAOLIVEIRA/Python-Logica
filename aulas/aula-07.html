@@ -36,6 +36,7 @@
       <nav class="nav" id="menu" aria-label="Partes da aula">
         <a href="../#aulas">← Todas as aulas</a>
         <a href="#conceitos">Conceitos</a>
+        <a href="#caso">Caso</a>
         <a href="#atividade">Atividade</a>
         <a href="#materiais">Materiais</a>
         <a href="#entrega">Entrega</a>
@@ -76,6 +77,7 @@
         </div>
         <h1>Como um sistema decide quem pode entrar?</h1>
         <p class="subtitulo">if, elif e else montando um controle de acesso de verdade.</p>
+
       </div>
     </section>
 
@@ -147,6 +149,36 @@
               <p>A função <code>len()</code> conta os caracteres de um texto.</p>
             </div>
             <pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="var">usuario</span> = <span class="str">&quot;bia&quot;</span></span><span class="linha"><span class="num">2</span><span class="var">senha</span> = <span class="str">&quot;bia&quot;</span></span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span><span class="tag">if</span> <span class="fn">len</span>(<span class="var">senha</span>) &lt; <span class="str">8</span>:</span><span class="linha"><span class="num">5</span>    <span class="fn">print</span>(<span class="str">&quot;Senha curta demais&quot;</span>)</span><span class="linha"><span class="num">6</span><span class="tag">elif</span> <span class="var">senha</span> == <span class="var">usuario</span>:</span><span class="linha"><span class="num">7</span>    <span class="fn">print</span>(<span class="str">&quot;A senha não pode ser o usuário&quot;</span>)</span><span class="linha"><span class="num">8</span><span class="tag">else</span>:</span><span class="linha"><span class="num">9</span>    <span class="fn">print</span>(<span class="str">&quot;Senha aceita&quot;</span>)</span><span class="linha"><span class="num">10</span></span><span class="linha"><span class="num">11</span><span class="com"># Senha curta demais</span></span></code></pre>
+          </div>
+        </section>
+
+        <!-- ===================== CASO DE USO ===================== -->
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Liberar ou negar o acesso</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Funcionário</p>
+            <p><strong>Objetivo:</strong> Entrar no sistema dentro das regras da empresa.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>O funcionário informa o perfil, a hora e a senha.</li>
+              <li>O sistema confere o perfil (admin, funcionário ou visitante).</li>
+              <li>Confere o horário permitido.</li>
+              <li>Confere a senha.</li>
+              <li>Libera ou nega, dizendo o motivo.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>Visitante tenta entrar: o acesso é negado, qualquer que seja a hora.</li>
+              <li>Admin fora do horário: o acesso é liberado.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Em que ordem os if e elif precisam ficar?</li>
+              <li>Quantos testes diferentes provam que as regras funcionam?</li>
+            </ol>
           </div>
         </section>
 
