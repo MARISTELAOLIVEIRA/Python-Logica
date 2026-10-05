@@ -579,3 +579,47 @@ legend {
     width: 100%;
   }
 }
+
+
+/* Link para voltar à página inicial da disciplina, ao lado do botão de tema */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.back-link {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--neon-green);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  border-color: var(--neon-green);
+  box-shadow: var(--shadow-glow-green);
+}
+
+.back-short {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .back-link {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.6rem;
+  }
+
+  .back-full {
+    display: none;
+  }
+
+  .back-short {
+    display: inline;
+  }
+}
