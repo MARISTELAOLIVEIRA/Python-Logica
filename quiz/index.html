@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PyQuiz // Revisão de Lógica em Python</title>
+  <meta name="description" content="Quiz interativo para revisão de lógica de programação em Python — Curso de Tecnologia em Segurança da Informação. 1º Bimestre">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="matrix-rain" class="matrix-rain" aria-hidden="true"></canvas>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="logo" aria-hidden="true">
+      <span class="logo-bracket">&lt;</span>PyQuiz<span class="logo-bracket">/&gt;</span>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Alternar para modo claro">
+      <span class="icon-moon" aria-hidden="true">🌙</span>
+      <span class="icon-sun" aria-hidden="true">☀️</span>
+      <span class="toggle-text">tema</span>
+    </button>
+  </header>
+
+  <main id="main-content">
+    <!-- TELA DE IDENTIFICAÇÃO -->
+    <section id="gate-screen" class="screen card terminal" aria-labelledby="gate-title">
+      <h1 id="gate-title">&gt; Revisão de Lógica em Python_</h1>
+      <p class="subtitle">Curso Superior em Tecnologia de Segurança da Informação</p>
+      <p class="intro-text">Antes de iniciar, identifique-se para o sistema:</p>
+
+      <form id="gate-form" novalidate>
+        <label for="student-name">Nome completo</label>
+        <input type="text" id="student-name" name="student-name" placeholder="Digite seu nome completo"
+               autocomplete="name" required minlength="3" aria-describedby="name-error">
+        <span id="name-error" class="field-error" role="alert" aria-live="assertive"></span>
+        <button type="submit" class="btn btn-primary">&gt; Iniciar Quiz_</button>
+      </form>
+
+      <ul class="rules-list">
+        <li>🎯 30 questões sobre algoritmos, variáveis, operadores e entrada/saída</li>
+        <li>🔀 Perguntas e alternativas embaralhadas a cada tentativa</li>
+        <li>⚡ Feedback imediato a cada resposta</li>
+      </ul>
+    </section>
+
+    <!-- TELA DO QUIZ -->
+    <section id="quiz-screen" class="screen card hidden" aria-labelledby="quiz-heading">
+      <h1 id="quiz-heading" class="sr-only">Quiz em andamento</h1>
+
+      <div class="hud">
+        <div class="hud-item">
+          <span class="hud-label">Agente</span>
+          <span id="player-name" class="hud-value">—</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Questão</span>
+          <span id="question-counter" class="hud-value">1 / 30</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Pontos</span>
+          <span id="score-display" class="hud-value">0</span>
+        </div>
+        <div class="hud-item streak-item">
+          <span class="hud-label">Sequência</span>
+          <span id="streak-display" class="hud-value">🔥 0</span>
+        </div>
+      </div>
+
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progresso do quiz">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+
+      <p class="topic-badge" id="topic-badge">Algoritmo</p>
+
+      <form id="question-form">
+        <fieldset>
+          <legend id="question-text">Carregando pergunta...</legend>
+          <div id="options-container" class="options-container"></div>
+        </fieldset>
+
+        <p id="feedback-message" class="feedback-message" role="alert" aria-live="assertive"></p>
+
+        <div class="quiz-actions">
+          <button type="submit" id="confirm-btn" class="btn btn-primary">Confirmar_</button>
+          <button type="button" id="next-btn" class="btn btn-secondary hidden">Próxima &gt;&gt;</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- TELA DE RESULTADO -->
+    <section id="results-screen" class="screen card hidden" aria-labelledby="results-heading">
+      <h1 id="results-heading">Fim de Missão!</h1>
+      <p id="result-name" class="result-name"></p>
+      <div id="result-emoji" class="result-emoji" aria-hidden="true">🏆</div>
+      <p id="result-message" class="result-message"></p>
+
+      <div class="result-stats">
+        <p>Acertos: <strong id="result-correct">0</strong> / <span id="result-total">30</span></p>
+        <p>Aproveitamento: <strong id="result-percentage">0%</strong></p>
+        <p>Maior sequência de acertos: <strong id="result-streak">0</strong> 🔥</p>
+      </div>
+
+      <div class="result-actions">
+        <button id="restart-btn" class="btn btn-primary" type="button">&gt; Refazer Quiz_</button>
+        <button id="save-btn" class="btn btn-secondary" type="button">&gt; Salvar Resultado_</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Desenvolvido para fins educacionais — <strong>Profª Maristela</strong> © 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
