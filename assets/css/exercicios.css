@@ -1,0 +1,353 @@
+/*
+  exercicios.css: exercícios de programação que rodam no próprio site.
+  versão 1 · 2026-10-05
+
+  Carregue depois do estilo.css, do disciplina.css e do aula.css.
+*/
+
+
+/* ========== aviso de carregamento do Python ========== */
+
+.status-python {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: 1.4rem;
+  padding: .5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--borda-forte);
+  background: var(--superficie);
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  color: var(--texto-2);
+}
+
+.status-python::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ouro);
+  animation: pulsa 1.6s ease-out infinite;
+}
+
+.status-python.pronto {
+  color: var(--menta);
+  border-color: color-mix(in srgb, var(--menta) 45%, transparent);
+}
+
+.status-python.pronto::before {
+  background: var(--menta);
+  animation: none;
+}
+
+.status-python.erro {
+  color: #ff7b72;
+}
+
+
+/* ========== cartão de exercício ========== */
+
+.exercicios {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.exercicio {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(1.2rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.exercicio.concluido {
+  border-color: color-mix(in srgb, var(--menta) 55%, transparent);
+}
+
+.exercicio-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+}
+
+.exercicio h3 {
+  margin: .6rem 0 .6rem;
+  font-size: 1.3rem;
+}
+
+.exercicio .enunciado {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  color: var(--texto-2);
+}
+
+.exercicio .enunciado code {
+  font-family: var(--f-mono);
+  font-size: .9em;
+  color: var(--ouro-forte);
+}
+
+/* selo de concluído */
+.selo-ok {
+  display: none;
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  color: var(--menta);
+}
+
+.exercicio.concluido .selo-ok {
+  display: inline;
+}
+
+/* medalhas */
+.medalha {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .12rem .6rem;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  color: #1a1206;
+}
+
+.medalha.bronze { background: #d39a63; }
+.medalha.prata  { background: #c9d1d9; }
+.medalha.ouro   { background: #ecc874; }
+
+/* exemplo de entrada e saída */
+.exemplo {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .3rem .8rem;
+  padding: .8rem 1rem;
+  border-radius: var(--raio-p);
+  background: var(--superficie-2);
+  font-size: .92rem;
+}
+
+.exemplo dt {
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  color: var(--ouro);
+}
+
+.exemplo dd {
+  margin: 0;
+  font-family: var(--f-mono);
+  color: var(--texto);
+}
+
+
+/* ========== editor e botões ========== */
+
+.lado-codigo {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  min-width: 0;
+}
+
+.editor,
+.entradas {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem;
+  border-radius: var(--raio-p);
+  border: 1px solid var(--borda-forte);
+  background: var(--chip);
+  color: #e9e6dc;
+  font-family: var(--f-mono);
+  font-size: .95rem;
+  line-height: 1.6;
+  tab-size: 4;
+  resize: vertical;
+}
+
+.editor {
+  min-height: 12rem;
+}
+
+.entradas {
+  min-height: 3.2rem;
+  font-size: .88rem;
+}
+
+.editor:focus-visible,
+.entradas:focus-visible {
+  outline: 2px solid var(--menta);
+  outline-offset: 2px;
+}
+
+.rotulo-campo {
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  color: var(--texto-3);
+}
+
+.botoes-ex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.botoes-ex button {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: .55rem 1.1rem;
+  border: 1px solid var(--borda-forte);
+  background: transparent;
+  color: var(--texto);
+}
+
+.botoes-ex button.verificar {
+  border-color: var(--ouro-forte);
+  background: var(--ouro-forte);
+  color: var(--fundo);
+}
+
+.botoes-ex button:hover {
+  border-color: var(--ouro);
+}
+
+
+/* ========== resultado ========== */
+
+.resultado:empty {
+  display: none;
+}
+
+.resultado {
+  padding: 1rem;
+  border-radius: var(--raio-p);
+  border: 1px solid var(--borda);
+  background: var(--superficie-2);
+  font-size: .92rem;
+}
+
+.resultado h4 {
+  margin: 0 0 .4rem;
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--ouro);
+}
+
+.resultado pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: var(--f-mono);
+  color: var(--texto);
+}
+
+.resultado .passou {
+  color: var(--menta);
+  font-weight: 700;
+}
+
+.resultado .falhou {
+  color: #ff7b72;
+}
+
+[data-tema="claro"] .resultado .falhou {
+  color: #b42318;
+}
+
+.resultado .rodando {
+  color: var(--texto-3);
+}
+
+.testes {
+  margin: .6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.testes li.ok strong {
+  color: var(--menta);
+}
+
+.testes li.erro strong {
+  color: #ff7b72;
+}
+
+.testes code {
+  font-family: var(--f-mono);
+  font-size: .9em;
+}
+
+@media (max-width: 860px) {
+  .exercicio {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ========== comprovante ========== */
+
+.comprovante-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1rem;
+}
+
+.comprovante-form input {
+  flex: 1 1 18rem;
+  font: inherit;
+  padding: .6rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--borda-forte);
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+.comprovante-form button,
+#copiar-comprovante {
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 999px;
+  padding: .6rem 1.2rem;
+  border: 1px solid var(--ouro-forte);
+  background: var(--ouro-forte);
+  color: var(--fundo);
+}
+
+#copiar-comprovante {
+  margin-top: .8rem;
+  background: transparent;
+  color: var(--texto);
+  border-color: var(--borda-forte);
+}
+
+#comprovante {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: var(--raio-p);
+  border: 1px dashed color-mix(in srgb, var(--menta) 60%, transparent);
+  background: var(--superficie-2);
+  font-family: var(--f-mono);
+  font-size: .9rem;
+  white-space: pre-wrap;
+  color: var(--texto);
+}
+
+
+/* texto só para leitores de tela (rótulo do campo de nome) */
+.so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

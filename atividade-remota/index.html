@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Atividade remota 05/10 · Lógica de Programação com Python · Stela</title>
+  <meta name="description" content="Atividade remota de Lógica de Programação com Python: cinco exercícios de segurança da informação que rodam e se corrigem no próprio site.">
+
+  <link rel="icon" href="../assets/img/estrela.webp">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css">
+  <link rel="stylesheet" href="../assets/css/aula.css">
+  <link rel="stylesheet" href="../assets/css/exercicios.css">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+        <a class="marca-disc" href="../" title="Página inicial de Python">Python</a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da atividade">
+        <a href="#como">Como funciona</a>
+        <a href="#exercicios">Exercícios</a>
+        <a href="#entrega">Comprovante</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO ===================== -->
+    <section class="aula-cab">
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">Lógica com Python</a> <span aria-hidden="true">/</span>
+          <span>Atividade remota</span>
+        </p>
+        <div class="aula-etiquetas">
+          <span class="etiqueta ouro">Atividade remota</span>
+          <span class="etiqueta">Unidades 1 e 2</span>
+          <span class="etiqueta">Estruturas de decisão</span>
+        </div>
+        <h1>Plantão de segurança: cinco chamados para resolver</h1>
+        <p class="subtitulo">Exercícios de Python que rodam e se corrigem aqui mesmo, sem instalar nada.</p>
+        <div class="datas">
+          <span class="data">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16" rx="3"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/></svg>
+            <strong>Segunda, 05/10</strong> durante o horário da aula
+          </span>
+        </div>
+        <p class="status-python carregando" id="status-python" role="status">Soldando os componentes... (carregando o Python, leva alguns segundos)</p>
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da atividade">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Para quem</span>
+            <p>Quem já fez a prova do 1º bimestre. Hoje é a segunda chamada para quem faltou por causa da greve de ônibus.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">O que treina</span>
+            <p>Variáveis, <code>input()</code> com conversão, operadores e <code>if</code>, <code>elif</code> e <code>else</code>.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como entregar</span>
+            <p>No fim da página, gere o comprovante com o seu nome e envie na tarefa da atividade remota no Moodle.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== COMO FUNCIONA ===================== -->
+        <section class="parte" id="como">
+          <div class="cab">
+            <span class="olho">R1 · como funciona</span>
+            <h2>Você é o plantão de segurança da empresa</h2>
+            <p>Cinco chamados chegaram. Cada um vira um programinha em Python. O site testa o seu código com várias entradas e diz se ele está certo.</p>
+          </div>
+          <ol class="log">
+            <li class="commit"><div class="commit-linha"><h3>Escreva o código no editor</h3><span class="hash">1</span></div><p>Cada exercício já começa com uma dica. A tecla Tab coloca os 4 espaços da indentação.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Execute para testar</h3><span class="hash">2</span></div><p>Escreva as entradas no campo "entradas" (uma por linha) e clique em Executar. O que o <code>print()</code> mostrar aparece embaixo.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Verifique</h3><span class="hash">3</span></div><p>O botão Verificar roda vários testes. Passou em todos? O exercício fica verde e conta no comprovante.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Gere o comprovante</h3><span class="hash">4</span></div><p>No fim da página. O seu código fica salvo neste navegador: dá para parar e continuar depois.</p></li>
+          </ol>
+          <p class="dica" style="margin-top:1rem">
+            <strong>Sem IA hoje, combinado?</strong> A ideia é ver o que você já consegue fazer sozinho. Errou? Leia a mensagem de erro: ela diz a linha e dá uma dica.
+          </p>
+        </section>
+
+        <!-- ===================== EXERCÍCIOS ===================== -->
+        <section class="parte" id="exercicios">
+          <div class="cab">
+            <span class="olho">E1–E5 · exercícios</span>
+            <h2>Os chamados</h2>
+          </div>
+
+          <div class="progresso-atividade progresso-exercicios">
+            <span class="contagem">0 de 5</span>
+            <span class="barra-progresso"><span></span></span>
+          </div>
+
+          <div class="exercicios">
+
+            <!-- ---------- exercício 1 ---------- -->
+            <article class="cartao exercicio" data-id="ex1" data-numero="1">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Chamado 1</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Quanto cabe no pendrive?</h3>
+                <div class="enunciado">
+                  <p>O time precisa saber o tamanho de um arquivo de backup em GB. Leia o tamanho em <strong>MB</strong> (número inteiro) e mostre em <strong>GB</strong>, com duas casas decimais.</p>
+                  <p>Lembre: 1 GB = 1024 MB. Para duas casas, use <code>f"{gb:.2f} GB"</code>.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>2048</dd><dt>saída</dt><dd>2.00 GB</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-ex1">seu código</label>
+                <textarea class="editor" id="editor-ex1" spellcheck="false" autocapitalize="off" autocomplete="off"># leia o tamanho em MB e converta para número inteiro
+mb = int(input("Tamanho em MB: "))
+
+# calcule o tamanho em GB e mostre com duas casas decimais
+</textarea>
+                <label class="rotulo-campo" for="entradas-ex1">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-ex1" spellcheck="false">2048</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <!-- ---------- exercício 2 ---------- -->
+            <article class="cartao exercicio" data-id="ex2" data-numero="2">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Chamado 2</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Quanto tempo leva o backup?</h3>
+                <div class="enunciado">
+                  <p>O sistema informa a duração do backup só em minutos. Leia os minutos e mostre no formato <strong>horas e minutos</strong>.</p>
+                  <p>Dica: <code>//</code> dá a divisão inteira e <code>%</code> dá o resto.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>135</dd><dt>saída</dt><dd>2 h 15 min</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-ex2">seu código</label>
+                <textarea class="editor" id="editor-ex2" spellcheck="false" autocapitalize="off" autocomplete="off"># leia a duração em minutos
+minutos = int(input("Duração em minutos: "))
+
+# calcule as horas e os minutos que sobram, e mostre: 2 h 15 min
+</textarea>
+                <label class="rotulo-campo" for="entradas-ex2">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-ex2" spellcheck="false">135</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <!-- ---------- exercício 3 ---------- -->
+            <article class="cartao exercicio" data-id="ex3" data-numero="3">
+              <div>
+                <div class="exercicio-topo"><span class="medalha prata">prata</span><span class="olho">Chamado 3</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Qual o risco da vulnerabilidade?</h3>
+                <div class="enunciado">
+                  <p>Vulnerabilidades recebem uma nota de 0 a 10 na escala CVSS, usada no mundo todo. Leia a nota (pode ter casas decimais, como <code>7.5</code>, com ponto; por isso use <code>float</code>) e mostre o nível de risco:</p>
+                  <table class="metodos">
+                    <thead><tr><th>Nota</th><th>Mostrar</th></tr></thead>
+                    <tbody>
+                      <tr><td>0</td><td>Nenhum</td></tr>
+                      <tr><td>maior que 0 e menor que 4</td><td>Baixo</td></tr>
+                      <tr><td>de 4 até menor que 7</td><td>Médio</td></tr>
+                      <tr><td>de 7 até menor que 9</td><td>Alto</td></tr>
+                      <tr><td>9 ou mais</td><td>Crítico</td></tr>
+                    </tbody>
+                  </table>
+                  <dl class="exemplo"><dt>entrada</dt><dd>7.5</dd><dt>saída</dt><dd>Alto</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-ex3">seu código</label>
+                <textarea class="editor" id="editor-ex3" spellcheck="false" autocapitalize="off" autocomplete="off"># leia a nota CVSS como número decimal
+nota = float(input("Nota CVSS: "))
+
+# use if, elif e else para mostrar o nível de risco
+</textarea>
+                <label class="rotulo-campo" for="entradas-ex3">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-ex3" spellcheck="false">7.5</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <!-- ---------- exercício 4 ---------- -->
+            <article class="cartao exercicio" data-id="ex4" data-numero="4">
+              <div>
+                <div class="exercicio-topo"><span class="medalha prata">prata</span><span class="olho">Chamado 4</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Pode entrar no servidor?</h3>
+                <div class="enunciado">
+                  <p>A sala dos servidores só libera acesso em <strong>dia útil</strong>, das <strong>8h até antes das 18h</strong>. Leia a hora (número inteiro de 0 a 23) e depois se é dia útil (<code>s</code> ou <code>n</code>).</p>
+                  <p>Mostre <code>Acesso liberado</code> ou <code>Acesso negado</code>. As duas condições precisam ser verdadeiras: lembra do <code>and</code>?</p>
+                  <dl class="exemplo"><dt>entradas</dt><dd>9<br>s</dd><dt>saída</dt><dd>Acesso liberado</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-ex4">seu código</label>
+                <textarea class="editor" id="editor-ex4" spellcheck="false" autocapitalize="off" autocomplete="off"># leia a hora e se é dia útil
+hora = int(input("Hora: "))
+dia_util = input("Dia útil? (s/n) ")
+
+# libere só em dia útil, das 8h até antes das 18h
+</textarea>
+                <label class="rotulo-campo" for="entradas-ex4">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-ex4" spellcheck="false">9
+s</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <!-- ---------- exercício 5 ---------- -->
+            <article class="cartao exercicio" data-id="ex5" data-numero="5">
+              <div>
+                <div class="exercicio-topo"><span class="medalha ouro">ouro</span><span class="olho">Chamado 5</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Firewall de bolso</h3>
+                <div class="enunciado">
+                  <p>Um firewall decide o que passa pela rede olhando a <strong>porta</strong>. Leia o número da porta e mostre a decisão:</p>
+                  <table class="metodos">
+                    <thead><tr><th>Porta</th><th>Mostrar</th></tr></thead>
+                    <tbody>
+                      <tr><td>menor que 1 ou maior que 65535</td><td>Porta inválida</td></tr>
+                      <tr><td>80 ou 443</td><td>Permitido: web</td></tr>
+                      <tr><td>22</td><td>Permitido: SSH</td></tr>
+                      <tr><td>qualquer outra</td><td>Bloqueado</td></tr>
+                    </tbody>
+                  </table>
+                  <p>Atenção à ordem dos testes: a porta inválida precisa ser descoberta primeiro.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>443</dd><dt>saída</dt><dd>Permitido: web</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-ex5">seu código</label>
+                <textarea class="editor" id="editor-ex5" spellcheck="false" autocapitalize="off" autocomplete="off"># leia o número da porta
+porta = int(input("Porta: "))
+
+# decida: inválida, web, SSH ou bloqueado
+</textarea>
+                <label class="rotulo-campo" for="entradas-ex5">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-ex5" spellcheck="false">443</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+
+          </div>
+
+          <p class="dica" style="margin-top:1.4rem">
+            <strong>Como o site compara:</strong> ele não liga para maiúsculas, acentos ou espaços sobrando. Mas a mensagem precisa ser a mesma do enunciado.
+          </p>
+        </section>
+
+        <!-- ===================== DESAFIO EXTRA ===================== -->
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou tudo? Uma prévia da próxima aula.</h2>
+            <p>
+              E se o firewall precisasse checar várias portas, uma depois da outra, até o usuário digitar 0? Para isso
+              existe o <code>while</code>, que é o tema da próxima aula. Dá uma espiada no módulo de laços da NetAcad
+              e tente fazer o chamado 5 repetir.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== COMPROVANTE ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao">
+            <span class="olho">E1 · comprovante</span>
+            <h3 style="margin:.4rem 0 .3rem; font-size:1.3rem">Gere o seu comprovante</h3>
+            <p>Digite o seu nome completo, gere o comprovante e envie o texto (ou um print) na tarefa da atividade remota no Moodle.</p>
+            <div class="progresso-atividade progresso-exercicios" style="margin-top:1rem">
+              <span class="contagem">0 de 5</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <div class="comprovante-form">
+              <label class="so-leitor" for="nome-aluno">Nome completo</label>
+              <input id="nome-aluno" type="text" autocomplete="name" placeholder="Seu nome completo">
+              <button type="button" id="gerar-comprovante">Gerar comprovante</button>
+            </div>
+            <div id="comprovante" hidden aria-live="polite"></div>
+            <button type="button" id="copiar-comprovante" hidden>Copiar comprovante</button>
+          </div>
+        </section>
+
+        <!-- ===================== MATERIAIS ===================== -->
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para revisar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="../">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Python-Logica</span>
+              <h4>PyQuiz: revisão do 1º bimestre</h4>
+              <p>30 questões embaralhadas, com explicação em cada resposta.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta">revisão</span></span>
+            </a>
+            <a class="repo luz" href="https://www.netacad.com/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>NetAcad</span>
+              <h4>Python Essentials</h4>
+              <p>Os módulos que acompanham a disciplina, inclusive o de laços para a próxima aula.</p>
+              <span class="repo-pe"><span class="ling" style="--cor:#1ba0d7"><i></i>Plataforma</span><span class="etiqueta">trilha</span></span>
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Lógica de Programação com Python</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>print("bons estudos!")</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="testes.js"></script>
+  <script src="../assets/js/python-exercicios.js"></script>
+</body>
+</html>
