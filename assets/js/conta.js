@@ -1,5 +1,5 @@
 /* ===================================================================
-   conta.js: login dos alunos nos sites das disciplinas · versão 2 · 2026-10-14 (mostra o nome; não regrava o cadastro)
+   conta.js: login dos alunos nos sites das disciplinas · versão 3 · 2026-10-14 (nome com maiúsculas, mostrado na tela; não regrava o cadastro)
    (cópia comum às disciplinas; o dos preparatórios é outro, em js/conta.js de lá)
 
    O site continua aberto para todo mundo. Para REGISTRAR o resultado de um quiz
@@ -36,6 +36,23 @@ window.CONTA = (function () {
 
   const emailDaFaculdade = (email) => String(email || "").trim().toLowerCase().endsWith(CONTA_DOMINIO);
   const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  // nome bonito: "MARIA DA SILVA" e "maria da silva" viram "Maria da Silva"
+  // (as ligações da, de, do, das, dos e "e" ficam minúsculas; "ana-paula" vira "Ana-Paula")
+  const LIGACOES = ["da", "de", "do", "das", "dos", "e"];
+  function formatarNome(nome) {
+    return String(nome || "")
+      .trim()
+      .toLocaleLowerCase("pt-BR")
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((palavra, i) =>
+        i > 0 && LIGACOES.includes(palavra)
+          ? palavra
+          : palavra.split("-").map((parte) => parte.charAt(0).toLocaleUpperCase("pt-BR") + parte.slice(1)).join("-")
+      )
+      .join(" ");
+  }
+
   // "nome" que é só o começo do e-mail (ex.: maristela33781197) não vale como nome
   const nomeValido = (nome, u) => {
     const limpo = String(nome || "").trim();
@@ -46,17 +63,17 @@ window.CONTA = (function () {
   // procura o nome: na conta, no cadastro das disciplinas e no dos preparatórios (só lê, não muda nada)
   async function descobrirNome(u) {
     const daConta = u.user_metadata && u.user_metadata.nome;
-    if (nomeValido(daConta, u)) return daConta.trim();
+    if (nomeValido(daConta, u)) return formatarNome(daConta);
     for (const tabela of ["disc_alunos", "prep_alunos"]) {
       const { data } = await nuvem.from(tabela).select("nome").eq("id", u.id).maybeSingle();
-      if (data && nomeValido(data.nome, u)) return data.nome.trim();
+      if (data && nomeValido(data.nome, u)) return formatarNome(data.nome);
     }
     return "";
   }
 
   // o aluno informou o nome: guarda na conta e no cadastro das disciplinas
   async function salvarNome(nome) {
-    nomeConta = nome.trim();
+    nomeConta = formatarNome(nome);
     await nuvem.auth.updateUser({ data: { nome: nomeConta } });
     if (emailDaFaculdade(usuario.email)) {
       await nuvem.from("disc_alunos").upsert({ id: usuario.id, nome: nomeConta, email: usuario.email.toLowerCase() });
@@ -268,7 +285,7 @@ window.CONTA = (function () {
       ev.preventDefault();
       const email = form.email.value.trim().toLowerCase();
       const senha = form.senha.value;
-      const nome = form.nome.value.trim();
+      const nome = formatarNome(form.nome.value);
       if (!email || senha.length < 6 || (aba === "criar" && nome.split(/\s+/).length < 2)) {
         msg.textContent = aba === "criar" ? "Preencha o nome completo, o e-mail e uma senha de pelo menos 6 letras ou números." : "Preencha o e-mail e a senha.";
         return;
@@ -349,6 +366,7 @@ window.CONTA = (function () {
     disciplina: DISCIPLINA,
     usuario: () => usuario,
     nome: () => nomeConta,
+    formatarNome,
     daFaculdade: () => Boolean(usuario && emailDaFaculdade(usuario.email)),
   };
 })();

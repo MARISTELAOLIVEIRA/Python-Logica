@@ -223,7 +223,9 @@
   }
   if (botaoComprovante) {
     botaoComprovante.addEventListener("click", async function () {
-      const nome = campoNome.value.trim();
+      // nome com a primeira letra maiúscula (conta.js)
+      const nome = window.CONTA ? CONTA.formatarNome(campoNome.value) : campoNome.value.trim();
+      campoNome.value = nome;
       const caixa = document.getElementById("comprovante");
       const copiar = document.getElementById("copiar-comprovante");
       caixa.hidden = false;
