@@ -623,3 +623,14 @@ legend {
     display: inline;
   }
 }
+
+/* com o botão Entrar (login da faculdade) no cabeçalho: no celular, tudo numa linha só */
+.back-link {
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .theme-toggle .toggle-text {
+    display: none;
+  }
+}
