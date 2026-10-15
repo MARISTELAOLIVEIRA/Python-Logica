@@ -251,7 +251,9 @@ const state = {
   correctCount: 0,
   streak: 0,
   maxStreak: 0,
-  answered: false
+  answered: false,
+  startedAt: 0,
+  registro: null // { codigo, feito_em } quando o resultado é registrado para a professora
 };
 
 // ---------- Referências DOM ----------
@@ -288,6 +290,7 @@ const resultPercentage = document.getElementById('result-percentage');
 const resultStreak = document.getElementById('result-streak');
 const restartBtn = document.getElementById('restart-btn');
 const saveBtn = document.getElementById('save-btn');
+const resultRegistro = document.getElementById('result-registro');
 
 const themeToggle = document.getElementById('theme-toggle');
 
@@ -329,6 +332,8 @@ gateForm.addEventListener('submit', (event) => {
 
 // ---------- Motor do quiz ----------
 function startQuiz() {
+  state.startedAt = Date.now();
+  state.registro = null;
   state.questions = buildQuestionSet();
   state.index = 0;
   state.score = 0;
@@ -482,10 +487,46 @@ function showResults() {
   resultMessage.textContent = message;
 
   showScreen(resultsScreen);
+  registrarResultado();
 
   if (percentage >= 90) {
     celebrate();
   }
+}
+
+// ---------- Registro para a professora (assets/js/conta.js) ----------
+// Com o login da faculdade, o resultado vai para o Placa-Mãe da professora. O código de
+// verificação vem do banco e aparece aqui e na imagem do comprovante.
+async function registrarResultado() {
+  if (!window.CONTA) return;
+  resultRegistro.hidden = false;
+  resultRegistro.textContent = 'Registrando o resultado para a professora...';
+  const registro = await CONTA.registrarTentativa({
+    atividade: 'pyquiz',
+    titulo: 'PyQuiz: revisão de lógica em Python',
+    acertos: state.correctCount,
+    total: TOTAL_QUESTIONS,
+    duracao_seg: (Date.now() - state.startedAt) / 1000,
+    detalhes: { maior_sequencia: state.maxStreak, nome_digitado: state.studentName }
+  });
+  if (registro) {
+    state.registro = registro;
+    resultRegistro.innerHTML = 'Compilou de primeira! Resultado registrado para a professora. ' +
+      'Código de verificação: <strong>' + registro.codigo + '</strong>. Salve o resultado e envie a imagem no Moodle.';
+  } else {
+    resultRegistro.innerHTML = 'Resultado não registrado. Para valer como atividade, entre com o e-mail da faculdade. ' +
+      '<button type="button" class="btn btn-secondary" id="registrar-agora">&gt; Registrar agora_</button>';
+    document.getElementById('registrar-agora').addEventListener('click', registrarResultado);
+  }
+}
+
+// com o login, o nome da conta já entra na tela de identificação
+if (window.CONTA) {
+  CONTA.aoMudar(() => {
+    if (CONTA.daFaculdade() && !studentNameInput.value.trim()) {
+      studentNameInput.value = CONTA.nome();
+    }
+  });
 }
 
 function celebrate() {
@@ -568,6 +609,17 @@ function saveResultAsImage() {
   ctx.fillText(`Acertos: ${resultCorrect.textContent} / ${resultTotal.textContent}`, width / 2, statsY);
   ctx.fillText(`Aproveitamento: ${resultPercentage.textContent}`, width / 2, statsY + 34);
   ctx.fillText(`Maior sequência: ${resultStreak.textContent} 🔥`, width / 2, statsY + 68);
+
+  // código de verificação do registro (o Placa-Mãe da professora confere)
+  ctx.fillStyle = state.registro ? colorOrange : colorDim;
+  ctx.font = '18px "Share Tech Mono", monospace';
+  if (state.registro) {
+    const quando = new Date(state.registro.feito_em);
+    const data = quando.toLocaleDateString('pt-BR') + ' ' + quando.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    ctx.fillText(`Código de verificação: ${state.registro.codigo} · registrado em ${data}`, width / 2, statsY + 104);
+  } else {
+    ctx.fillText('Resultado não registrado (sem login da faculdade)', width / 2, statsY + 104);
+  }
 
   ctx.fillStyle = colorDim;
   ctx.font = '16px "Share Tech Mono", monospace';

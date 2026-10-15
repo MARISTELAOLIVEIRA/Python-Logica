@@ -11,7 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="../assets/css/conta.css?v=1">
 </head>
 <body>
   <canvas id="matrix-rain" class="matrix-rain" aria-hidden="true"></canvas>
@@ -26,6 +27,7 @@
     <div class="header-actions">
       <!-- volta para a página inicial da disciplina -->
       <a class="back-link" href="../" aria-label="Voltar para a página de Lógica com Python">← <span class="back-full">Lógica com Python</span><span class="back-short">Python</span></a>
+    <span data-conta-lugar></span>
     <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Alternar para modo claro">
       <span class="icon-moon" aria-hidden="true">🌙</span>
       <span class="icon-sun" aria-hidden="true">☀️</span>
@@ -113,6 +115,9 @@
         <p>Maior sequência de acertos: <strong id="result-streak">0</strong> 🔥</p>
       </div>
 
+      <!-- resultado registrado para a professora (código de verificação do comprovante) -->
+      <div id="result-registro" class="registro-tentativa" hidden aria-live="polite"></div>
+
       <div class="result-actions">
         <button id="restart-btn" class="btn btn-primary" type="button">&gt; Refazer Quiz_</button>
         <button id="save-btn" class="btn btn-secondary" type="button">&gt; Salvar Resultado_</button>
@@ -124,6 +129,9 @@
     <p>Desenvolvido para fins educacionais — <strong>Profª Maristela</strong> © 2026</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- login dos alunos (e-mail da faculdade) e registro dos resultados para a professora -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="../assets/js/conta.js?v=1" data-disciplina="Python-Logica"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

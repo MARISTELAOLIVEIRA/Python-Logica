@@ -1,6 +1,6 @@
 /*
   python-exercicios.js: exercícios de Python que rodam e se corrigem no próprio site.
-  versão 1 · 2026-10-05
+  versão 2 · 2026-10-14 (o comprovante registra o resultado para a professora, com o login do conta.js)
 
   Cada exercício é um <article class="exercicio" data-id="..."> com:
     - um <textarea class="editor"> com o código inicial
@@ -75,8 +75,9 @@
 
   // caminho do worker: ao lado deste arquivo
   const SCRIPT_WORKER = (function () {
-    const atual = document.querySelector('script[src$="python-exercicios.js"]');
-    return atual.src.replace("python-exercicios.js", "python-worker.js");
+    // *= e não $=: o endereço pode ter ?v=N no fim (para o navegador não usar a versão antiga)
+    const atual = document.querySelector('script[src*="python-exercicios.js"]');
+    return atual.src.replace(/python-exercicios\.js(\?.*)?$/, "python-worker.js");
   })();
 
   function rodar(codigo, entradas) {
@@ -211,41 +212,55 @@
     });
   }
 
-  // código simples para conferência (não é criptografia: só dificulta inventar o comprovante)
-  function codigo(texto) {
-    let h = 5381;
-    for (let i = 0; i < texto.length; i++) {
-      h = ((h << 5) + h + texto.charCodeAt(i)) >>> 0;
-    }
-    const s = h.toString(36).toUpperCase().padStart(7, "0");
-    return s.slice(0, 4) + "-" + s.slice(4);
-  }
-
+  // Comprovante: com o login da faculdade (assets/js/conta.js), o resultado fica registrado
+  // para a professora, e o código de verificação vem do banco (não dá para inventar).
   const botaoComprovante = document.getElementById("gerar-comprovante");
+  const campoNome = document.getElementById("nome-aluno");
+  if (botaoComprovante && window.CONTA && campoNome) {
+    CONTA.aoMudar(function () {
+      if (CONTA.daFaculdade() && !campoNome.value.trim()) campoNome.value = CONTA.nome();
+    });
+  }
   if (botaoComprovante) {
-    botaoComprovante.addEventListener("click", function () {
-      const nome = document.getElementById("nome-aluno").value.trim();
+    botaoComprovante.addEventListener("click", async function () {
+      const nome = campoNome.value.trim();
       const caixa = document.getElementById("comprovante");
-      if (nome.split(" ").length < 2) {
-        caixa.hidden = false;
+      const copiar = document.getElementById("copiar-comprovante");
+      caixa.hidden = false;
+      copiar.hidden = true;
+      if (nome.split(/\s+/).length < 2) {
         caixa.textContent = "Digite o seu nome completo para gerar o comprovante.";
+        return;
+      }
+      if (!window.CONTA) {
+        caixa.textContent = "Não deu para falar com o registro agora (sem internet?). Tente de novo daqui a pouco.";
         return;
       }
       const feitos = cartoes
         .filter(function (c) { return c.classList.contains("concluido"); })
         .map(function (c) { return c.dataset.numero; });
-      const agora = new Date();
-      const quando = agora.toLocaleDateString("pt-BR") + " " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      const titulo = document.title.split(" · ")[0];
+      caixa.textContent = "Registrando para a professora...";
+      const registro = await CONTA.registrarTentativa({
+        atividade: botaoComprovante.dataset.atividade || "atividade-remota",
+        titulo: titulo,
+        acertos: feitos.length,
+        total: cartoes.length,
+        detalhes: { concluidos: feitos, nome_digitado: nome }
+      });
+      if (!registro) {
+        caixa.textContent = "O comprovante só sai com o login da faculdade (" + "@edu.df.senac.br" + "). Clique em Entrar, no alto da página, e gere de novo.";
+        return;
+      }
+      const quando = new Date(registro.feito_em);
       const texto =
-        document.title.split(" · ")[0] + "\n" +
+        titulo + "\n" +
         "Aluno(a): " + nome + "\n" +
         "Exercícios concluídos: " + feitos.length + " de " + cartoes.length +
         (feitos.length ? " (" + feitos.join(", ") + ")" : "") + "\n" +
-        "Gerado em: " + quando + "\n" +
-        "Código de conferência: " + codigo(nome.toLowerCase() + "|" + feitos.join(",") + "|" + agora.toLocaleDateString("pt-BR"));
-      caixa.hidden = false;
+        "Registrado em: " + quando.toLocaleDateString("pt-BR") + " " + quando.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + "\n" +
+        "Código de verificação: " + registro.codigo;
       caixa.textContent = texto;
-      const copiar = document.getElementById("copiar-comprovante");
       copiar.hidden = false;
       copiar.onclick = function () {
         navigator.clipboard.writeText(texto).then(function () {
