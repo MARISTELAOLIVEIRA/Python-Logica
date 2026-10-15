@@ -326,7 +326,8 @@ gateForm.addEventListener('submit', (event) => {
   }
 
   nameError.textContent = '';
-  state.studentName = rawName;
+  // nome com a primeira letra maiúscula (conta.js); sem ele, fica como foi digitado
+  state.studentName = window.CONTA ? CONTA.formatarNome(rawName) : rawName;
   startQuiz();
 });
 
