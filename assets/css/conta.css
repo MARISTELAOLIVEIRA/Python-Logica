@@ -191,3 +191,44 @@
     font-size: .82rem;
   }
 }
+
+/* atividade que vale nota, sem login: a área fica apagada e não responde (conta.js, data-exige-login) */
+.bloqueado-login {
+  opacity: .45;
+  filter: grayscale(.4);
+  user-select: none;
+}
+
+.aviso-login {
+  display: flex;
+  gap: .8rem 1.2rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+  padding: .9rem 1.1rem;
+  border: 1px solid var(--neon, var(--ouro, var(--neon-green, currentColor)));
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--neon, var(--ouro, var(--neon-green, #d6b25e))) 10%, transparent);
+}
+
+.aviso-login[hidden] {
+  display: none;
+}
+
+.aviso-login p {
+  margin: 0;
+  flex: 1 1 18rem;
+  line-height: 1.5;
+}
+
+.aviso-login button {
+  padding: .5rem 1.2rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--fundo, var(--bg, #0a0f0d));
+  background: var(--neon, var(--ouro, var(--neon-green, #d6b25e)));
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
