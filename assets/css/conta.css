@@ -1,4 +1,4 @@
-/* conta.css: botão Entrar e janela de login dos alunos (assets/js/conta.js) · versão 1 · 2026-10-14
+/* conta.css: botão Entrar e janela de login dos alunos (assets/js/conta.js) · versão 3 · 2026-10-15
    Comum às disciplinas. As cores vêm do estilo.css; nas páginas com visual próprio (como o
    PyQuiz), caem nas cores de lá (--surface, --text...). */
 
@@ -49,6 +49,9 @@
 
 .conta-janela {
   width: min(92vw, 440px);
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  margin: auto; /* centraliza; algumas páginas zeram a margem de tudo (* { margin: 0 }) */
   padding: 1.4rem;
   color: var(--conta-texto);
   background: var(--conta-fundo);
