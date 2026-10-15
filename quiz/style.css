@@ -634,3 +634,14 @@ legend {
     display: none;
   }
 }
+
+/* aviso "esta atividade vale nota, entre para começar" (conta.js): numa linha própria, acima do card */
+main {
+  flex-wrap: wrap;
+}
+
+main > .aviso-login {
+  flex-basis: 100%;
+  max-width: 720px;
+  font-family: var(--font-mono);
+}

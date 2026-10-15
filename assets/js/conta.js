@@ -1,5 +1,5 @@
 /* ===================================================================
-   conta.js: login dos alunos nos sites das disciplinas · versão 3 · 2026-10-14 (nome com maiúsculas, mostrado na tela; não regrava o cadastro)
+   conta.js: login dos alunos nos sites das disciplinas · versão 3 · 2026-10-14 (nome com maiúsculas, mostrado na tela; não regrava o cadastro; áreas data-exige-login)
    (cópia comum às disciplinas; o dos preparatórios é outro, em js/conta.js de lá)
 
    O site continua aberto para todo mundo. Para REGISTRAR o resultado de um quiz
@@ -137,6 +137,7 @@ window.CONTA = (function () {
     atualizarBotao();
     if (u && emailDaFaculdade(u.email)) garantirCadastro();
     else if (u) descobrirNome(u).then((nome) => { nomeConta = nome; atualizarBotao(); });
+    aplicarBloqueios();
     avisos.forEach((funcao) => funcao(u));
     if (u && emailDaFaculdade(u.email) && esperandoLogin) {
       const continuar = esperandoLogin;
@@ -144,6 +145,32 @@ window.CONTA = (function () {
       desistiu = null;
       continuar();
     }
+  }
+
+  /* ---------- áreas que só funcionam com login ----------
+     Marque a área da atividade com data-exige-login: sem o login da faculdade, ela fica bloqueada
+     (atributo inert: não dá para clicar nem digitar) e aparece um aviso com o botão Entrar.
+     data-exige-login="sem-aviso" bloqueia sem repetir o aviso (quando já há um mais acima). */
+  function aplicarBloqueios() {
+    const liberado = Boolean(usuario && emailDaFaculdade(usuario.email));
+    document.querySelectorAll("[data-exige-login]").forEach((area) => {
+      if (area.dataset.exigeLogin !== "sem-aviso") {
+        let aviso = area.previousElementSibling;
+        if (!aviso || !aviso.classList.contains("aviso-login")) {
+          aviso = document.createElement("div");
+          aviso.className = "aviso-login";
+          aviso.setAttribute("role", "status");
+          aviso.innerHTML = `<p><strong>Esta atividade vale nota.</strong> Entre com o e-mail da faculdade
+            (${CONTA_DOMINIO}) para começar: o resultado fica registrado para a professora.</p>
+            <button type="button">Entrar</button>`;
+          aviso.querySelector("button").addEventListener("click", () => abrir("Entre com o seu e-mail da faculdade para começar a atividade."));
+          area.parentNode.insertBefore(aviso, area);
+        }
+        aviso.hidden = liberado;
+      }
+      area.classList.toggle("bloqueado-login", !liberado);
+      area.inert = !liberado;
+    });
   }
 
   /* ---------- o que as atividades usam ---------- */
