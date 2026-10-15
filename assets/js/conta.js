@@ -1,5 +1,5 @@
 /* ===================================================================
-   conta.js: login dos alunos nos sites das disciplinas · versão 1 · 2026-10-14
+   conta.js: login dos alunos nos sites das disciplinas · versão 2 · 2026-10-14 (mostra o nome; não regrava o cadastro)
    (cópia comum às disciplinas; o dos preparatórios é outro, em js/conta.js de lá)
 
    O site continua aberto para todo mundo. Para REGISTRAR o resultado de um quiz
@@ -29,14 +29,40 @@ window.CONTA = (function () {
   const nuvem = window.supabase ? window.supabase.createClient(CONTA_URL, CONTA_CHAVE) : null;
   let usuario = null;
   let cadastro = null; // promessa do cadastro em disc_alunos (feito uma vez por login)
+  let nomeConta = ""; // o nome do aluno (da conta, do cadastro das disciplinas ou do dos preparatórios)
   let esperandoLogin = null; // quem está esperando o aluno entrar para registrar um resultado
   let desistiu = null; // avisa a atividade quando o aluno fecha a janela sem entrar
   const avisos = [];
 
   const emailDaFaculdade = (email) => String(email || "").trim().toLowerCase().endsWith(CONTA_DOMINIO);
   const escapar = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-  const nomeDe = (u) => (u && u.user_metadata && u.user_metadata.nome) || (u && u.email ? u.email.split("@")[0] : "");
-  const primeiroNome = (u) => nomeDe(u).split(/\s/)[0];
+  // "nome" que é só o começo do e-mail (ex.: maristela33781197) não vale como nome
+  const nomeValido = (nome, u) => {
+    const limpo = String(nome || "").trim();
+    return limpo.length >= 2 && !(u && u.email && limpo.toLowerCase() === u.email.split("@")[0].toLowerCase());
+  };
+  const primeiroNome = () => nomeConta.split(/\s+/)[0];
+
+  // procura o nome: na conta, no cadastro das disciplinas e no dos preparatórios (só lê, não muda nada)
+  async function descobrirNome(u) {
+    const daConta = u.user_metadata && u.user_metadata.nome;
+    if (nomeValido(daConta, u)) return daConta.trim();
+    for (const tabela of ["disc_alunos", "prep_alunos"]) {
+      const { data } = await nuvem.from(tabela).select("nome").eq("id", u.id).maybeSingle();
+      if (data && nomeValido(data.nome, u)) return data.nome.trim();
+    }
+    return "";
+  }
+
+  // o aluno informou o nome: guarda na conta e no cadastro das disciplinas
+  async function salvarNome(nome) {
+    nomeConta = nome.trim();
+    await nuvem.auth.updateUser({ data: { nome: nomeConta } });
+    if (emailDaFaculdade(usuario.email)) {
+      await nuvem.from("disc_alunos").upsert({ id: usuario.id, nome: nomeConta, email: usuario.email.toLowerCase() });
+    }
+    atualizarBotao();
+  }
 
   // quem quiser saber quando a pessoa entra ou sai
   function aoMudar(funcao) {
@@ -66,14 +92,23 @@ window.CONTA = (function () {
     return "Não deu para criar a conta agora. Confira o e-mail e tente de novo.";
   }
 
-  // cadastro do aluno nas disciplinas (uma vez por login; só com o e-mail da faculdade)
+  // cadastro do aluno nas disciplinas (uma vez por login; só com o e-mail da faculdade).
+  // Só cria quando ainda não existe: um nome corrigido no cadastro nunca é regravado por cima.
   function garantirCadastro() {
     if (!usuario || !emailDaFaculdade(usuario.email)) return Promise.resolve(false);
     if (!cadastro) {
-      cadastro = nuvem
-        .from("disc_alunos")
-        .upsert({ id: usuario.id, nome: nomeDe(usuario), email: usuario.email.toLowerCase() })
-        .then(({ error }) => !error);
+      const u = usuario;
+      cadastro = descobrirNome(u).then((nome) => {
+        nomeConta = nome;
+        atualizarBotao();
+        return nuvem
+          .from("disc_alunos")
+          .upsert(
+            { id: u.id, nome: nome || u.email.split("@")[0], email: u.email.toLowerCase() },
+            { onConflict: "id", ignoreDuplicates: true }
+          )
+          .then(({ error }) => !error);
+      });
     }
     return cadastro;
   }
@@ -81,8 +116,10 @@ window.CONTA = (function () {
   function mudou(u) {
     usuario = u;
     cadastro = null;
+    nomeConta = "";
     atualizarBotao();
-    if (u) garantirCadastro();
+    if (u && emailDaFaculdade(u.email)) garantirCadastro();
+    else if (u) descobrirNome(u).then((nome) => { nomeConta = nome; atualizarBotao(); });
     avisos.forEach((funcao) => funcao(u));
     if (u && emailDaFaculdade(u.email) && esperandoLogin) {
       const continuar = esperandoLogin;
@@ -144,8 +181,8 @@ window.CONTA = (function () {
   botao.textContent = "Entrar";
 
   function atualizarBotao() {
-    botao.textContent = usuario ? "Olá, " + primeiroNome(usuario) : "Entrar";
-    botao.title = usuario ? "Conectado como " + usuario.email : "Entrar com o e-mail da faculdade para registrar os resultados";
+    botao.textContent = !usuario ? "Entrar" : nomeConta ? "Olá, " + primeiroNome() : "Olá!";
+    botao.title = usuario ? "Conectado como " + (nomeConta || usuario.email) : "Entrar com o e-mail da faculdade para registrar os resultados";
   }
 
   const janela = document.createElement("dialog");
@@ -155,12 +192,32 @@ window.CONTA = (function () {
   function desenharJanela(aviso) {
     if (usuario && emailDaFaculdade(usuario.email)) {
       janela.innerHTML = `
-        <h2 id="conta-titulo">Sua conta</h2>
-        <p>Conectado como <strong>${escapar(usuario.email)}</strong>. Os seus resultados nos quizzes e atividades estão sendo registrados.</p>
+        <h2 id="conta-titulo">${nomeConta ? "Olá, " + escapar(primeiroNome()) + "!" : "Sua conta"}</h2>
+        <p>Conectado como <strong>${escapar(nomeConta || "aluno(a)")}</strong> (${escapar(usuario.email)}). Os seus resultados nos quizzes e atividades estão sendo registrados.</p>
+        ${nomeConta ? "" : `
+        <form class="conta-form conta-nome" novalidate>
+          <label>Como é o seu nome completo?<input name="nome" autocomplete="name" required></label>
+          <p class="conta-msg" aria-live="polite"></p>
+          <div class="conta-botoes"><button type="submit">Salvar o nome</button></div>
+        </form>`}
         <div class="conta-botoes">
-          <button type="button" data-acao="sair">Sair</button>
+          <button type="button" data-acao="sair"${nomeConta ? "" : ' class="sec"'}>Sair</button>
           <button type="button" data-acao="fechar" class="sec">Fechar</button>
         </div>`;
+      const formNome = janela.querySelector(".conta-nome");
+      if (formNome) {
+        formNome.addEventListener("submit", async (ev) => {
+          ev.preventDefault();
+          const nome = formNome.nome.value.trim();
+          if (nome.split(/\s+/).length < 2) {
+            formNome.querySelector(".conta-msg").textContent = "Digite o nome e o sobrenome.";
+            return;
+          }
+          formNome.querySelector(".conta-msg").textContent = "Um instante…";
+          await salvarNome(nome);
+          desenharJanela();
+        });
+      }
       return;
     }
     if (usuario) {
@@ -291,7 +348,7 @@ window.CONTA = (function () {
     registrarTentativa,
     disciplina: DISCIPLINA,
     usuario: () => usuario,
-    nome: () => nomeDe(usuario),
+    nome: () => nomeConta,
     daFaculdade: () => Boolean(usuario && emailDaFaculdade(usuario.email)),
   };
 })();
