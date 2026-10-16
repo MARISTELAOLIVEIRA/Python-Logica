@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 11: Repetição com for e range() · Lógica com Python · Stela</title>
+  <meta name="description" content="Aula 11 de Lógica de Programação com Python: for, range(), break e continue, numa trilha de desafios bronze, prata e ouro.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=3">
+  <link rel="stylesheet" href="../assets/css/exercicios.css">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/python.svg" alt="Python: página inicial da disciplina" width="32" height="32"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#na-tela">Tutorial</a>
+        <a href="#caso">Caso</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">Python</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 11</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade, título e datas -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 11</span>
+          <span class="etiqueta">Aprendizagem em ação</span>
+          <span class="etiqueta">Unidade 3</span>
+        </div>
+        <h1>Repetição com for e range()</h1>
+        <p class="subtitulo">O laço que já sabe quantas voltas vai dar, numa trilha de desafios bronze, prata e ouro.</p>
+
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Repetir um número definido de vezes com for e range() e controlar o laço com break e continue.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Revisar a estrutura while.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como conta ponto</span>
+            <p>Lista de exercícios (Moodle).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>A tabuada de dez linhas</h2>
+            <p>Na aula 10, o <code>while</code> repetia enquanto uma condição fosse verdadeira, sem saber quantas voltas daria. Mas e quando a gente já sabe? A tabuada tem 10 linhas, a turma tem 40 alunos, o login tem 3 tentativas. Copiar o <code>print</code> dez vezes? Não: para isso existe o <code>for</code>.</p>
+          </div>
+
+        </section>
+
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C4 · conceitos</span>
+            <h2>O laço que sabe quantas voltas vai dar</h2>
+          </div>
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>for e range()</h3>
+              <p>O <code>for</code> repete o bloco uma vez para cada valor que o <code>range()</code> gera. A variável do laço (aqui, <code>i</code>) muda sozinha a cada volta.</p>
+              <p class="dica cuidado"><strong>Pegadinha clássica:</strong> o <code>range</code> para <strong>antes</strong> do último número. <code>range(1, 11)</code> vai de 1 a 10.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>for i in range(5):</span><span class="linha"><span class="num">2</span>    print(i)          <span class="com"># 0 1 2 3 4</span></span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span>for i in range(1, 11):</span><span class="linha"><span class="num">5</span>    print(i)          <span class="com"># 1 a 10</span></span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span>for i in range(0, 10, 2):</span><span class="linha"><span class="num">8</span>    print(i)          <span class="com"># 0 2 4 6 8 (de 2 em 2)</span></span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>for ou while?</h3>
+              <strong>for</strong>: quando você sabe quantas vezes vai repetir (10 linhas, 5 valores, 3 tentativas).
+              <strong>while</strong>: quando repete até alguma coisa acontecer (até digitar um valor válido, até acertar a senha).
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="com"># sei quantas vezes: for</span></span><span class="linha"><span class="num">2</span>for tentativa in range(3):</span><span class="linha"><span class="num">3</span>    print(&quot;tentativa&quot;, tentativa + 1)</span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="com"># não sei quantas vezes: while</span></span><span class="linha"><span class="num">6</span>idade = input(&quot;Idade: &quot;)</span><span class="linha"><span class="num">7</span>while not idade.isdigit():</span><span class="linha"><span class="num">8</span>    idade = input(&quot;Só números: &quot;)</span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>break e continue</h3>
+              <code>break</code> para o laço na hora, mesmo que ainda faltem voltas. <code>continue</code> pula só o resto desta volta e segue para a próxima.
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>for numero in range(1, 10):</span><span class="linha"><span class="num">2</span>    if numero == 3:</span><span class="linha"><span class="num">3</span>        continue      <span class="com"># pula o 3</span></span><span class="linha"><span class="num">4</span>    if numero == 6:</span><span class="linha"><span class="num">5</span>        break         <span class="com"># para no 6</span></span><span class="linha"><span class="num">6</span>    print(numero)     <span class="com"># 1 2 4 5</span></span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C4</span>
+              <h3>Um laço dentro do outro</h3>
+              <p>Laços aninhados: para cada volta do laço de fora, o de dentro dá todas as voltas dele. É assim que se monta uma tabela, linha por linha e coluna por coluna.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>for linha in range(1, 4):</span><span class="linha"><span class="num">2</span>    for coluna in range(1, 4):</span><span class="linha"><span class="num">3</span>        print(linha * coluna, end=&quot; &quot;)</span><span class="linha"><span class="num">4</span>    print()           <span class="com"># pula a linha</span></span><span class="linha"><span class="num">5</span></span><span class="linha"><span class="num">6</span><span class="com"># 1 2 3</span></span><span class="linha"><span class="num">7</span><span class="com"># 2 4 6</span></span><span class="linha"><span class="num">8</span><span class="com"># 3 6 9</span></span></code></pre>
+          </div>
+        </section>
+
+        <section class="parte" id="na-tela">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: a trilha bronze, prata e ouro</h2>
+          </div>
+          <p class="status-python carregando" id="status-python" role="status">Soldando os componentes... (carregando o Python, leva alguns segundos)</p>
+
+          <div class="conceito" style="grid-template-columns:1fr">
+            <div class="texto">
+              <span class="olho">Antes de começar</span>
+              <h3>Cinco desafios, um de cada vez</h3>
+              <p>A atividade da aula é esta trilha. Cada passo explica o que fazer e tem um exercício que roda e se corrige aqui no site. Comece pelo bronze e só passe para o próximo quando ganhar o ✓.</p>
+              <div class="faca-assim">
+                <strong>Como usar os exercícios desta página:</strong>
+                <ol>
+                  <li>O Python roda aqui mesmo, no navegador: espere a mensagem <strong>Python pronto!</strong> logo acima.</li>
+                  <li>Complete o código no quadro <strong>seu código</strong>. Os comentários (as linhas com <code>#</code>) dizem o que falta.</li>
+                  <li>Clique em <strong>Executar</strong> para ver a saída com as entradas do quadro de baixo (uma por linha). Mude as entradas para testar outros casos.</li>
+                  <li>Clique em <strong>Verificar</strong>: o site testa o seu código com várias entradas. Passou em tudo? Ganha a medalha ✓ concluído.</li>
+                  <li>O que você escreve fica salvo neste navegador. Depois, copie o código para o VS Code e faça o commit no GitHub.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-1">
+            <div class="texto">
+              <span class="olho">Passo 1 · item 1 da atividade</span>
+              <h3>Bronze: a tabuada</h3>
+              <p>O <code>range(1, 11)</code> gera 1, 2… 10. A cada volta, <code>i</code> vale um desses números, e a conta <code>numero * i</code> dá o resultado da linha.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Leia o código: a leitura do número e o <code>for</code> já estão prontos.</li>
+                  <li>No <code>print</code>, depois do <code>=</code>, coloque a conta entre chaves: <code>{numero * i}</code>.</li>
+                  <li>Clique em <strong>Executar</strong> e confira a tabuada do 7. Depois, <strong>Verificar</strong>.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="tabuada" data-numero="1">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Passo 1 · bronze</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>A tabuada de qualquer número</h3>
+                <div class="enunciado">
+                  <p>Leia um número inteiro e mostre a tabuada dele, de 1 a 10, no formato <code>7 x 1 = 7</code>.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>7</dd><dt>saída</dt><dd>7 x 1 = 7<br>7 x 2 = 14<br>...<br>7 x 10 = 70</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-tabuada">seu código</label>
+                <textarea class="editor" id="editor-tabuada" spellcheck="false" autocapitalize="off" autocomplete="off"># 1. leia o número e transforme em inteiro
+numero = int(input(&quot;Número: &quot;))
+
+# 2. repita para i = 1, 2, ... 10 (o range para ANTES do 11)
+for i in range(1, 11):
+    # 3. mostre a linha da tabuada (complete o print)
+    print(f&quot;{numero} x {i} = &quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-tabuada">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-tabuada" spellcheck="false">7</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Troque o <code>range(1, 11)</code> por <code>range(1, 10)</code> e execute. Sumiu a última linha? É o range parando antes. Volte para 11.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-2">
+            <div class="texto">
+              <span class="olho">Passo 2 · item 2 da atividade</span>
+              <h3>Bronze: a soma de 1 a 100</h3>
+              <p>O <strong>acumulador</strong> da aula 10, agora com <code>for</code>: ele começa em zero e, a cada volta, ganha o número da vez. No fim do laço, guarda o total.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Troque a linha <code>soma = soma</code> por <code>soma = soma + numero</code> (ou o atalho <code>soma += numero</code>).</li>
+                  <li>Execute: tem que aparecer 5050. Depois, verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="soma100" data-numero="2">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Passo 2 · bronze</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>A soma de 1 a 100</h3>
+                <div class="enunciado">
+                  <p>Some todos os números de 1 a 100 com um <code>for</code> e um <strong>acumulador</strong>, e mostre <code>A soma de 1 a 100 é 5050</code>. Sem digitar o 5050: quem soma é o laço.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>(nenhuma)</dd><dt>saída</dt><dd>A soma de 1 a 100 é 5050</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-soma100">seu código</label>
+                <textarea class="editor" id="editor-soma100" spellcheck="false" autocapitalize="off" autocomplete="off"># o acumulador começa em zero
+soma = 0
+
+# repita para numero = 1, 2, ... 100
+for numero in range(1, 101):
+    # a cada volta, some o numero ao acumulador
+    soma = soma
+
+print(f&quot;A soma de 1 a 100 é {soma}&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-soma100">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-soma100" spellcheck="false"></textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim desafio">
+                <strong>Agora é com você:</strong>
+                <ol>
+                  <li>Mude o programa para ler um número N e somar de 1 até N. (Dica: <code>range(1, n + 1)</code>.)</li>
+                  <li>Curiosidade: conta a história que Gauss, ainda menino, fez essa soma de cabeça: 50 pares que somam 101 (1 + 100, 2 + 99…). 50 × 101 = 5050.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-3">
+            <div class="texto">
+              <span class="olho">Passo 3 · item 3 da atividade</span>
+              <h3>Prata: soma e média de 5 valores</h3>
+              <p>Agora o <code>input()</code> fica <strong>dentro</strong> do laço: o programa pergunta 5 vezes. O <code>_</code> é uma variável que a gente não usa, só queremos repetir.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Dentro do <code>for</code>, some o valor ao acumulador: <code>soma += valor</code>.</li>
+                  <li>Depois do laço (sem espaço no começo da linha), mostre a média: <code>print(f"Média: {soma / 5:.1f}")</code>.</li>
+                  <li>Execute com as 5 entradas de exemplo e depois verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="media5" data-numero="3">
+              <div>
+                <div class="exercicio-topo"><span class="medalha prata">prata</span><span class="olho">Passo 3 · prata</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Soma e média de 5 valores</h3>
+                <div class="enunciado">
+                  <p>Leia 5 valores (podem ter vírgula decimal escrita com ponto, como <code>7.5</code>) e mostre a soma e a média, com uma casa decimal.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>8<br>6.5<br>9<br>7<br>5</dd><dt>saída</dt><dd>Soma: 35.5<br>Média: 7.1</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-media5">seu código</label>
+                <textarea class="editor" id="editor-media5" spellcheck="false" autocapitalize="off" autocomplete="off">soma = 0
+
+# o _ é uma variável que a gente não usa: só queremos repetir 5 vezes
+for _ in range(5):
+    valor = float(input(&quot;Valor: &quot;))
+    # some o valor ao acumulador
+
+
+print(f&quot;Soma: {soma:.1f}&quot;)
+# mostre a média (soma dividida por 5), com uma casa decimal
+</textarea>
+                <label class="rotulo-campo" for="entradas-media5">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-media5" spellcheck="false">8
+6.5
+9
+7
+5</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Coloque o <code>print</code> da média com 4 espaços no começo, dentro do laço. O que acontece? Por quê? Depois, tire os espaços.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-4">
+            <div class="texto">
+              <span class="olho">Passo 4 · item 4 da atividade</span>
+              <h3>Prata: o maior e o menor</h3>
+              <p>Como saber o maior sem ter com quem comparar? O truque: o <strong>primeiro</strong> valor começa sendo o maior e o menor. Os outros 4 entram no laço e cada um é comparado com os campeões até agora.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>O <code>if</code> do maior já está pronto. Embaixo dele, escreva o do menor: se <code>valor &lt; menor</code>, então <code>menor = valor</code>.</li>
+                  <li>Execute com o exemplo (o menor é −2) e verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="maiormenor" data-numero="4">
+              <div>
+                <div class="exercicio-topo"><span class="medalha prata">prata</span><span class="olho">Passo 4 · prata</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>O maior e o menor de 5 valores</h3>
+                <div class="enunciado">
+                  <p>Leia 5 números inteiros e mostre o maior e o menor. O truque: o <strong>primeiro</strong> valor lido começa sendo o maior e o menor ao mesmo tempo. Depois, o laço lê os outros 4 e compara cada um.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>4<br>9<br>-2<br>7<br>0</dd><dt>saída</dt><dd>Maior: 9<br>Menor: -2</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-maiormenor">seu código</label>
+                <textarea class="editor" id="editor-maiormenor" spellcheck="false" autocapitalize="off" autocomplete="off"># o primeiro valor começa sendo o maior e o menor
+primeiro = int(input(&quot;Valor: &quot;))
+maior = primeiro
+menor = primeiro
+
+# os outros 4 valores
+for _ in range(4):
+    valor = int(input(&quot;Valor: &quot;))
+    if valor &gt; maior:
+        maior = valor
+    # e se o valor for menor que o menor?
+
+
+print(f&quot;Maior: {maior}&quot;)
+print(f&quot;Menor: {menor}&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-maiormenor">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-maiormenor" spellcheck="false">4
+9
+-2
+7
+0</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Troque o <code>if</code> do menor por <code>elif</code>. Com as entradas <code>5 4 3 2 1</code> ainda funciona? E com <code>1 2 3 4 5</code>? Pense em por que o <code>if</code> separado é mais seguro.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-5">
+            <div class="texto">
+              <span class="olho">Passo 5 · item 5 da atividade</span>
+              <h3>Ouro: o login com for e break</h3>
+              <p>O login da aula 10, agora com <code>for</code>: são no máximo 3 tentativas, então o laço já sabe quantas voltas pode dar. Acertou antes? O <code>break</code> encerra o laço na hora. A variável <code>entrou</code> lembra, depois do laço, se a pessoa conseguiu entrar.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Logo depois de <code>entrou = True</code>, escreva <code>break</code> (com o mesmo recuo).</li>
+                  <li>No <code>else</code>, troque o <code>print</code> para mostrar quantas tentativas restam: <code>print(f"Senha errada. Restam {3 - tentativa} tentativa(s).")</code>.</li>
+                  <li>Execute com as entradas <code>abc</code> e <code>Py@2026</code>, uma por linha. Depois, verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="loginfor" data-numero="5">
+              <div>
+                <div class="exercicio-topo"><span class="medalha ouro">ouro</span><span class="olho">Passo 5 · ouro</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Login com for e break</h3>
+                <div class="enunciado">
+                  <p>A senha certa é <code>Py@2026</code>. O usuário tem 3 tentativas. A cada erro, mostre <code>Senha errada. Restam N tentativa(s).</code>. Acertou? Mostre <code>Bem-vindo! Você usou N tentativa(s).</code> e pare o laço com <code>break</code>. Errou as 3? <code>Conta bloqueada.</code></p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>abc<br>Py@2026</dd><dt>saída</dt><dd>Senha errada. Restam 2 tentativa(s).<br>Bem-vindo! Você usou 2 tentativa(s).</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-loginfor">seu código</label>
+                <textarea class="editor" id="editor-loginfor" spellcheck="false" autocapitalize="off" autocomplete="off">SENHA_CERTA = &quot;Py@2026&quot;
+entrou = False   # ainda não entrou
+
+for tentativa in range(1, 4):
+    senha = input(&quot;Senha: &quot;)
+    if senha == SENHA_CERTA:
+        print(f&quot;Bem-vindo! Você usou {tentativa} tentativa(s).&quot;)
+        entrou = True
+        # pare o laço aqui
+
+    else:
+        # mostre quantas tentativas restam (3 menos a tentativa de agora)
+        print(&quot;Senha errada.&quot;)
+
+if not entrou:
+    print(&quot;Conta bloqueada.&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-loginfor">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-loginfor" spellcheck="false">abc
+Py@2026</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Apague o <code>break</code> e execute com <code>Py@2026</code> na primeira tentativa. O que acontece? É por isso que o break existe.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito" style="grid-template-columns:1fr" id="passo-6">
+            <div class="texto">
+              <span class="olho">Passo 6 · itens 6 e 7 da atividade</span>
+              <h3>O seu código ou o do Copilot?</h3>
+              <p>Agora que o seu código passou, peça ao GitHub Copilot a mesma solução e compare. A IA escreve rápido, mas quem entende o código é você.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Copie o seu código do passo 5 para um arquivo <code>aula11_login.py</code> no VS Code e rode no terminal.</li>
+                  <li>No Copilot Chat, peça: <em>"Faça em Python um login com 3 tentativas usando for e break, mostrando quantas tentativas restam."</em></li>
+                  <li>Compare em três colunas no seu caderno ou no Loop: o que ficou <strong>igual</strong>, o que ficou <strong>melhor</strong> no dele e o que está <strong>errado ou diferente</strong> do que o enunciado pede.</li>
+                  <li>Teste a sugestão do Copilot com as mesmas entradas do passo 5. Ela passa em tudo?</li>
+                  <li>Faça o commit dos cinco programas e entregue a lista no Moodle.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-7">
+            <div class="texto">
+              <span class="olho">Desafio extra · diamante</span>
+              <h3>O teste de portas do caso de uso</h3>
+              <p>Para quem ganhou o ouro: o caso de uso da aula, simulado. Ele junta o <code>for</code> com o <code>range</code> de duas pontas, o <code>continue</code> e o <code>break</code>.</p>
+              <p class="dica cuidado"><strong>Ética:</strong> testar portas de um servidor só com autorização de quem é dono dele. Aqui é uma simulação: as portas abertas estão escritas no próprio código.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Pule as exceções: <code>if porta == 21 or porta == 23:</code> e, dentro, <code>continue</code>.</li>
+                  <li>Depois do <code>testadas += 1</code>, avise as abertas: <code>if porta in ABERTAS:</code> e o <code>print</code>.</li>
+                  <li>Dentro desse <code>if</code>, a porta crítica: se for a 3389, mostre o aviso e use <code>break</code>.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="portas" data-numero="6">
+              <div>
+                <div class="exercicio-topo"><span class="medalha ouro">ouro</span><span class="olho">Desafio extra · diamante</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>O teste de portas (com autorização)</h3>
+                <div class="enunciado">
+                  <p>O caso de uso da aula, simulado. Leia a primeira e a última porta. Teste uma por uma: as portas <code>21</code> e <code>23</code> estão na lista de exceção (pule com <code>continue</code>). As portas abertas são <code>22</code>, <code>80</code>, <code>443</code> e <code>3389</code>: mostre <code>Porta N aberta</code>. A <code>3389</code> é crítica: mostre também <code>Porta crítica! Teste interrompido.</code> e pare com <code>break</code>. No fim, mostre <code>Portas testadas: N</code> (as puladas não contam).</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>20<br>25</dd><dt>saída</dt><dd>Porta 22 aberta<br>Portas testadas: 4</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-portas">seu código</label>
+                <textarea class="editor" id="editor-portas" spellcheck="false" autocapitalize="off" autocomplete="off">ABERTAS = (22, 80, 443, 3389)   # a simulação: no servidor de verdade, isto viria do teste
+primeira = int(input(&quot;Primeira porta: &quot;))
+ultima = int(input(&quot;Última porta: &quot;))
+testadas = 0
+
+for porta in range(primeira, ultima + 1):
+    # pule as portas 21 e 23 (continue)
+
+    testadas += 1
+    # se a porta estiver em ABERTAS, avise
+    # se for a 3389, avise que é crítica e pare (break)
+
+print(f&quot;Portas testadas: {testadas}&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-portas">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-portas" spellcheck="false">20
+25</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            
+          </div>
+        </section>
+
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Testar as portas de um servidor da empresa</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Equipe de segurança (com autorização)</p>
+            <p><strong>Objetivo:</strong> Descobrir quais portas de um servidor da própria empresa estão abertas.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>A equipe informa a primeira e a última porta.</li>
+              <li>O sistema testa uma por uma.</li>
+              <li>Pula as portas da lista de exceção.</li>
+              <li>Para quando encontra uma porta crítica aberta e avisa.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>O intervalo informado está invertido (última menor que a primeira): o sistema troca ou avisa.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Aqui é for ou while? Por quê?</li>
+              <li>Onde entram o break e o continue?</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>Trilha de desafios</h2>
+            <p>Individual, no seu ritmo. Os exercícios ficam no tutorial, logo acima. O que você marcar fica salvo neste navegador.</p>
+          </div>
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-11">
+              <span class="contagem">0 de 7</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-11">
+              <li><label><input type="checkbox"><span>Bronze: tabuada de um número digitado pelo usuário. <a href="#passo-1">Veja o passo 1.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Bronze: soma dos números de 1 a 100. <a href="#passo-2">Veja o passo 2.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Prata: leia 5 valores e mostre a soma e a média. <a href="#passo-3">Veja o passo 3.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Prata: leia 5 valores e mostre o maior e o menor. <a href="#passo-4">Veja o passo 4.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Ouro: login com for e break, contando as tentativas usadas. <a href="#passo-5">Veja o passo 5.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Comparei o meu código com a sugestão do Copilot: o que é igual, o que é melhor e o que está errado. <a href="#passo-6">Veja o passo 6.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Entreguei a lista no Moodle. <a href="#passo-6">Veja o passo 6.</a></span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Repetição em todo lugar</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra">M</span>
+              <h3>Matemática</h3>
+              <p>A soma de 1 a 100 tem atalho: n × (n + 1) ÷ 2. O laço faz a conta longa; a fórmula, a curta. As duas dão 5050.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra">E</span>
+              <h3>Eletrônica</h3>
+              <p>Fazer um LED piscar 10 vezes é um for de 10 voltas: liga, espera, desliga, espera.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra">T</span>
+              <h3>Tecnologia</h3>
+              <p>Ferramentas de segurança testam portas, senhas e endereços em laços, milhares por segundo. Por isso, só com autorização.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou antes? Tem mais.</h2>
+            <p>Faça o desafio diamante do tutorial (o teste de portas). Depois, use dois laços, um dentro do outro, para mostrar a tabuada do 1 ao 10 inteira, em formato de tabela.</p>
+          </div>
+
+        </section>
+
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="https://docs.python.org/pt-br/3/tutorial/controlflow.html#for-statements">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>docs.python.org</span>
+              <h4>O comando for</h4>
+              <p>O tutorial oficial do Python, em português.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://www.netacad.com/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>NetAcad</span>
+              <h4>Python Essentials 1</h4>
+              <p>O módulo de laços da trilha oficial, para a atividade a distância.</p>
+              <span class="repo-pe"><span class="ling" style="--cor:#1ba0d7"><i></i>Plataforma</span><span class="etiqueta">trilha</span></span>
+            </a>
+            <a class="repo luz" href="../quiz/">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>Python-Logica/quiz</span>
+              <h4>PyQuiz</h4>
+              <p>Perguntas rápidas para conferir se o for ficou claro.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta">praticar</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>Lista no Moodle e commit no GitHub</h3>
+              <p>Na próxima aula, o for percorre texto: strings, senhas e a cifra de César.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-10.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aula 10: Repetindo até acertar</strong>
+          </a>
+          <a class="proxima" href="aula-12.html">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 12: Strings: validando senhas e cifrando mensagens</strong>
+          </a>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Lógica de Programação com Python</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>print(&quot;bons estudos!&quot;)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="aula-11-testes.js?v=1"></script>
+  <script src="../assets/js/python-exercicios.js?v=3"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>

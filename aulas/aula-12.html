@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <!-- EDITE AQUI: número e tema da aula -->
+  <title>Aula 12: Strings · Lógica com Python · Stela</title>
+  <meta name="description" content="Aula 12 de Lógica de Programação com Python: índices, fatiamento e métodos de strings, um validador de força de senha e a cifra de César.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=3">
+  <link rel="stylesheet" href="../assets/css/exercicios.css">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/python.svg" alt="Python: página inicial da disciplina" width="32" height="32"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes da aula">
+        <a href="../#aulas">← Todas as aulas</a>
+        <a href="#conceitos">Conceitos</a>
+        <a href="#na-tela">Tutorial</a>
+        <a href="#caso">Caso</a>
+        <a href="#atividade">Atividade</a>
+        <a href="#materiais">Materiais</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO DA AULA ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">Python</a> <span aria-hidden="true">/</span>
+          <a href="../#aulas">Aulas</a> <span aria-hidden="true">/</span>
+          <span>Aula 12</span>
+        </p>
+
+        <!-- EDITE AQUI: número, tipo de aula, unidade, título e datas -->
+        <div class="aula-etiquetas">
+          <span class="etiqueta senac">Fac Senac DF</span>
+          <span class="etiqueta ouro">Aula 12</span>
+          <span class="etiqueta">Laboratório de práticas</span>
+          <span class="etiqueta">Unidade 3</span>
+        </div>
+        <h1>Strings: senhas e mensagens secretas</h1>
+        <p class="subtitulo">Um validador de força de senha e a cifra de César, letra por letra.</p>
+
+      </div>
+    </section>
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="bloco faixa alt" aria-label="Resumo da aula">
+      <div class="envolve">
+        <div class="resumo">
+          <div class="cartao">
+            <span class="olho">Objetivo do dia</span>
+            <p>Manipular textos com índices, fatiamento e métodos e construir duas ferramentas de segurança.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Antes da aula</span>
+            <p>Ler sobre strings na bibliografia básica.</p>
+          </div>
+          <div class="cartao">
+            <span class="olho">Como conta ponto</span>
+            <p>Entrega da atividade prática (Moodle).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <section class="parte" id="problema">
+          <div class="cab">
+            <span class="olho">P1 · o problema</span>
+            <h2>123456 não é senha</h2>
+            <p>Nas listas de senhas mais usadas que empresas de segurança publicam todo ano, como a da NordPass, o <code>123456</code> aparece no topo ano após ano. Hoje vocês constroem as duas ferramentas que a segurança usa para lidar com textos: um <strong>validador de força de senha</strong>, que não deixa passar o 123456, e a <strong>cifra de César</strong>, a avó da criptografia.</p>
+          </div>
+
+        </section>
+
+        <section class="parte" id="conceitos">
+          <div class="cab">
+            <span class="olho">C1–C4 · conceitos</span>
+            <h2>Texto também é sequência</h2>
+          </div>
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C1</span>
+              <h3>Índices e fatiamento</h3>
+              <p>Uma string é uma sequência de caracteres, e cada um tem uma posição: o <strong>índice</strong>, que começa no 0. O índice negativo conta do fim: <code>-1</code> é o último.</p>
+              <p>O fatiamento <code>[início:fim]</code> pega um pedaço e, como o range, para <strong>antes</strong> do fim.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>usuario = &quot;stela2026&quot;</span><span class="linha"><span class="num">2</span>print(usuario[0])      <span class="com"># s</span></span><span class="linha"><span class="num">3</span>print(usuario[-1])     <span class="com"># 6</span></span><span class="linha"><span class="num">4</span>print(usuario[0:5])    <span class="com"># stela</span></span><span class="linha"><span class="num">5</span>print(usuario[5:])     <span class="com"># 2026</span></span><span class="linha"><span class="num">6</span>print(len(usuario))    <span class="com"># 9</span></span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C2</span>
+              <h3>Percorrer com for</h3>
+              <p>O <code>for</code> da aula 11 também percorre texto: a cada volta, a variável vale um caractere.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>senha = &quot;Py@26&quot;</span><span class="linha"><span class="num">2</span>for caractere in senha:</span><span class="linha"><span class="num">3</span>    print(caractere)</span><span class="linha"><span class="num">4</span><span class="com"># P</span></span><span class="linha"><span class="num">5</span><span class="com"># y</span></span><span class="linha"><span class="num">6</span><span class="com"># @</span></span><span class="linha"><span class="num">7</span><span class="com"># 2</span></span><span class="linha"><span class="num">8</span><span class="com"># 6</span></span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C3</span>
+              <h3>Métodos que transformam</h3>
+              <code>upper()</code> e <code>lower()</code> mudam maiúsculas e minúsculas; <code>strip()</code> tira os espaços das pontas; <code>replace()</code> troca um pedaço; <code>split()</code> quebra o texto numa lista.
+              <p class="dica"><strong>Repare:</strong> o método devolve um texto novo. Para guardar, atribua: <code>email = email.strip()</code>.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>email = &quot;  Ana@EDU.br &quot;</span><span class="linha"><span class="num">2</span>print(email.strip().lower())   <span class="com"># ana@edu.br</span></span><span class="linha"><span class="num">3</span>print(&quot;a-b-c&quot;.replace(&quot;-&quot;, &quot;&quot;))  <span class="com"># abc</span></span><span class="linha"><span class="num">4</span>print(&quot;ana@edu.br&quot;.split(&quot;@&quot;))  <span class="com"># [&#x27;ana&#x27;, &#x27;edu.br&#x27;]</span></span></code></pre>
+          </div>
+
+          <div class="conceito">
+            <div class="texto">
+              <span class="olho">C4</span>
+              <h3>Métodos que conferem, e o ord() e o chr()</h3>
+              <code>isdigit()</code>, <code>isalpha()</code>, <code>isupper()</code> e <code>islower()</code> respondem <code>True</code> ou <code>False</code>. São as peças do validador de senha.
+              <p>Por dentro, cada caractere é um número. <code>ord()</code> mostra o número da letra e <code>chr()</code> faz o caminho de volta. É a peça da cifra de César.</p>
+            </div>
+            <pre class="codigo"><code><span class="linha"><span class="num">1</span>print(&quot;7&quot;.isdigit())    <span class="com"># True</span></span><span class="linha"><span class="num">2</span>print(&quot;P&quot;.isupper())    <span class="com"># True</span></span><span class="linha"><span class="num">3</span>print(&quot;@&quot;.isalpha())    <span class="com"># False</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span>print(ord(&quot;A&quot;))          <span class="com"># 65</span></span><span class="linha"><span class="num">6</span>print(chr(65 + 3))       <span class="com"># D</span></span></code></pre>
+          </div>
+        </section>
+
+        <section class="parte" id="na-tela">
+          <div class="cab">
+            <span class="olho">T1 · tutorial</span>
+            <h2>Mão na massa: duas ferramentas de segurança em 6 passos</h2>
+          </div>
+          <p class="status-python carregando" id="status-python" role="status">Soldando os componentes... (carregando o Python, leva alguns segundos)</p>
+
+          <div class="conceito" style="grid-template-columns:1fr">
+            <div class="texto">
+              <span class="olho">Antes de começar</span>
+              <h3>Um passo de cada vez</h3>
+              <p>Os passos seguem a atividade da aula. Cada um tem um exercício que roda e se corrige aqui no site.</p>
+              <div class="faca-assim">
+                <strong>Como usar os exercícios desta página:</strong>
+                <ol>
+                  <li>O Python roda aqui mesmo, no navegador: espere a mensagem <strong>Python pronto!</strong> logo acima.</li>
+                  <li>Complete o código no quadro <strong>seu código</strong>. Os comentários (as linhas com <code>#</code>) dizem o que falta.</li>
+                  <li>Clique em <strong>Executar</strong> para ver a saída com as entradas do quadro de baixo (uma por linha). Mude as entradas para testar outros casos.</li>
+                  <li>Clique em <strong>Verificar</strong>: o site testa o seu código com várias entradas. Passou em tudo? Ganha a medalha ✓ concluído.</li>
+                  <li>O que você escreve fica salvo neste navegador. Depois, copie o código para o VS Code e faça o commit no GitHub.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-1">
+            <div class="texto">
+              <span class="olho">Passo 1 · item 1 da atividade</span>
+              <h3>Bronze: índices, fatiamento e len()</h3>
+              <p>Comece pelo seu próprio nome de usuário: o primeiro caractere é o índice <code>0</code>, o último é o <code>-1</code>, e o fatiamento <code>[0:3]</code> pega os três primeiros.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Falta só a última linha: mostre o tamanho com <code>print(f"Tamanho: {len(usuario)}")</code>.</li>
+                  <li>Execute com o seu usuário da faculdade nas entradas. Depois, verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="usuario" data-numero="1">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Passo 1 · bronze</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Índices, fatiamento e len()</h3>
+                <div class="enunciado">
+                  <p>Leia um nome de usuário e mostre, nesta ordem: a primeira letra, a última letra, as três primeiras letras e o tamanho.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>stela2026</dd><dt>saída</dt><dd>Primeira: s<br>Última: 6<br>Três primeiras: ste<br>Tamanho: 9</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-usuario">seu código</label>
+                <textarea class="editor" id="editor-usuario" spellcheck="false" autocapitalize="off" autocomplete="off">usuario = input(&quot;Usuário: &quot;)
+
+print(f&quot;Primeira: {usuario[0]}&quot;)
+print(f&quot;Última: {usuario[-1]}&quot;)
+# fatiamento: do índice 0 até ANTES do 3
+print(f&quot;Três primeiras: {usuario[0:3]}&quot;)
+# o tamanho: use len()
+</textarea>
+                <label class="rotulo-campo" for="entradas-usuario">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-usuario" spellcheck="false">stela2026</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Troque <code>usuario[-1]</code> por <code>usuario[9]</code> e execute com <code>stela2026</code>. Leia o erro (<code>IndexError</code>): com 9 caracteres, o último índice é o 8.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-2">
+            <div class="texto">
+              <span class="olho">Passo 2 · item 2 da atividade</span>
+              <h3>Bronze: o e-mail bagunçado</h3>
+              <p>Cadastro de verdade recebe e-mail de todo jeito: com espaço sobrando, com maiúscula. Antes de guardar ou comparar, o sistema arruma. É o <code>strip()</code> com o <code>lower()</code>, um seguido do outro.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Falta mostrar o domínio: é a segunda parte do <code>split</code>, a <code>partes[1]</code>.</li>
+                  <li>Execute com o e-mail bagunçado do exemplo (os espaços no começo e no fim fazem parte do teste). Depois, verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="email" data-numero="2">
+              <div>
+                <div class="exercicio-topo"><span class="medalha bronze">bronze</span><span class="olho">Passo 2 · bronze</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>Arrumando um e-mail bagunçado</h3>
+                <div class="enunciado">
+                  <p>Leia um e-mail digitado de qualquer jeito (com espaços sobrando e letras maiúsculas). Mostre o e-mail arrumado (sem espaços nas pontas e em minúsculas), o usuário (o que vem antes do <code>@</code>) e o domínio (o que vem depois).</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>   Ana.Souza@EDU.DF.Senac.BR  </dd><dt>saída</dt><dd>E-mail: ana.souza@edu.df.senac.br<br>Usuário: ana.souza<br>Domínio: edu.df.senac.br</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-email">seu código</label>
+                <textarea class="editor" id="editor-email" spellcheck="false" autocapitalize="off" autocomplete="off">email = input(&quot;E-mail: &quot;)
+
+# strip() tira os espaços das pontas, lower() deixa tudo minúsculo
+email = email.strip().lower()
+print(f&quot;E-mail: {email}&quot;)
+
+# split(&quot;@&quot;) quebra o texto em duas partes: antes e depois do @
+partes = email.split(&quot;@&quot;)
+print(f&quot;Usuário: {partes[0]}&quot;)
+# mostre o domínio (a segunda parte)
+</textarea>
+                <label class="rotulo-campo" for="entradas-email">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-email" spellcheck="false">   Ana.Souza@EDU.DF.Senac.BR  </textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-3">
+            <div class="texto">
+              <span class="olho">Passo 3 · itens 3 e 4 da atividade</span>
+              <h3>Prata: o validador de força de senha</h3>
+              <p>O <code>for</code> passa por cada caractere da senha e liga a regra que encontrar: maiúscula, minúscula, número ou símbolo (o que não é letra nem número). Depois, conta quantas das 5 regras foram cumpridas.</p>
+              <p class="dica"><strong>O truque da soma:</strong> no Python, <code>True</code> vale 1 e <code>False</code> vale 0. Somar as cinco regras dá quantas foram cumpridas.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>No fim, escreva a classificação com <code>if</code>, <code>elif</code> e <code>else</code>: se <code>regras == 5</code>, <code>Senha forte</code>; senão, se <code>regras &gt;= 3</code>, <code>Senha média</code>; senão, <code>Senha fraca</code>.</li>
+                  <li>Teste três senhas, uma de cada nível (item 4 da atividade): <code>123456</code>, <code>Senha123</code> e <code>Py@2026!x</code>.</li>
+                  <li>Verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="forca" data-numero="3">
+              <div>
+                <div class="exercicio-topo"><span class="medalha prata">prata</span><span class="olho">Passo 3 · prata</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>O validador de força de senha</h3>
+                <div class="enunciado">
+                  <p>Leia uma senha e conte quantas das 5 regras ela cumpre: pelo menos 8 caracteres, uma letra maiúscula, uma minúscula, um número e um símbolo. Com 5 regras, mostre <code>Senha forte</code>; com 3 ou 4, <code>Senha média</code>; com menos, <code>Senha fraca</code>. Mostre também <code>Regras cumpridas: N de 5</code>.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>Senha123</dd><dt>saída</dt><dd>Regras cumpridas: 4 de 5<br>Senha média</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-forca">seu código</label>
+                <textarea class="editor" id="editor-forca" spellcheck="false" autocapitalize="off" autocomplete="off">senha = input(&quot;Senha nova: &quot;)
+
+# começa sem nada; o for liga cada regra que encontrar
+tem_maiuscula = False
+tem_minuscula = False
+tem_numero = False
+tem_simbolo = False
+
+for caractere in senha:
+    if caractere.isupper():
+        tem_maiuscula = True
+    elif caractere.islower():
+        tem_minuscula = True
+    elif caractere.isdigit():
+        tem_numero = True
+    else:
+        tem_simbolo = True   # não é letra nem número: é símbolo
+
+# True vale 1 e False vale 0: somar as regras conta quantas foram cumpridas
+regras = (len(senha) &gt;= 8) + tem_maiuscula + tem_minuscula + tem_numero + tem_simbolo
+print(f&quot;Regras cumpridas: {regras} de 5&quot;)
+
+# classifique: 5 é forte, 3 ou 4 é média, menos que 3 é fraca
+</textarea>
+                <label class="rotulo-campo" for="entradas-forca">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-forca" spellcheck="false">Senha123</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim desafio">
+                <strong>Agora é com você (o caso de uso):</strong>
+                <ol>
+                  <li>Em vez de só dizer "fraca", mostre o que falta: <code>if not tem_simbolo: print("Falta um símbolo")</code>, e assim para cada regra.</li>
+                  <li>E se a senha for igual ao nome de usuário? Leia o usuário antes e recuse a senha, mesmo que ela seja forte.</li>
+                  <li>Use <code>senha.strip()</code> logo depois do <code>input</code>: espaço no começo não vale como símbolo.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-4">
+            <div class="texto">
+              <span class="olho">Passo 4 · itens 5 e 6 da atividade</span>
+              <h3>Ouro: a cifra de César, cifrando</h3>
+              <p>Júlio César, segundo o historiador Suetônio, escrevia as mensagens militares trocando cada letra pela que estava três casas à frente: A virava D, B virava E. A <strong>chave</strong> é o número de casas.</p>
+              <p>No código, cada letra vira um número com <code>ord()</code>. A posição no alfabeto vai de 0 (A) a 25 (Z). Soma-se a chave, e o <code>% 26</code> (o resto da divisão por 26) dá a volta: depois do Z vem o A. O <code>chr()</code> transforma o número de volta em letra.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Antes do código: desenhe no Whiteboard a roda do alfabeto, com as letras de fora e as de dentro andadas 3 casas (item 5 da atividade).</li>
+                  <li>As maiúsculas já funcionam. No <code>elif</code> das minúsculas, faça igual, trocando <code>ord("A")</code> por <code>ord("a")</code>.</li>
+                  <li>Execute com <code>ATAQUE AO AMANHECER</code> e a chave <code>3</code>, e depois verifique.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="cifrar" data-numero="4">
+              <div>
+                <div class="exercicio-topo"><span class="medalha ouro">ouro</span><span class="olho">Passo 4 · ouro</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>A cifra de César: cifrar</h3>
+                <div class="enunciado">
+                  <p>Leia uma mensagem e a chave (quantas casas andar no alfabeto). Troque cada letra pela que está <em>chave</em> casas à frente, dando a volta no Z (<code>X</code> com chave 3 vira <code>A</code>). O que não for letra de A a Z (espaço, número, pontuação) fica igual. Mostre <code>Cifrada: ...</code>.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>ATAQUE AO AMANHECER<br>3</dd><dt>saída</dt><dd>Cifrada: DWDTXH DR DPDQKHFHU</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-cifrar">seu código</label>
+                <textarea class="editor" id="editor-cifrar" spellcheck="false" autocapitalize="off" autocomplete="off">mensagem = input(&quot;Mensagem: &quot;)
+chave = int(input(&quot;Chave: &quot;))
+
+cifrada = &quot;&quot;
+for letra in mensagem:
+    if &quot;A&quot; &lt;= letra &lt;= &quot;Z&quot;:
+        # ord(&quot;A&quot;) é 65: a posição da letra no alfabeto vai de 0 (A) a 25 (Z)
+        posicao = ord(letra) - ord(&quot;A&quot;)
+        # anda a chave e dá a volta com % 26 (o resto da divisão por 26)
+        nova = (posicao + chave) % 26
+        cifrada += chr(nova + ord(&quot;A&quot;))
+    elif &quot;a&quot; &lt;= letra &lt;= &quot;z&quot;:
+        # faça o mesmo para as minúsculas, com ord(&quot;a&quot;)
+        cifrada += letra
+    else:
+        cifrada += letra   # espaço, número e pontuação ficam iguais
+
+print(f&quot;Cifrada: {cifrada}&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-cifrar">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-cifrar" spellcheck="false">ATAQUE AO AMANHECER
+3</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            <div class="faca-assim">
+                <strong>Teste:</strong>
+                <ol>
+                  <li>Cifre <code>xyz</code> com a chave 3. Deu <code>abc</code>? É o <code>% 26</code> dando a volta no alfabeto. Tire o <code>% 26</code> e veja o que sai.</li>
+                </ol>
+              </div>
+          </div>
+
+          <div class="conceito passo-tutorial" style="grid-template-columns:1fr" id="passo-5">
+            <div class="texto">
+              <span class="olho">Passo 5 · item 7 da atividade</span>
+              <h3>Ouro: decifrando com a chave negativa</h3>
+              <p>Para decifrar, anda-se para trás: é a mesma conta com a chave negativa. Por isso a linha <code>chave = -chave</code>. O <code>%</code> do Python também dá a volta para trás: antes do A vem o Z.</p>
+              <div class="faca-assim">
+                <strong>Faça assim:</strong>
+                <ol>
+                  <li>Dentro do <code>for</code>, troque a linha <code>original += letra</code> pelo mesmo <code>if / elif / else</code> do passo 4 (trocando <code>cifrada</code> por <code>original</code>).</li>
+                  <li>Decifre a mensagem do passo 4 com a chave 3 e depois verifique.</li>
+                  <li>Troque uma mensagem cifrada com a dupla, sem contar a chave. Vocês conseguem descobrir a chave testando de 1 a 25 com um <code>for</code>? Esse é o motivo de a cifra de César não ser segura hoje.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="exercicios">
+            <article class="cartao exercicio" data-id="decifrar" data-numero="5">
+              <div>
+                <div class="exercicio-topo"><span class="medalha ouro">ouro</span><span class="olho">Passo 5 · ouro</span><span class="selo-ok">✓ concluído</span></div>
+                <h3>A cifra de César: decifrar</h3>
+                <div class="enunciado">
+                  <p>Decifrar é cifrar andando para trás: a mesma conta, com a chave negativa. Leia a mensagem cifrada e a chave usada para cifrar, e mostre <code>Original: ...</code>.</p>
+                  <dl class="exemplo"><dt>entrada</dt><dd>DWDTXH DR DPDQKHFHU<br>3</dd><dt>saída</dt><dd>Original: ATAQUE AO AMANHECER</dd></dl>
+                </div>
+              </div>
+              <div class="lado-codigo">
+                <label class="rotulo-campo" for="editor-decifrar">seu código</label>
+                <textarea class="editor" id="editor-decifrar" spellcheck="false" autocapitalize="off" autocomplete="off">cifrada = input(&quot;Mensagem cifrada: &quot;)
+chave = int(input(&quot;Chave usada: &quot;))
+
+# o segredo: andar para trás é usar a chave negativa
+chave = -chave
+
+original = &quot;&quot;
+for letra in cifrada:
+    # copie aqui o mesmo if / elif / else do passo 4
+    original += letra
+
+print(f&quot;Original: {original}&quot;)
+</textarea>
+                <label class="rotulo-campo" for="entradas-decifrar">entradas para testar (uma por linha)</label>
+                <textarea class="entradas" id="entradas-decifrar" spellcheck="false">DWDTXH DR DPDQKHFHU
+3</textarea>
+                <div class="botoes-ex"><button type="button" class="executar">Executar</button><button type="button" class="verificar">Verificar</button></div>
+                <div class="resultado" aria-live="polite"></div>
+              </div>
+            </article>
+            </div>
+            
+          </div>
+
+          <div class="conceito" style="grid-template-columns:1fr" id="passo-6">
+            <div class="texto">
+              <span class="olho">Passo 6 · itens 8 a 10 da atividade</span>
+              <h3>Senha não vai para o GitHub, e o projeto final começa</h3>
+              <p>Senha, chave e token escritos no código e enviados para o GitHub ficam visíveis para qualquer um, inclusive no histórico, mesmo depois de apagados. O <strong>secret scanning</strong> do GitHub procura esse tipo de segredo nos repositórios e avisa.</p>
+              <div class="faca-assim">
+                <strong>Entrega (item 8):</strong>
+                <ol>
+                  <li>Copie os programas dos passos 1 a 5 para a pasta <code>aula12</code> do seu repositório.</li>
+                  <li>Confira que nenhum arquivo tem senha de verdade (as do exercício são de exemplo).</li>
+                  <li>Faça o commit e o push, e entregue a atividade no Moodle.</li>
+                </ol>
+              </div>
+              <div class="faca-assim">
+                <strong>Projeto final (itens 9 e 10):</strong>
+                <ol>
+                  <li>Formem o grupo e escolham a ferramenta: analisador de senhas, verificador de registros de acesso, cifrador de mensagens ou outra ideia aprovada pela professora.</li>
+                  <li>Uma pessoa cria o repositório do grupo no GitHub (<strong>+ › New repository</strong>, com README) e convida os colegas em <strong>Settings › Collaborators</strong>.</li>
+                  <li>Cada tarefa vira uma issue: aba <strong>Issues › New issue</strong>, com o título da tarefa e, em <strong>Assignees</strong>, quem vai fazer.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="parte" id="caso">
+          <div class="cab">
+            <span class="olho">CU1 · caso de uso</span>
+            <h2>Trocar a senha</h2>
+          </div>
+          <div class="cartao caso">
+            <p><strong>Ator:</strong> Funcionário</p>
+            <p><strong>Objetivo:</strong> Criar uma senha nova que o sistema aceite.</p>
+            <h3>Fluxo principal</h3>
+            <ol>
+              <li>O funcionário digita a senha nova.</li>
+              <li>O sistema confere tamanho, maiúscula, minúscula, número e símbolo.</li>
+              <li>Classifica em fraca, média ou forte.</li>
+              <li>Só aceita a senha forte.</li>
+            </ol>
+            <h3>E se...</h3>
+            <ul>
+              <li>A senha nova é igual ao nome de usuário: o sistema recusa, mesmo que seja forte.</li>
+              <li>A senha tem espaços no começo: o strip() resolve antes de conferir.</li>
+            </ul>
+            <h3>Para pensar</h3>
+            <ol>
+              <li>Que métodos de string cada regra usa?</li>
+              <li>Como mostrar ao usuário o que falta, em vez de só dizer "fraca"?</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="atividade">
+          <div class="cab">
+            <span class="olho">A1 · atividade</span>
+            <h2>Duas ferramentas de segurança</h2>
+            <p>Individual, e o projeto final em grupo. Os exercícios ficam no tutorial, logo acima. O que você marcar fica salvo neste navegador.</p>
+          </div>
+          <div class="cartao">
+            <div class="progresso-atividade" data-progresso="passos-aula-12">
+              <span class="contagem">0 de 10</span>
+              <span class="barra-progresso"><span></span></span>
+            </div>
+            <ol class="checklist" id="passos-aula-12">
+              <li><label><input type="checkbox"><span>Testei índices, fatiamento e len() com o meu nome de usuário. <a href="#passo-1">Veja o passo 1.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Testei os métodos de strings com um e-mail bagunçado. <a href="#passo-2">Veja o passo 2.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Fiz o validador de senha: fraca, média ou forte. <a href="#passo-3">Veja o passo 3.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Testei o validador com três senhas (uma de cada nível). <a href="#passo-3">Veja o passo 3.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Desenhei a roda da cifra de César no Whiteboard. <a href="#passo-4">Veja o passo 4.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Fiz a cifragem da mensagem. <a href="#passo-4">Veja o passo 4.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Fiz a decifragem (chave negativa). <a href="#passo-5">Veja o passo 5.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Entreguei a atividade no Moodle e fiz o commit. <a href="#passo-6">Veja o passo 6.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Projeto final: formei o grupo e escolhemos a ferramenta (analisador de senhas, verificador de registros de acesso, cifrador de mensagens ou outra ideia aprovada). <a href="#passo-6">Veja o passo 6.</a></span></label></li>
+              <li><label><input type="checkbox"><span>Projeto final: criamos o repositório do grupo e cadastramos as tarefas como issues. <a href="#passo-6">Veja o passo 6.</a></span></label></li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="parte" id="steam">
+          <div class="cab">
+            <span class="olho">S1 · conexão STEAM</span>
+            <h2>Letras que viram números</h2>
+          </div>
+          <div class="steam">
+            <div class="cartao">
+              <span class="letra">A</span>
+              <h3>Artes e história</h3>
+              <p>A cifra de César tem mais de dois mil anos. A roda de cifra, com dois discos de letras, é um objeto que dá para recortar em papel e montar na aula.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra">M</span>
+              <h3>Matemática</h3>
+              <p>O % 26 é aritmética modular, a mesma do relógio: depois das 12 vem a 1. Depois do Z vem o A.</p>
+            </div>
+            <div class="cartao">
+              <span class="letra">T</span>
+              <h3>Tecnologia</h3>
+              <p>A criptografia de hoje (a do cadeado do navegador) também transforma texto em números e faz contas com eles, só que com chaves enormes.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="parte" id="desafio">
+          <div class="cab">
+            <span class="olho">D1 · desafio extra</span>
+            <h2>Terminou antes? Tem mais.</h2>
+            <p>Quebre a cifra de César por força bruta: leia uma mensagem cifrada e mostre as 25 decifragens possíveis, uma por chave, com um <code>for</code>. Qual delas faz sentido?</p>
+          </div>
+
+        </section>
+
+        <section class="parte" id="materiais">
+          <div class="cab">
+            <span class="olho">J1 · materiais</span>
+            <h2>Para estudar e praticar</h2>
+          </div>
+          <div class="repos">
+            <a class="repo luz" href="https://docs.python.org/pt-br/3/library/stdtypes.html#string-methods">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>docs.python.org</span>
+              <h4>Métodos de strings</h4>
+              <p>A lista completa, na documentação oficial em português.</p>
+              <span class="repo-pe"><span class="ling"><span class="tec" style="--t:1.45rem"><img src="../assets/img/tec/python.svg" alt="" width="20" height="20"></span>Python</span><span class="etiqueta">consulta</span></span>
+            </a>
+            <a class="repo luz" href="https://docs.github.com/pt/code-security/secret-scanning/introduction/about-secret-scanning">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>GitHub Docs</span>
+              <h4>Sobre o secret scanning</h4>
+              <p>Como o GitHub encontra senhas e chaves esquecidas nos repositórios.</p>
+              <span class="repo-pe"><span class="ling" style="--cor:#1ba0d7"><i></i>Plataforma</span><span class="etiqueta">segurança</span></span>
+            </a>
+            <a class="repo luz" href="https://docs.github.com/pt/issues/tracking-your-work-with-issues/about-issues">
+              <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>GitHub Docs</span>
+              <h4>Sobre as issues</h4>
+              <p>Para organizar as tarefas do projeto final.</p>
+              <span class="repo-pe"><span class="ling" style="--cor:#1ba0d7"><i></i>Plataforma</span><span class="etiqueta">projeto</span></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega">
+          <div class="cartao entrega">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            <div>
+              <span class="olho">E1 · entrega</span>
+              <h3>Atividade no Moodle e commit no GitHub</h3>
+              <p>E o repositório do projeto final criado, com as tarefas como issues. Na próxima aula: listas.</p>
+            </div>
+          </div>
+        </section>
+
+        <nav class="nav-aulas" aria-label="Outras aulas">
+          <!-- EDITE AQUI: use <a href="aula-NN.html"> quando a página da aula vizinha for liberada; <span> enquanto não for -->
+          <a class="anterior" href="aula-11.html">
+            <span class="olho">← aula anterior</span>
+            <strong>Aula 11: Repetição com for e range()</strong>
+          </a>
+          <span class="proxima">
+            <span class="olho">próxima aula →</span>
+            <strong>Aula 13: Listas</strong>
+          </span>
+        </nav>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Lógica de Programação com Python</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>print(&quot;bons estudos!&quot;)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ícone de repositório (Octicons, licença MIT) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="ic-repo" viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></symbol>
+  </svg>
+
+  <script src="../assets/js/aulas.js"></script>
+  <script src="aula-12-testes.js?v=1"></script>
+  <script src="../assets/js/python-exercicios.js?v=3"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
