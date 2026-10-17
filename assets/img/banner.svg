@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="titulo descricao">
+  <title id="titulo">Lógica de Programação com Python · Profa. Maristela · Senac DF</title>
+  <desc id="descricao">Banner: o título em amarelo e azul do Python, ao lado de uma janela de editor com o programa bem-vindos.py e a saída no terminal.</desc>
+
+  <defs>
+    <!-- Brilhos do fundo: azul do Python à esquerda, amarelo à direita -->
+    <radialGradient id="brilhoAzul" cx="8%" cy="20%" r="65%">
+      <stop offset="0" stop-color="#3776AB" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#3776AB" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="brilhoAmarelo" cx="95%" cy="110%" r="60%">
+      <stop offset="0" stop-color="#FFD43B" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#FFD43B" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Trilhas de placa de circuito, bem apagadas -->
+    <pattern id="placa" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M0 30 H22 L30 22 V0 M60 40 H42 L36 46 V60" fill="none" stroke="#39FF9E" stroke-opacity=".07" stroke-width="2"/>
+      <circle cx="30" cy="22" r="3" fill="#39FF9E" fill-opacity=".1"/>
+      <circle cx="36" cy="46" r="3" fill="#39FF9E" fill-opacity=".1"/>
+    </pattern>
+    <filter id="neon" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="borrado"/>
+      <feMerge><feMergeNode in="borrado"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Fundo -->
+  <rect width="1200" height="360" rx="18" fill="#0B1220"/>
+  <rect width="1200" height="360" rx="18" fill="url(#placa)"/>
+  <rect width="1200" height="360" rx="18" fill="url(#brilhoAzul)"/>
+  <rect width="1200" height="360" rx="18" fill="url(#brilhoAmarelo)"/>
+
+  <!-- Título -->
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <text x="64" y="92" font-size="22" fill="#8FA3BF" letter-spacing="3">SEGURANÇA DA INFORMAÇÃO · SENAC DF</text>
+    <text x="62" y="158" font-size="58" font-weight="800" fill="#FFD43B" filter="url(#neon)">Lógica com</text>
+    <text x="62" y="226" font-size="72" font-weight="800" fill="#5FA8E8" filter="url(#neon)">Python</text>
+    <text x="64" y="276" font-size="22" fill="#D7E1EE">Do fluxograma no papel à ferramenta de segurança</text>
+    <text x="64" y="306" font-size="22" fill="#D7E1EE">que você mesmo programa.</text>
+  </g>
+
+  <!-- Janela do editor -->
+  <g transform="translate(640 46)">
+    <rect width="500" height="268" rx="12" fill="#111A2B" stroke="#2A3A55" stroke-width="2"/>
+    <rect width="500" height="38" rx="12" fill="#18243A"/>
+    <rect y="26" width="500" height="12" fill="#18243A"/>
+    <circle cx="22" cy="19" r="7" fill="#FF5F57"/>
+    <circle cx="44" cy="19" r="7" fill="#FEBC2E"/>
+    <circle cx="66" cy="19" r="7" fill="#28C840"/>
+    <text x="250" y="25" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="15" fill="#8FA3BF">bem-vindos.py</text>
+
+    <g font-family="Consolas, 'Courier New', monospace" font-size="18">
+      <text x="20" y="74" fill="#5B6B85">1</text>
+      <text x="48" y="74" fill="#6A9955"># SI · 1º e 2º semestres</text>
+      <text x="20" y="102" fill="#5B6B85">2</text>
+      <text x="48" y="102"><tspan fill="#9CDCFE">turma</tspan><tspan fill="#D4D4D4"> = </tspan><tspan fill="#CE9178">"filhotes"</tspan></text>
+      <text x="20" y="130" fill="#5B6B85">3</text>
+      <text x="48" y="130"><tspan fill="#9CDCFE">energia</tspan><tspan fill="#D4D4D4"> = </tspan><tspan fill="#4EC9B0">float</tspan><tspan fill="#D4D4D4">(</tspan><tspan fill="#CE9178">"inf"</tspan><tspan fill="#D4D4D4">)</tspan></text>
+      <text x="20" y="158" fill="#5B6B85">4</text>
+      <text x="48" y="158"><tspan fill="#DCDCAA">print</tspan><tspan fill="#D4D4D4">(</tspan><tspan fill="#569CD6">f</tspan><tspan fill="#CE9178">"Bem-vindos, {turma}!"</tspan><tspan fill="#D4D4D4">)</tspan></text>
+    </g>
+
+    <!-- Terminal -->
+    <rect x="14" y="180" width="472" height="74" rx="8" fill="#070C16"/>
+    <g font-family="Consolas, 'Courier New', monospace" font-size="17">
+      <text x="30" y="208"><tspan fill="#39FF9E">stela@placa</tspan><tspan fill="#8FA3BF"> ~/python $ </tspan><tspan fill="#D4D4D4">python bem-vindos.py</tspan></text>
+      <text x="30" y="238" fill="#FFD43B">Bem-vindos, filhotes!</text>
+      <rect x="262" y="224" width="11" height="18" fill="#39FF9E"/>
+    </g>
+  </g>
+</svg>
