@@ -1,5 +1,17 @@
 [
  {
+  "id": "introducao-a-ciencia-da-computacao-javascript",
+  "titulo": "Introdução à Ciência da Computação - Javascript",
+  "descricao": "Cadastre-se no site e agurade o código da disciplina.",
+  "link": "https://codecombat.com/",
+  "bimestre": "1º",
+  "valor": "2,0 pontos",
+  "arquivo": "",
+  "arquivo_nome": "",
+  "imagem": false,
+  "alt": ""
+ },
+ {
   "id": "introducao-a-ciencia-da-computacao",
   "titulo": "Introdução à Ciência da Computação",
   "descricao": "Acesse o site, faça o cadastro e adicione o código da turma:\nLongPanSafe",
