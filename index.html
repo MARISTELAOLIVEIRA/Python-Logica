@@ -451,7 +451,8 @@
           <h2>Atividades e materiais</h2>
           <p>Tudo o que a gente usa na disciplina, num lugar só.</p>
         </div>
-        <div class="repos">
+        <!-- data-atividades: as atividades publicadas pelo Placa-Mãe entram aqui, antes dos cards fixos (assets/js/atividades.js) -->
+        <div class="repos" data-atividades>
           <a class="repo luz" href="atividade-remota/" data-revela>
             <span class="repo-nome"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#ic-repo"/></svg>atividade-remota</span>
             <h4>Plantão de segurança</h4>
@@ -567,6 +568,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
   <script src="assets/js/conta.js?v=3" data-disciplina="Python-Logica"></script>
   <script src="assets/js/aulas.js"></script>
+  <script src="assets/js/atividades.js?v=1"></script>
   <script src="assets/js/matrix.js?v=2"></script>
 </body>
 </html>
