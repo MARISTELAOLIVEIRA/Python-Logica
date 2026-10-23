@@ -117,7 +117,7 @@ Errou? Ótimo: a mensagem de erro diz a linha e quase sempre dá a dica. Lê com
 | 🧭 **Flowgorithm** e **Whiteboard** | Desenhar o algoritmo antes de programar. |
 | 🐍 **Python** no **VS Code** | Escrever e executar os programas. |
 | 🎓 **NetAcad · Python Essentials** | A trilha que acompanha a disciplina e prepara para a certificação **PCEP**. |
-| 🐙 **GitHub** | Guardar e entregar os seus projetos. |
+| <img src="https://maristelaoliveira.github.io/assets/img/octocat-stela.webp" width="22" height="22" alt="Octocat da Stela" align="absmiddle"> **GitHub** | Guardar e entregar os seus projetos. |
 | 💬 **Teams, Loop e Whiteboard** | Combinar, tirar dúvida e trabalhar junto. |
 | 🤖 **IA** (Copilot) | Para explicar e revisar código, com senso crítico. |
 
