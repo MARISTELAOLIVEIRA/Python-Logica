@@ -1,6 +1,6 @@
 /*
   imc.css: só do exemplo resolvido da calculadora de IMC (imc/index.html).
-  versão 2 · 2026-11-16
+  versão 3 · 2026-11-16
 */
 
 /* ---------- janela + trilha lado a lado ---------- */
@@ -71,6 +71,85 @@
   text-align: center;
   font-size: .85rem;
   color: var(--texto-3);
+}
+
+/* ---------- desenho da página do Flask no navegador ---------- */
+.imc-web {
+  margin: 0;
+  max-width: 380px;
+  justify-self: center;
+  width: 100%;
+}
+
+.imc-web-barra {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .55rem .8rem;
+  background: #dcdfe3;
+  border-radius: 10px 10px 0 0;
+}
+
+.imc-web-endereco {
+  flex: 1;
+  padding: .15rem .7rem;
+  background: #fff;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  color: #555;
+}
+
+/* as cores abaixo copiam o CSS básico do exemplo */
+.imc-web-fundo {
+  padding: 1.2rem;
+  background: #eef2f5;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+.imc-web-cartao {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: 1.1rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+  color: #111;
+  font-family: Arial, sans-serif;
+  font-size: .9rem;
+}
+
+.imc-web-titulo {
+  color: #1f5f99;
+  font-size: 1.25rem;
+  margin-bottom: .2rem;
+}
+
+.imc-web-campo {
+  padding: .3rem .5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: .3rem;
+}
+
+.imc-web-botao {
+  align-self: flex-start;
+  margin: .4rem 0;
+  padding: .4rem 1rem;
+  background: #1f5f99;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.imc-web-ok {
+  color: #1e7d46;
+  font-weight: bold;
+}
+
+#web .imc-abas {
+  margin-top: 2rem;
 }
 
 /* ---------- a trilha do clique, com pulso de luz ---------- */
