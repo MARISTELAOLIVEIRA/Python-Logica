@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
   <link rel="stylesheet" href="../assets/css/aula.css?v=2">
   <link rel="stylesheet" href="../assets/css/neon.css?v=2">
-  <link rel="stylesheet" href="imc.css?v=1">
+  <link rel="stylesheet" href="imc.css?v=2">
 </head>
 <body>
 
@@ -194,6 +194,18 @@
             <li><strong>Desafio 3:</strong> qual peso máximo faz sentido? Crie a validação com uma mensagem no tom da sua calculadora.</li>
           </ul>
           <p class="dica">Esse é o pensamento de quem trabalha com segurança: procurar a entrada que ninguém imaginou.</p>
+
+          <details class="imc-resposta">
+            <summary>Já tentou? Ver uma resposta dos desafios 1 e 2</summary>
+            <div class="imc-resposta-corpo">
+              <p><strong>Desafio 1:</strong> o <code>nan</code> não é maior, nem menor, nem igual a nada, nem a ele mesmo. Toda comparação com ele dá <code>False</code>. Por isso <code>nan &lt;= 0</code> é <code>False</code> e ele passa pelo <code>if</code>.</p>
+              <p><strong>Desafio 2:</strong> o <code>math.isfinite()</code> só devolve <code>True</code> para números de verdade. Ele barra o <code>nan</code>, o <code>inf</code> e o <code>-inf</code>. No começo do arquivo:</p>
+              <div class="janela"><div class="janela-barra"><span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span><span class="janela-titulo">imc_tk_desafio_nan.py</span></div><pre class="codigo"><code><span class="linha muda"><span class="num">2</span><span class="com"># resposta do desafio: barra também o nan e o inf</span></span><span class="linha muda"><span class="num">3</span><span class="tag">import</span> <span class="var">math</span></span><span class="linha"><span class="num">4</span><span class="tag">import</span> <span class="var">tkinter</span> <span class="tag">as</span> <span class="var">tk</span></span></code></pre></div>
+              <p>E uma validação nova, logo depois do <code>try</code>:</p>
+              <div class="janela"><div class="janela-barra"><span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span><span class="janela-titulo">imc_tk_desafio_nan.py</span></div><pre class="codigo"><code><span class="linha"><span class="num">33</span>    <span class="com"># validação 1: os dois campos precisam ser números</span></span><span class="linha"><span class="num">34</span>    <span class="tag">try</span>:</span><span class="linha"><span class="num">35</span>        <span class="var">peso</span> = <span class="fn">float</span>(<span class="var">texto_peso</span>)</span><span class="linha"><span class="num">36</span>        <span class="var">altura</span> = <span class="fn">float</span>(<span class="var">texto_altura</span>)</span><span class="linha"><span class="num">37</span>    <span class="tag">except</span> <span class="var">ValueError</span>:</span><span class="linha"><span class="num">38</span>        <span class="fn">avisar</span>(<span class="str">&quot;Curto-circuito: digite só números.&quot;</span>)</span><span class="linha"><span class="num">39</span>        <span class="tag">return</span></span><span class="linha"><span class="num">40</span></span><span class="linha muda"><span class="num">41</span>    <span class="com"># validação 2: nan e inf passam pelo float(), mas não são números de verdade</span></span><span class="linha muda"><span class="num">42</span>    <span class="tag">if</span> <span class="var">not</span> <span class="var">math</span>.<span class="fn">isfinite</span>(<span class="var">peso</span>) <span class="tag">or</span> <span class="var">not</span> <span class="var">math</span>.<span class="fn">isfinite</span>(<span class="var">altura</span>):</span><span class="linha"><span class="num">43</span>        <span class="fn">avisar</span>(<span class="str">&quot;Curto-circuito: digite só números.&quot;</span>)</span><span class="linha"><span class="num">44</span>        <span class="tag">return</span></span><span class="linha"><span class="num">45</span></span><span class="linha"><span class="num">46</span>    <span class="com"># validação 3: valores que fazem sentido</span></span></code></pre></div>
+              <p class="dica">A ordem importa: a validação do <code>nan</code> vem <strong>antes</strong> do <code>if peso &lt;= 0</code>, porque com o <code>nan</code> esse <code>if</code> nunca dispara.</p>
+            </div>
+          </details>
         </section>
 
       </div>

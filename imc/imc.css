@@ -1,6 +1,6 @@
 /*
   imc.css: só do exemplo resolvido da calculadora de IMC (imc/index.html).
-  versão 1 · 2026-11-16
+  versão 2 · 2026-11-16
 */
 
 /* ---------- janela + trilha lado a lado ---------- */
@@ -237,6 +237,38 @@
   flex-direction: column;
   gap: .7rem;
   padding-left: 1.2rem;
+}
+
+/* ---------- resposta escondida dos desafios ---------- */
+.imc-resposta {
+  margin-top: 1.4rem;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-p);
+  background: var(--superficie);
+}
+
+.imc-resposta summary {
+  padding: .9rem 1.1rem;
+  cursor: pointer;
+  font-family: var(--f-titulo);
+  font-weight: 700;
+  color: var(--ouro);
+}
+
+.imc-resposta summary:focus-visible {
+  outline: 2px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+.imc-resposta-corpo {
+  padding: 0 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+}
+
+.imc-resposta-corpo .dica {
+  margin-top: 0;
 }
 
 /* ---------- celular ---------- */
