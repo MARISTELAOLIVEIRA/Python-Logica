@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="../assets/css/aula.css?v=2">
   <link rel="stylesheet" href="../assets/css/neon.css?v=2">
   <link rel="stylesheet" href="imc.css?v=4">
+  <link rel="stylesheet" href="tutorial-flask.css?v=1">
 </head>
 <body>
 
@@ -230,28 +231,822 @@
           </div>
           <p class="dica">Os nomes das pastas importam: o Flask procura o HTML em <code>templates</code> e o CSS em <code>static</code>.</p>
 
-          <div class="janela imc-abas">
-            <div class="janela-barra">
-              <span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span>
-              <div class="imc-abas-lista" role="tablist" aria-label="Arquivos da versão com Flask">
-                <button type="button" role="tab" id="aba-flask-app" aria-controls="painel-flask-app" aria-selected="true">app.py</button>
-                <button type="button" role="tab" id="aba-flask-html" aria-controls="painel-flask-html" aria-selected="false" tabindex="-1">templates/calculadora.html</button>
-                <button type="button" role="tab" id="aba-flask-css" aria-controls="painel-flask-css" aria-selected="false" tabindex="-1">static/estilo.css</button>
-              </div>
-            </div>
-            <div role="tabpanel" id="painel-flask-app" aria-labelledby="aba-flask-app" tabindex="0"><pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="com"># Calculadora de IMC na web (Flask) com if/elif/else</span></span><span class="linha"><span class="num">2</span><span class="com"># a lógica fica aqui; a página em templates/ e o visual em static/</span></span><span class="linha"><span class="num">3</span><span class="tag">from</span> <span class="var">flask</span> <span class="tag">import</span> <span class="var">Flask</span>, <span class="var">request</span>, <span class="var">render_template</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span><span class="var">app</span> = <span class="var">Flask</span>(<span class="var">__name__</span>)</span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span></span><span class="linha muda"><span class="num">8</span><span class="tag">def</span> <span class="fn">classificar</span>(<span class="var">imc</span>):</span><span class="linha muda"><span class="num">9</span>    <span class="com"># decide a faixa do IMC (classificação da OMS)</span></span><span class="linha muda"><span class="num">10</span>    <span class="tag">if</span> <span class="var">imc</span> &lt; <span class="str">18.5</span>:</span><span class="linha muda"><span class="num">11</span>        <span class="tag">return</span> <span class="str">&quot;Abaixo do peso&quot;</span></span><span class="linha muda"><span class="num">12</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">25</span>:</span><span class="linha muda"><span class="num">13</span>        <span class="tag">return</span> <span class="str">&quot;Peso normal&quot;</span></span><span class="linha muda"><span class="num">14</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">30</span>:</span><span class="linha muda"><span class="num">15</span>        <span class="tag">return</span> <span class="str">&quot;Sobrepeso&quot;</span></span><span class="linha muda"><span class="num">16</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">35</span>:</span><span class="linha muda"><span class="num">17</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau I&quot;</span></span><span class="linha muda"><span class="num">18</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">40</span>:</span><span class="linha muda"><span class="num">19</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau II&quot;</span></span><span class="linha muda"><span class="num">20</span>    <span class="tag">else</span>:</span><span class="linha muda"><span class="num">21</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau III&quot;</span></span><span class="linha"><span class="num">22</span></span><span class="linha"><span class="num">23</span></span><span class="linha"><span class="num">24</span><span class="tag">def</span> <span class="fn">mostrar</span>(<span class="var">peso</span>, <span class="var">altura</span>, <span class="var">resposta</span>, <span class="var">classe</span>, <span class="var">codigo</span>=<span class="str">200</span>):</span><span class="linha"><span class="num">25</span>    <span class="com"># preenche a página calculadora.html e devolve com o código HTTP</span></span><span class="linha"><span class="num">26</span>    <span class="var">pagina</span> = <span class="fn">render_template</span>(</span><span class="linha"><span class="num">27</span>        <span class="str">&quot;calculadora.html&quot;</span>,</span><span class="linha"><span class="num">28</span>        <span class="var">peso</span>=<span class="var">peso</span>,</span><span class="linha"><span class="num">29</span>        <span class="var">altura</span>=<span class="var">altura</span>,</span><span class="linha"><span class="num">30</span>        <span class="var">resposta</span>=<span class="var">resposta</span>,</span><span class="linha"><span class="num">31</span>        <span class="var">classe</span>=<span class="var">classe</span>,</span><span class="linha"><span class="num">32</span>    )</span><span class="linha"><span class="num">33</span>    <span class="tag">return</span> <span class="var">pagina</span>, <span class="var">codigo</span></span><span class="linha"><span class="num">34</span></span><span class="linha"><span class="num">35</span></span><span class="linha"><span class="num">36</span><span class="fn">@app.route</span>(<span class="str">&quot;/&quot;</span>, <span class="var">methods</span>=[<span class="str">&quot;GET&quot;</span>, <span class="str">&quot;POST&quot;</span>])</span><span class="linha"><span class="num">37</span><span class="tag">def</span> <span class="fn">calculadora</span>():</span><span class="linha"><span class="num">38</span>    <span class="com"># GET: a pessoa só abriu a página</span></span><span class="linha"><span class="num">39</span>    <span class="tag">if</span> <span class="var">request</span>.<span class="var">method</span> == <span class="str">&quot;GET&quot;</span>:</span><span class="linha"><span class="num">40</span>        <span class="tag">return</span> <span class="fn">mostrar</span>(<span class="str">&quot;&quot;</span>, <span class="str">&quot;&quot;</span>, <span class="str">&quot;&quot;</span>, <span class="str">&quot;&quot;</span>)</span><span class="linha"><span class="num">41</span></span><span class="linha"><span class="num">42</span>    <span class="com"># POST: a pessoa clicou em Calcular</span></span><span class="linha"><span class="num">43</span>    <span class="var">texto_peso</span> = <span class="var">request</span>.<span class="var">form</span>.<span class="fn">get</span>(<span class="str">&quot;peso&quot;</span>, <span class="str">&quot;&quot;</span>)</span><span class="linha"><span class="num">44</span>    <span class="var">texto_altura</span> = <span class="var">request</span>.<span class="var">form</span>.<span class="fn">get</span>(<span class="str">&quot;altura&quot;</span>, <span class="str">&quot;&quot;</span>)</span><span class="linha"><span class="num">45</span></span><span class="linha"><span class="num">46</span>    <span class="com"># validação 1: os dois campos precisam ser números</span></span><span class="linha"><span class="num">47</span>    <span class="tag">try</span>:</span><span class="linha"><span class="num">48</span>        <span class="var">peso</span> = <span class="fn">float</span>(<span class="var">texto_peso</span>.<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>))</span><span class="linha"><span class="num">49</span>        <span class="var">altura</span> = <span class="fn">float</span>(<span class="var">texto_altura</span>.<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>))</span><span class="linha"><span class="num">50</span>    <span class="tag">except</span> <span class="var">ValueError</span>:</span><span class="linha"><span class="num">51</span>        <span class="var">aviso</span> = <span class="str">&quot;Curto-circuito: digite só números.&quot;</span></span><span class="linha"><span class="num">52</span>        <span class="tag">return</span> <span class="fn">mostrar</span>(<span class="var">texto_peso</span>, <span class="var">texto_altura</span>, <span class="var">aviso</span>, <span class="str">&quot;erro&quot;</span>, <span class="str">400</span>)</span><span class="linha"><span class="num">53</span></span><span class="linha"><span class="num">54</span>    <span class="com"># validação 2: valores que fazem sentido</span></span><span class="linha"><span class="num">55</span>    <span class="tag">if</span> <span class="var">peso</span> &lt;= <span class="str">0</span> <span class="tag">or</span> <span class="var">altura</span> &lt;= <span class="str">0</span>:</span><span class="linha"><span class="num">56</span>        <span class="var">aviso</span> = <span class="str">&quot;Peso e altura precisam ser maiores que zero.&quot;</span></span><span class="linha"><span class="num">57</span>        <span class="tag">return</span> <span class="fn">mostrar</span>(<span class="var">texto_peso</span>, <span class="var">texto_altura</span>, <span class="var">aviso</span>, <span class="str">&quot;erro&quot;</span>, <span class="str">400</span>)</span><span class="linha"><span class="num">58</span>    <span class="tag">if</span> <span class="var">altura</span> &gt; <span class="str">3</span>:</span><span class="linha"><span class="num">59</span>        <span class="var">aviso</span> = <span class="str">&quot;A altura vai em metros: 1,75 e não 175.&quot;</span></span><span class="linha"><span class="num">60</span>        <span class="tag">return</span> <span class="fn">mostrar</span>(<span class="var">texto_peso</span>, <span class="var">texto_altura</span>, <span class="var">aviso</span>, <span class="str">&quot;erro&quot;</span>, <span class="str">400</span>)</span><span class="linha"><span class="num">61</span></span><span class="linha"><span class="num">62</span>    <span class="var">imc</span> = <span class="var">peso</span> / <span class="var">altura</span> ** <span class="str">2</span></span><span class="linha"><span class="num">63</span>    <span class="var">resposta</span> = <span class="str">f&quot;Seu IMC é {imc:.1f}: {classificar(imc)}&quot;</span></span><span class="linha"><span class="num">64</span>    <span class="tag">return</span> <span class="fn">mostrar</span>(<span class="var">texto_peso</span>, <span class="var">texto_altura</span>, <span class="var">resposta</span>, <span class="str">&quot;ok&quot;</span>)</span><span class="linha"><span class="num">65</span></span><span class="linha"><span class="num">66</span></span><span class="linha"><span class="num">67</span><span class="tag">if</span> <span class="var">__name__</span> == <span class="str">&quot;__main__&quot;</span>:</span><span class="linha"><span class="num">68</span>    <span class="var">app</span>.<span class="fn">run</span>(<span class="var">debug</span>=<span class="var">True</span>)</span></code></pre></div>
-            <div role="tabpanel" id="painel-flask-html" aria-labelledby="aba-flask-html" tabindex="0" hidden><pre class="codigo"><code><span class="linha"><span class="num">1</span>&lt;!doctype html&gt;</span><span class="linha"><span class="num">2</span><span class="tag">&lt;html</span> lang=&quot;pt-BR&quot;&gt;</span><span class="linha"><span class="num">3</span><span class="tag">&lt;head</span>&gt;</span><span class="linha"><span class="num">4</span>  <span class="tag">&lt;meta</span> charset=&quot;utf-8&quot;&gt;</span><span class="linha"><span class="num">5</span>  <span class="tag">&lt;meta</span> name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span><span class="linha"><span class="num">6</span>  <span class="tag">&lt;title</span>&gt;Calculadora de IMC<span class="tag">&lt;/title</span>&gt;</span><span class="linha"><span class="num">7</span>  <span class="com">&lt;!-- o url_for acha o estilo.css dentro da pasta static --&gt;</span></span><span class="linha"><span class="num">8</span>  <span class="tag">&lt;link</span> rel=&quot;stylesheet&quot; href=&quot;<span class="str">{{ url_for(&#x27;static&#x27;, filename=&#x27;estilo.css&#x27;) }}</span>&quot;&gt;</span><span class="linha"><span class="num">9</span><span class="tag">&lt;/head</span>&gt;</span><span class="linha"><span class="num">10</span><span class="tag">&lt;body</span>&gt;</span><span class="linha"><span class="num">11</span>  <span class="tag">&lt;main</span> class=&quot;cartao&quot;&gt;</span><span class="linha"><span class="num">12</span>    <span class="tag">&lt;h1</span>&gt;Calculadora de IMC<span class="tag">&lt;/h1</span>&gt;</span><span class="linha"><span class="num">13</span>    <span class="com">&lt;!-- as chaves duplas são onde o Python encaixa os valores --&gt;</span></span><span class="linha"><span class="num">14</span>    <span class="tag">&lt;form</span> method=&quot;post&quot;&gt;</span><span class="linha"><span class="num">15</span>      <span class="tag">&lt;label</span>&gt;Peso (kg): <span class="tag">&lt;input</span> name=&quot;peso&quot; value=&quot;<span class="str">{{ peso }}</span>&quot;&gt;<span class="tag">&lt;/label</span>&gt;</span><span class="linha"><span class="num">16</span>      <span class="tag">&lt;label</span>&gt;Altura (m): <span class="tag">&lt;input</span> name=&quot;altura&quot; value=&quot;<span class="str">{{ altura }}</span>&quot;&gt;<span class="tag">&lt;/label</span>&gt;</span><span class="linha"><span class="num">17</span>      <span class="tag">&lt;button</span>&gt;Calcular<span class="tag">&lt;/button</span>&gt;</span><span class="linha"><span class="num">18</span>    <span class="tag">&lt;/form</span>&gt;</span><span class="linha"><span class="num">19</span>    <span class="tag">&lt;p</span> class=&quot;<span class="str">{{ classe }}</span>&quot;&gt;<span class="str">{{ resposta }}</span><span class="tag">&lt;/p</span>&gt;</span><span class="linha"><span class="num">20</span>  <span class="tag">&lt;/main</span>&gt;</span><span class="linha"><span class="num">21</span><span class="tag">&lt;/body</span>&gt;</span><span class="linha"><span class="num">22</span><span class="tag">&lt;/html</span>&gt;</span></code></pre></div>
-            <div role="tabpanel" id="painel-flask-css" aria-labelledby="aba-flask-css" tabindex="0" hidden><pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="com">/* CSS básico: um cartão branco no meio da tela */</span></span><span class="linha"><span class="num">2</span>body {</span><span class="linha"><span class="num">3</span>  font-family: Arial, sans-serif;</span><span class="linha"><span class="num">4</span>  background: #eef2f5;</span><span class="linha"><span class="num">5</span>}</span><span class="linha"><span class="num">6</span></span><span class="linha"><span class="num">7</span>.cartao {</span><span class="linha"><span class="num">8</span>  max-width: 360px;</span><span class="linha"><span class="num">9</span>  margin: 40px auto;</span><span class="linha"><span class="num">10</span>  padding: 24px;</span><span class="linha"><span class="num">11</span>  background: white;</span><span class="linha"><span class="num">12</span>  border-radius: 12px;</span><span class="linha"><span class="num">13</span>  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);</span><span class="linha"><span class="num">14</span>}</span><span class="linha"><span class="num">15</span></span><span class="linha"><span class="num">16</span>h1 {</span><span class="linha"><span class="num">17</span>  margin-top: 0;</span><span class="linha"><span class="num">18</span>  color: #1f5f99;</span><span class="linha"><span class="num">19</span>}</span><span class="linha"><span class="num">20</span></span><span class="linha"><span class="num">21</span>label {</span><span class="linha"><span class="num">22</span>  display: block;</span><span class="linha"><span class="num">23</span>  margin-top: 12px;</span><span class="linha"><span class="num">24</span>}</span><span class="linha"><span class="num">25</span></span><span class="linha"><span class="num">26</span>input {</span><span class="linha"><span class="num">27</span>  width: 100%;</span><span class="linha"><span class="num">28</span>  padding: 8px;</span><span class="linha"><span class="num">29</span>  border: 1px solid #ccc;</span><span class="linha"><span class="num">30</span>  border-radius: 6px;</span><span class="linha"><span class="num">31</span>  box-sizing: border-box;</span><span class="linha"><span class="num">32</span>}</span><span class="linha"><span class="num">33</span></span><span class="linha"><span class="num">34</span>button {</span><span class="linha"><span class="num">35</span>  margin-top: 16px;</span><span class="linha"><span class="num">36</span>  padding: 10px 20px;</span><span class="linha"><span class="num">37</span>  border: 0;</span><span class="linha"><span class="num">38</span>  border-radius: 6px;</span><span class="linha"><span class="num">39</span>  background: #1f5f99;</span><span class="linha"><span class="num">40</span>  color: white;</span><span class="linha"><span class="num">41</span>  cursor: pointer;</span><span class="linha"><span class="num">42</span>}</span><span class="linha"><span class="num">43</span></span><span class="linha"><span class="num">44</span>button:hover {</span><span class="linha"><span class="num">45</span>  background: #174a78;</span><span class="linha"><span class="num">46</span>}</span><span class="linha"><span class="num">47</span></span><span class="linha"><span class="num">48</span><span class="com">/* o resultado: verde quando deu certo, vermelho quando é aviso */</span></span><span class="linha"><span class="num">49</span>.ok {</span><span class="linha"><span class="num">50</span>  color: #1e7d46;</span><span class="linha"><span class="num">51</span>  font-weight: bold;</span><span class="linha"><span class="num">52</span>}</span><span class="linha"><span class="num">53</span></span><span class="linha"><span class="num">54</span>.erro {</span><span class="linha"><span class="num">55</span>  color: #c0392b;</span><span class="linha"><span class="num">56</span>  font-weight: bold;</span><span class="linha"><span class="num">57</span>}</span></code></pre></div>
-          </div>
-          <p class="dica">Quer a versão com <code>match</code>? Troque só a função <code>classificar</code> do <code>app.py</code> pela da aba <code>imc_tk_match.py</code>, lá em cima.</p>
+          <h3 class="imc-sub" id="tutorial-flask">Tutorial: a calculadora web em 5 versões</h3>
+          <p>Cada versão é o projeto inteiro, pronto para copiar. Faça uma de cada vez: copie, rode, teste e entenda o que mudou antes de passar para a próxima.</p>
 
-          <h3 class="imc-sub">Como rodar no seu computador</h3>
-          <ol class="log">
-            <li class="commit"><div class="commit-linha"><h3>Monte as pastas</h3><span class="hash">1</span></div><p>Uma pasta do projeto com o <code>app.py</code>, e dentro dela as pastas <code>templates</code> (com o <code>calculadora.html</code>) e <code>static</code> (com o <code>estilo.css</code>).</p></li>
-            <li class="commit"><div class="commit-linha"><h3>Instale o Flask</h3><span class="hash">2</span></div><p>No terminal: <code>pip install flask</code>. Diferente do tkinter, o Flask não vem com o Python.</p></li>
-            <li class="commit"><div class="commit-linha"><h3>Ligue o servidor</h3><span class="hash">3</span></div><p>Na pasta do projeto. No Windows: <code>python app.py</code>. No Mac ou Linux: <code>python3 app.py</code>.</p></li>
-            <li class="commit"><div class="commit-linha"><h3>Abra no navegador</h3><span class="hash">4</span></div><p>Entre em <code>http://127.0.0.1:5000</code>. Para desligar o servidor, aperte <code>Ctrl + C</code> no terminal.</p></li>
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Antes de começar</span>
+            <h3>Prepare a pasta e instale o Flask</h3>
+            <ol>
+              <li>Crie uma pasta chamada <code>calculadora-imc</code>.</li>
+              <li>Abra a pasta no VS Code: <strong>Arquivo › Abrir pasta</strong>.</li>
+              <li>Abra o terminal do VS Code (<strong>Terminal › Novo terminal</strong>) e instale o Flask: <code>pip install flask</code>.</li>
+            </ol>
+            <p class="dica"><strong>Como copiar:</strong> clique na aba do arquivo, depois em <strong>Copiar</strong>. No VS Code, apague tudo o que tinha no arquivo (<code>Ctrl + A</code> e <code>Delete</code>), cole (<code>Ctrl + V</code>) e salve. A etiqueta da aba avisa: <strong>novo</strong> (crie o arquivo), <strong>mudou</strong> (troque o conteúdo todo) ou <strong>igual</strong> (não precisa mexer).</p>
+            <p class="dica"><strong>Servidor ligado:</strong> rode <code>python app.py</code> (no Mac, <code>python3 app.py</code>) e abra <code>http://127.0.0.1:5000</code>. Com o <code>debug=True</code>, ele se reinicia sozinho quando você salva. Para desligar, <code>Ctrl + C</code> no terminal.</p>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 1</span>
+            <h3>O Flask diz olá</h3>
+            <p>Um arquivo só. A rota <code>"/"</code> é o endereço da página inicial, e a função embaixo dela diz o que o servidor responde.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie o arquivo <code>app.py</code>, cole o código e salve.</li>
+            <li>No terminal: <code>python app.py</code>.</li>
+            <li>Abra <code>http://127.0.0.1:5000</code> no navegador.</li>
           </ol>
+          <div class="tutorial-projeto" data-pasta="calculadora-imc">
+            <script type="text/plain" data-arquivo="app.py" data-estado="novo">
+# Versão 1: o Flask diz olá
+from flask import Flask
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def calculadora():
+    return "<h1>Olá, Flask!</h1><p>O servidor está ligado.</p>"
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<h1>Olá, Flask!</h1><p>O servidor está ligado.</p></script>
+          </div>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Troque o texto do <code>&lt;h1&gt;</code>, salve e recarregue o navegador (<code>F5</code>).</li>
+              <li>Olhe o terminal: cada visita aparece numa linha com o código <code>200</code> (deu certo).</li>
+            </ul>
+          </div>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 2</span>
+            <h3>A página sai do Python</h3>
+            <p>HTML dentro do Python fica bagunçado. O lugar dele é a pasta <code>templates</code>, e o <code>render_template</code> vai buscá-lo lá.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie a pasta <code>templates</code> (o nome tem que ser esse) e, dentro dela, o arquivo <code>calculadora.html</code>.</li>
+            <li>Troque o conteúdo do <code>app.py</code>.</li>
+            <li>Recarregue o navegador.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="calculadora-imc">
+            <script type="text/plain" data-arquivo="app.py" data-estado="mudou">
+# Versão 2: a página sai do Python e vai para templates/
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+
+@app.route("/")
+def calculadora():
+    # o Flask procura o arquivo na pasta templates
+    return render_template("calculadora.html")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</script>
+            <script type="text/plain" data-arquivo="templates/calculadora.html" data-estado="novo">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <form method="post">
+      <label>Peso (kg): <input name="peso"></label>
+      <label>Altura (m): <input name="altura"></label>
+      <button>Calcular</button>
+    </form>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <form method="post">
+      <label>Peso (kg): <input name="peso"></label>
+      <label>Altura (m): <input name="altura"></label>
+      <button>Calcular</button>
+    </form>
+  </main>
+</body>
+</html></script>
+          </div>
+          <p><strong>Teste:</strong> preencha e clique em <strong>Calcular</strong>. Apareceu <code>Method Not Allowed</code> (erro <code>405</code>)? Era esperado! O formulário manda um <code>POST</code>, e a rota só aceita <code>GET</code>, que é abrir a página. A versão 3 resolve.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 3</span>
+            <h3>O formulário chega e a decisão acontece</h3>
+            <p>A rota passa a aceitar <code>GET</code> e <code>POST</code>. O <code>request.form</code> traz o que foi digitado, e entra a nossa velha conhecida: a função <code>classificar</code>.</p>
+          </div>
+          <p><strong>Faça assim:</strong> troque o conteúdo dos dois arquivos e recarregue o navegador.</p>
+          <div class="tutorial-projeto" data-pasta="calculadora-imc">
+            <script type="text/plain" data-arquivo="app.py" data-estado="mudou">
+# Versão 3: o formulário chega ao Python e a decisão acontece
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+
+def classificar(imc):
+    # decide a faixa do IMC (classificação da OMS)
+    if imc < 18.5:
+        return "Abaixo do peso"
+    elif imc < 25:
+        return "Peso normal"
+    elif imc < 30:
+        return "Sobrepeso"
+    elif imc < 35:
+        return "Obesidade grau I"
+    elif imc < 40:
+        return "Obesidade grau II"
+    else:
+        return "Obesidade grau III"
+
+
+@app.route("/", methods=["GET", "POST"])
+def calculadora():
+    resposta = ""
+    # POST: a pessoa clicou em Calcular
+    if request.method == "POST":
+        peso = float(request.form["peso"].replace(",", "."))
+        altura = float(request.form["altura"].replace(",", "."))
+        imc = peso / altura ** 2
+        resposta = f"Seu IMC é {imc:.1f}: {classificar(imc)}"
+    return render_template("calculadora.html", resposta=resposta)
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</script>
+            <script type="text/plain" data-arquivo="templates/calculadora.html" data-estado="mudou">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <form method="post">
+      <label>Peso (kg): <input name="peso"></label>
+      <label>Altura (m): <input name="altura"></label>
+      <button>Calcular</button>
+    </form>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <p>{{ resposta }}</p>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <form method="post">
+      <label>Peso (kg): <input name="peso"></label>
+      <label>Altura (m): <input name="altura"></label>
+      <button>Calcular</button>
+    </form>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <p></p>
+  </main>
+</body>
+</html></script>
+            <script type="text/plain" data-previa="Depois de calcular 70 e 1,75">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <form method="post">
+      <label>Peso (kg): <input name="peso"></label>
+      <label>Altura (m): <input name="altura"></label>
+      <button>Calcular</button>
+    </form>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <p>Seu IMC é 22.9: Peso normal</p>
+  </main>
+</body>
+</html></script>
+          </div>
+          <p><strong>Teste:</strong> calcule com <code>70</code> e <code>1,75</code>. Depois digite <code>abc</code> no peso. O programa quebrou com erro <code>500</code> e uma página cheia de detalhes? É o <code>ValueError</code>: o <code>float()</code> não converte letras. A versão 4 resolve.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 4</span>
+            <h3>Valida e avisa</h3>
+            <p>As mesmas validações do tkinter: <code>try/except</code> para letras e <code>if</code> para valores sem sentido. Erro de entrada responde com o código <code>400</code>, e o que foi digitado volta para os campos.</p>
+          </div>
+          <p><strong>Faça assim:</strong> troque o conteúdo dos dois arquivos e recarregue o navegador.</p>
+          <div class="tutorial-projeto" data-pasta="calculadora-imc">
+            <script type="text/plain" data-arquivo="app.py" data-estado="mudou">
+# Versão 4 (e final): valida, avisa e devolve o código HTTP
+# a lógica fica aqui; a página em templates/ e o visual em static/
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+
+def classificar(imc):
+    # decide a faixa do IMC (classificação da OMS)
+    if imc < 18.5:
+        return "Abaixo do peso"
+    elif imc < 25:
+        return "Peso normal"
+    elif imc < 30:
+        return "Sobrepeso"
+    elif imc < 35:
+        return "Obesidade grau I"
+    elif imc < 40:
+        return "Obesidade grau II"
+    else:
+        return "Obesidade grau III"
+
+
+def mostrar(peso, altura, resposta, classe, codigo=200):
+    # preenche a página calculadora.html e devolve com o código HTTP
+    pagina = render_template(
+        "calculadora.html",
+        peso=peso,
+        altura=altura,
+        resposta=resposta,
+        classe=classe,
+    )
+    return pagina, codigo
+
+
+@app.route("/", methods=["GET", "POST"])
+def calculadora():
+    # GET: a pessoa só abriu a página
+    if request.method == "GET":
+        return mostrar("", "", "", "")
+
+    # POST: a pessoa clicou em Calcular
+    texto_peso = request.form.get("peso", "")
+    texto_altura = request.form.get("altura", "")
+
+    # validação 1: os dois campos precisam ser números
+    try:
+        peso = float(texto_peso.replace(",", "."))
+        altura = float(texto_altura.replace(",", "."))
+    except ValueError:
+        aviso = "Curto-circuito: digite só números."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+
+    # validação 2: valores que fazem sentido
+    if peso <= 0 or altura <= 0:
+        aviso = "Peso e altura precisam ser maiores que zero."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+    if altura > 3:
+        aviso = "A altura vai em metros: 1,75 e não 175."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+
+    imc = peso / altura ** 2
+    resposta = f"Seu IMC é {imc:.1f}: {classificar(imc)}"
+    return mostrar(texto_peso, texto_altura, resposta, "ok")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</script>
+            <script type="text/plain" data-arquivo="templates/calculadora.html" data-estado="mudou">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="{{ peso }}"></label>
+      <label>Altura (m): <input name="altura" value="{{ altura }}"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="{{ classe }}">{{ resposta }}</p>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-previa="Depois de calcular 70 e 1,75">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="70"></label>
+      <label>Altura (m): <input name="altura" value="1,75"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="ok">Seu IMC é 22.9: Peso normal</p>
+  </main>
+</body>
+</html></script>
+            <script type="text/plain" data-previa="Depois de digitar abc">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="abc"></label>
+      <label>Altura (m): <input name="altura" value="1,75"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="erro">Curto-circuito: digite só números.</p>
+  </main>
+</body>
+</html></script>
+            <script type="text/plain" data-previa="Depois de digitar altura 0">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="70"></label>
+      <label>Altura (m): <input name="altura" value="0"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="erro">Peso e altura precisam ser maiores que zero.</p>
+  </main>
+</body>
+</html></script>
+          </div>
+          <p><strong>Teste:</strong> tente <code>abc</code>, altura <code>0</code>, peso <code>-70</code> e altura <code>175</code>. Cada um ganha o seu aviso, e a página não quebra mais.</p>
+
+          <div class="tutorial-passo">
+            <span class="etiqueta ouro">Versão 5</span>
+            <h3>Ganha estilo</h3>
+            <p>O visual mora na pasta <code>static</code>. O <code>url_for</code> monta o caminho do CSS, e as classes <code>ok</code> e <code>erro</code> pintam o resultado de verde ou vermelho.</p>
+          </div>
+          <p><strong>Faça assim:</strong></p>
+          <ol>
+            <li>Crie a pasta <code>static</code> e, dentro dela, o arquivo <code>estilo.css</code>.</li>
+            <li>Troque o conteúdo do <code>calculadora.html</code>. O <code>app.py</code> fica igual.</li>
+            <li>Recarregue o navegador. Não mudou? Aperte <code>Ctrl + Shift + R</code>.</li>
+          </ol>
+          <div class="tutorial-projeto" data-pasta="calculadora-imc">
+            <script type="text/plain" data-arquivo="app.py" data-estado="igual">
+# Versão 4 (e final): valida, avisa e devolve o código HTTP
+# a lógica fica aqui; a página em templates/ e o visual em static/
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+
+def classificar(imc):
+    # decide a faixa do IMC (classificação da OMS)
+    if imc < 18.5:
+        return "Abaixo do peso"
+    elif imc < 25:
+        return "Peso normal"
+    elif imc < 30:
+        return "Sobrepeso"
+    elif imc < 35:
+        return "Obesidade grau I"
+    elif imc < 40:
+        return "Obesidade grau II"
+    else:
+        return "Obesidade grau III"
+
+
+def mostrar(peso, altura, resposta, classe, codigo=200):
+    # preenche a página calculadora.html e devolve com o código HTTP
+    pagina = render_template(
+        "calculadora.html",
+        peso=peso,
+        altura=altura,
+        resposta=resposta,
+        classe=classe,
+    )
+    return pagina, codigo
+
+
+@app.route("/", methods=["GET", "POST"])
+def calculadora():
+    # GET: a pessoa só abriu a página
+    if request.method == "GET":
+        return mostrar("", "", "", "")
+
+    # POST: a pessoa clicou em Calcular
+    texto_peso = request.form.get("peso", "")
+    texto_altura = request.form.get("altura", "")
+
+    # validação 1: os dois campos precisam ser números
+    try:
+        peso = float(texto_peso.replace(",", "."))
+        altura = float(texto_altura.replace(",", "."))
+    except ValueError:
+        aviso = "Curto-circuito: digite só números."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+
+    # validação 2: valores que fazem sentido
+    if peso <= 0 or altura <= 0:
+        aviso = "Peso e altura precisam ser maiores que zero."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+    if altura > 3:
+        aviso = "A altura vai em metros: 1,75 e não 175."
+        return mostrar(texto_peso, texto_altura, aviso, "erro", 400)
+
+    imc = peso / altura ** 2
+    resposta = f"Seu IMC é {imc:.1f}: {classificar(imc)}"
+    return mostrar(texto_peso, texto_altura, resposta, "ok")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</script>
+            <script type="text/plain" data-arquivo="templates/calculadora.html" data-estado="mudou">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+  <!-- o url_for acha o estilo.css dentro da pasta static -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="{{ peso }}"></label>
+      <label>Altura (m): <input name="altura" value="{{ altura }}"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="{{ classe }}">{{ resposta }}</p>
+  </main>
+</body>
+</html>
+</script>
+            <script type="text/plain" data-arquivo="static/estilo.css" data-estado="novo">
+/* CSS básico: um cartão branco no meio da tela */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
+}
+
+.cartao {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  color: #1f5f99;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #1f5f99;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #174a78;
+}
+
+/* o resultado: verde quando deu certo, vermelho quando é aviso */
+.ok {
+  color: #1e7d46;
+  font-weight: bold;
+}
+
+.erro {
+  color: #c0392b;
+  font-weight: bold;
+}
+</script>
+            <script type="text/plain" data-previa="Primeira visita">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+  <!-- o url_for acha o estilo.css dentro da pasta static -->
+  <style>
+/* CSS básico: um cartão branco no meio da tela */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
+}
+
+.cartao {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  color: #1f5f99;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #1f5f99;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #174a78;
+}
+
+/* o resultado: verde quando deu certo, vermelho quando é aviso */
+.ok {
+  color: #1e7d46;
+  font-weight: bold;
+}
+
+.erro {
+  color: #c0392b;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value=""></label>
+      <label>Altura (m): <input name="altura" value=""></label>
+      <button>Calcular</button>
+    </form>
+    <p class=""></p>
+  </main>
+</body>
+</html></script>
+            <script type="text/plain" data-previa="Depois de calcular 70 e 1,75">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+  <!-- o url_for acha o estilo.css dentro da pasta static -->
+  <style>
+/* CSS básico: um cartão branco no meio da tela */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
+}
+
+.cartao {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  color: #1f5f99;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #1f5f99;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #174a78;
+}
+
+/* o resultado: verde quando deu certo, vermelho quando é aviso */
+.ok {
+  color: #1e7d46;
+  font-weight: bold;
+}
+
+.erro {
+  color: #c0392b;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="70"></label>
+      <label>Altura (m): <input name="altura" value="1,75"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="ok">Seu IMC é 22.9: Peso normal</p>
+  </main>
+</body>
+</html></script>
+            <script type="text/plain" data-previa="Depois de digitar abc">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora de IMC</title>
+  <!-- o url_for acha o estilo.css dentro da pasta static -->
+  <style>
+/* CSS básico: um cartão branco no meio da tela */
+body {
+  font-family: Arial, sans-serif;
+  background: #eef2f5;
+}
+
+.cartao {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin-top: 0;
+  color: #1f5f99;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+button {
+  margin-top: 16px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #1f5f99;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #174a78;
+}
+
+/* o resultado: verde quando deu certo, vermelho quando é aviso */
+.ok {
+  color: #1e7d46;
+  font-weight: bold;
+}
+
+.erro {
+  color: #c0392b;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <main class="cartao">
+    <h1>Calculadora de IMC</h1>
+    <!-- as chaves duplas são onde o Python encaixa os valores -->
+    <form method="post">
+      <label>Peso (kg): <input name="peso" value="abc"></label>
+      <label>Altura (m): <input name="altura" value="1,75"></label>
+      <button>Calcular</button>
+    </form>
+    <p class="erro">Curto-circuito: digite só números.</p>
+  </main>
+</body>
+</html></script>
+          </div>
+          <div class="dica"><strong>Agora é com você:</strong>
+            <ul>
+              <li>Troque a cor do botão e do título no <code>estilo.css</code>.</li>
+              <li>Faça a versão com <code>match</code>: troque só a função <code>classificar</code> pela da aba <code>imc_tk_match.py</code>, lá em cima.</li>
+              <li>Desafio de SI: barre o <code>nan</code>, como na resposta do P1.</li>
+            </ul>
+          </div>
+
 
           <p class="dica cuidado"><strong>Gancho de segurança: XSS.</strong> A página devolve o que a pessoa digitou. Testamos o ataque <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> no peso: o <code>{{ }}</code> do Flask transformou o script em texto, e ele não rodou. Se você montar o HTML "na mão", com f-string, o script do atacante roda na página.</p>
         </section>
@@ -298,6 +1093,7 @@
   </footer>
 
   <script src="imc.js?v=2"></script>
+  <script src="tutorial-flask.js?v=1"></script>
   <script src="../assets/js/matrix.js?v=2"></script>
 </body>
 </html>
