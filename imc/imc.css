@@ -1,0 +1,261 @@
+/*
+  imc.css: só do exemplo resolvido da calculadora de IMC (imc/index.html).
+  versão 1 · 2026-11-16
+*/
+
+/* ---------- janela + trilha lado a lado ---------- */
+.imc-grade {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.2rem, 3vw, 2rem);
+  align-items: center;
+}
+
+/* ---------- desenho da janela do tkinter ---------- */
+.imc-tk {
+  margin: 0;
+  max-width: 340px;
+  justify-self: center;
+  width: 100%;
+}
+
+.imc-tk-barra {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  padding: .55rem .8rem;
+  background: #e3e3e3;
+  border-radius: 10px 10px 0 0;
+  font-size: .85rem;
+  color: #333;
+}
+
+.imc-tk-barra span:last-child {
+  flex: 1;
+  text-align: center;
+  margin-right: 46px;
+}
+
+.imc-tk-corpo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .3rem;
+  padding: 1rem 1rem 1.3rem;
+  background: #ececec;
+  border-radius: 0 0 10px 10px;
+  color: #111;
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  font-size: .9rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+.imc-tk-campo {
+  width: 70%;
+  padding: .15rem .4rem;
+  background: #fff;
+  border: 1px solid #b5b5b5;
+  margin-bottom: .4rem;
+}
+
+.imc-tk-botao {
+  margin: .4rem 0;
+  padding: .2rem 1rem;
+  background: #fff;
+  border: 1px solid #b5b5b5;
+  border-radius: 6px;
+}
+
+.imc-tk figcaption {
+  margin-top: .7rem;
+  text-align: center;
+  font-size: .85rem;
+  color: var(--texto-3);
+}
+
+/* ---------- a trilha do clique, com pulso de luz ---------- */
+.imc-trilha {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* a trilha dourada */
+.imc-trilha::before {
+  content: "";
+  position: absolute;
+  left: .9rem;
+  top: .6rem;
+  bottom: .6rem;
+  width: 3px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ouro) 45%, transparent);
+}
+
+/* o pulso de luz correndo na trilha */
+.imc-trilha::after {
+  content: "";
+  position: absolute;
+  left: calc(.9rem - 3px);
+  top: .6rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--neon-2);
+  box-shadow: 0 0 10px 3px var(--neon-2-brilho);
+  animation: imc-pulso 3.2s ease-in-out infinite;
+}
+
+@keyframes imc-pulso {
+  0% { top: .6rem; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: calc(100% - 1rem); opacity: 0; }
+}
+
+.imc-trilha li {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .6rem;
+  padding: .7rem .9rem;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-p);
+}
+
+.imc-trilha li span:last-child {
+  grid-column: 2;
+  color: var(--texto-2);
+  font-size: .93rem;
+}
+
+.imc-ic {
+  grid-row: span 2;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* o mecanismo é a estrela do exemplo */
+.imc-trilha li:nth-child(3) {
+  border-color: color-mix(in srgb, var(--neon) 55%, transparent);
+  box-shadow: 0 0 18px var(--neon-brilho);
+}
+
+.imc-sub {
+  margin: 2rem 0 1rem;
+}
+
+/* ---------- abas do código ---------- */
+.imc-abas .janela-barra {
+  flex-wrap: wrap;
+}
+
+.imc-abas-lista {
+  display: flex;
+  gap: .3rem;
+  flex-wrap: wrap;
+}
+
+.imc-abas-lista button {
+  padding: .3rem .8rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--texto-3);
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+.imc-abas-lista button[aria-selected="true"] {
+  background: var(--superficie);
+  border-color: var(--borda-forte);
+  color: var(--texto);
+}
+
+.imc-abas-lista button:focus-visible,
+.imc-abas [role="tabpanel"]:focus-visible {
+  outline: 2px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+/* linhas da função classificar: a única parte que muda */
+.codigo .linha.muda {
+  background: rgba(90, 169, 255, .12);
+  box-shadow: inset 3px 0 0 #5aa9ff;
+}
+
+/* ---------- comparação if × match ---------- */
+.imc-compara {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+/* ---------- tabela dos testes ---------- */
+.imc-testes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .93rem;
+  margin-bottom: 1.4rem;
+}
+
+.imc-testes caption {
+  text-align: left;
+  padding-bottom: .6rem;
+  color: var(--texto-3);
+  font-size: .85rem;
+}
+
+.imc-testes th,
+.imc-testes td {
+  padding: .55rem .7rem;
+  border-bottom: 1px solid var(--borda);
+  text-align: left;
+}
+
+.imc-testes th {
+  font-family: var(--f-mono);
+  font-size: .78rem;
+  color: var(--texto-3);
+  font-weight: 500;
+}
+
+.imc-testes .ok { color: var(--menta); }
+.imc-testes .erro { color: #ff7b72; }
+[data-tema="claro"] .imc-testes .erro { color: #c0392b; }
+
+/* ---------- desafios ---------- */
+.imc-desafios {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+  padding-left: 1.2rem;
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 760px) {
+  .imc-grade,
+  .imc-compara {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- animações pausadas ---------- */
+.pausado .imc-trilha::after {
+  animation: none;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imc-trilha::after {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Calculadora de IMC com janela · Lógica de Programação com Python · Stela</title>
+  <meta name="description" content="Exemplo resolvido de Lógica de Programação com Python: calculadora de IMC com janela (tkinter), uma versão com if e outra com match, e validação da entrada de dados.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="imc.css?v=1">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/python.svg" alt="Python: página inicial da disciplina" width="32" height="32"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes do exemplo">
+        <a href="#janela">A janela</a>
+        <a href="#codigo">O código</a>
+        <a href="#validacao">Validação</a>
+        <a href="#pensar">Para pensar</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">Lógica com Python</a> <span aria-hidden="true">/</span>
+          <span>Exemplo resolvido</span>
+        </p>
+        <div class="aula-etiquetas">
+          <span class="etiqueta ouro">Exemplo resolvido</span>
+          <span class="etiqueta">Estruturas de decisão</span>
+          <span class="etiqueta">tkinter</span>
+        </div>
+        <h1>Calculadora de <span class="neon">IMC</span> com janela</h1>
+        <p class="subtitulo">Duas soluções: primeiro com <code>if</code>, depois com <code>match</code>. A janela é a mesma; só muda o jeito de decidir.</p>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== A JANELA ===================== -->
+        <section class="parte" id="janela">
+          <div class="cab">
+            <span class="olho">J1 · a janela</span>
+            <h2>Pense numa balança de farmácia</h2>
+            <p>Por fora, você vê o visor e o botão. Por dentro, um mecanismo faz a conta. No programa é igual: a janela é o visor, e a função <code>classificar</code> é o mecanismo.</p>
+          </div>
+
+          <div class="imc-grade">
+            <!-- desenho da janela do tkinter, como ela aparece no Mac -->
+            <figure class="imc-tk" aria-label="Desenho da janela do programa">
+              <div class="imc-tk-barra"><span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span><span>Calculadora de IMC</span></div>
+              <div class="imc-tk-corpo">
+                <span>Peso (kg):</span>
+                <span class="imc-tk-campo">70</span>
+                <span>Altura (m):</span>
+                <span class="imc-tk-campo">1,75</span>
+                <span class="imc-tk-botao">Calcular</span>
+                <span class="imc-tk-resultado">Seu IMC é 22.9: Peso normal</span>
+              </div>
+              <figcaption>A janela do programa, com 70 kg e 1,75 m.</figcaption>
+            </figure>
+
+            <!-- a analogia: o caminho do clique, com pulso de luz na trilha -->
+            <ol class="imc-trilha" aria-label="O caminho de um clique">
+              <li><span class="imc-ic" aria-hidden="true">⌨️</span><strong>Visor</strong><span><code>Entry</code>: você digita o peso e a altura.</span></li>
+              <li><span class="imc-ic" aria-hidden="true">👆</span><strong>Botão</strong><span><code>Button</code>: o clique chama <code>calcular()</code>.</span></li>
+              <li><span class="imc-ic" aria-hidden="true">⚙️</span><strong>Mecanismo</strong><span><code>classificar(imc)</code>: o <code>if</code> ou o <code>match</code> escolhe a faixa.</span></li>
+              <li><span class="imc-ic" aria-hidden="true">📟</span><strong>Visor de novo</strong><span><code>Label</code>: a resposta aparece.</span></li>
+            </ol>
+          </div>
+
+          <h3 class="imc-sub">Como rodar no seu computador</h3>
+          <ol class="log">
+            <li class="commit"><div class="commit-linha"><h3>Copie o código</h3><span class="hash">1</span></div><p>Escolha a aba lá embaixo e salve como <code>imc_tk_if.py</code> (ou <code>imc_tk_match.py</code>).</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Rode no terminal</h3><span class="hash">2</span></div><p>No Windows: <code>python imc_tk_if.py</code>. No Mac ou Linux: <code>python3 imc_tk_if.py</code>.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Teste</h3><span class="hash">3</span></div><p>Digite peso e altura e clique em Calcular. A vírgula funciona: <code>1,75</code>.</p></li>
+          </ol>
+          <p class="dica">O <strong>tkinter</strong> já vem com o Python. Não precisa instalar nada.</p>
+        </section>
+
+        <!-- ===================== O CÓDIGO ===================== -->
+        <section class="parte" id="codigo">
+          <div class="cab">
+            <span class="olho">S1 · o código</span>
+            <h2>Duas versões, uma diferença</h2>
+            <p>Troque de aba e compare. As linhas marcadas são a função <code>classificar</code>: é só ela que muda.</p>
+          </div>
+
+          <div class="janela imc-abas">
+            <div class="janela-barra">
+              <span class="semaforo" aria-hidden="true"><i></i><i></i><i></i></span>
+              <div class="imc-abas-lista" role="tablist" aria-label="Versões do código">
+                <button type="button" role="tab" id="aba-if" aria-controls="painel-if" aria-selected="true">imc_tk_if.py</button>
+                <button type="button" role="tab" id="aba-match" aria-controls="painel-match" aria-selected="false" tabindex="-1">imc_tk_match.py</button>
+              </div>
+            </div>
+            <div role="tabpanel" id="painel-if" aria-labelledby="aba-if" tabindex="0"><pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="com"># Calculadora de IMC com janela (tkinter) e if/elif/else</span></span><span class="linha"><span class="num">2</span><span class="tag">import</span> <span class="var">tkinter</span> <span class="tag">as</span> <span class="var">tk</span></span><span class="linha"><span class="num">3</span></span><span class="linha"><span class="num">4</span></span><span class="linha muda"><span class="num">5</span><span class="tag">def</span> <span class="fn">classificar</span>(<span class="var">imc</span>):</span><span class="linha muda"><span class="num">6</span>    <span class="com"># decide a faixa do IMC (classificação da OMS)</span></span><span class="linha muda"><span class="num">7</span>    <span class="tag">if</span> <span class="var">imc</span> &lt; <span class="str">18.5</span>:</span><span class="linha muda"><span class="num">8</span>        <span class="tag">return</span> <span class="str">&quot;Abaixo do peso&quot;</span></span><span class="linha muda"><span class="num">9</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">25</span>:</span><span class="linha muda"><span class="num">10</span>        <span class="tag">return</span> <span class="str">&quot;Peso normal&quot;</span></span><span class="linha muda"><span class="num">11</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">30</span>:</span><span class="linha muda"><span class="num">12</span>        <span class="tag">return</span> <span class="str">&quot;Sobrepeso&quot;</span></span><span class="linha muda"><span class="num">13</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">35</span>:</span><span class="linha muda"><span class="num">14</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau I&quot;</span></span><span class="linha muda"><span class="num">15</span>    <span class="tag">elif</span> <span class="var">imc</span> &lt; <span class="str">40</span>:</span><span class="linha muda"><span class="num">16</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau II&quot;</span></span><span class="linha muda"><span class="num">17</span>    <span class="tag">else</span>:</span><span class="linha muda"><span class="num">18</span>        <span class="tag">return</span> <span class="str">&quot;Obesidade grau III&quot;</span></span><span class="linha"><span class="num">19</span></span><span class="linha"><span class="num">20</span></span><span class="linha"><span class="num">21</span><span class="tag">def</span> <span class="fn">avisar</span>(<span class="var">mensagem</span>):</span><span class="linha"><span class="num">22</span>    <span class="com"># mostra um aviso em vermelho no lugar do resultado</span></span><span class="linha"><span class="num">23</span>    <span class="var">resultado</span>.<span class="fn">config</span>(<span class="var">text</span>=<span class="var">mensagem</span>, <span class="var">fg</span>=<span class="str">&quot;red&quot;</span>)</span><span class="linha"><span class="num">24</span></span><span class="linha"><span class="num">25</span></span><span class="linha"><span class="num">26</span><span class="tag">def</span> <span class="fn">calcular</span>():</span><span class="linha"><span class="num">27</span>    <span class="com"># roda quando o botão é clicado</span></span><span class="linha"><span class="num">28</span>    <span class="var">texto_peso</span> = <span class="var">campo_peso</span>.<span class="fn">get</span>().<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>)</span><span class="linha"><span class="num">29</span>    <span class="var">texto_altura</span> = <span class="var">campo_altura</span>.<span class="fn">get</span>().<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>)</span><span class="linha"><span class="num">30</span></span><span class="linha"><span class="num">31</span>    <span class="com"># validação 1: os dois campos precisam ser números</span></span><span class="linha"><span class="num">32</span>    <span class="tag">try</span>:</span><span class="linha"><span class="num">33</span>        <span class="var">peso</span> = <span class="fn">float</span>(<span class="var">texto_peso</span>)</span><span class="linha"><span class="num">34</span>        <span class="var">altura</span> = <span class="fn">float</span>(<span class="var">texto_altura</span>)</span><span class="linha"><span class="num">35</span>    <span class="tag">except</span> <span class="var">ValueError</span>:</span><span class="linha"><span class="num">36</span>        <span class="fn">avisar</span>(<span class="str">&quot;Curto-circuito: digite só números.&quot;</span>)</span><span class="linha"><span class="num">37</span>        <span class="tag">return</span></span><span class="linha"><span class="num">38</span></span><span class="linha"><span class="num">39</span>    <span class="com"># validação 2: valores que fazem sentido</span></span><span class="linha"><span class="num">40</span>    <span class="tag">if</span> <span class="var">peso</span> &lt;= <span class="str">0</span> <span class="tag">or</span> <span class="var">altura</span> &lt;= <span class="str">0</span>:</span><span class="linha"><span class="num">41</span>        <span class="fn">avisar</span>(<span class="str">&quot;Peso e altura precisam ser maiores que zero.&quot;</span>)</span><span class="linha"><span class="num">42</span>        <span class="tag">return</span></span><span class="linha"><span class="num">43</span>    <span class="tag">if</span> <span class="var">altura</span> &gt; <span class="str">3</span>:</span><span class="linha"><span class="num">44</span>        <span class="fn">avisar</span>(<span class="str">&quot;A altura vai em metros: 1,75 e não 175.&quot;</span>)</span><span class="linha"><span class="num">45</span>        <span class="tag">return</span></span><span class="linha"><span class="num">46</span></span><span class="linha"><span class="num">47</span>    <span class="var">imc</span> = <span class="var">peso</span> / <span class="var">altura</span> ** <span class="str">2</span></span><span class="linha"><span class="num">48</span>    <span class="var">texto</span> = <span class="str">f&quot;Seu IMC é {imc:.1f}: {classificar(imc)}&quot;</span></span><span class="linha"><span class="num">49</span>    <span class="var">resultado</span>.<span class="fn">config</span>(<span class="var">text</span>=<span class="var">texto</span>, <span class="var">fg</span>=<span class="str">&quot;black&quot;</span>)</span><span class="linha"><span class="num">50</span></span><span class="linha"><span class="num">51</span></span><span class="linha"><span class="num">52</span><span class="com"># a janela</span></span><span class="linha"><span class="num">53</span><span class="var">janela</span> = <span class="var">tk</span>.<span class="var">Tk</span>()</span><span class="linha"><span class="num">54</span><span class="var">janela</span>.<span class="fn">title</span>(<span class="str">&quot;Calculadora de IMC&quot;</span>)</span><span class="linha"><span class="num">55</span><span class="var">janela</span>.<span class="fn">geometry</span>(<span class="str">&quot;340x220&quot;</span>)</span><span class="linha"><span class="num">56</span></span><span class="linha"><span class="num">57</span><span class="com"># os campos</span></span><span class="linha"><span class="num">58</span><span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Peso (kg):&quot;</span>).<span class="fn">pack</span>(<span class="var">pady</span>=(<span class="str">15</span>, <span class="str">0</span>))</span><span class="linha"><span class="num">59</span><span class="var">campo_peso</span> = <span class="var">tk</span>.<span class="var">Entry</span>(<span class="var">janela</span>)</span><span class="linha"><span class="num">60</span><span class="var">campo_peso</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">61</span></span><span class="linha"><span class="num">62</span><span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Altura (m):&quot;</span>).<span class="fn">pack</span>(<span class="var">pady</span>=(<span class="str">10</span>, <span class="str">0</span>))</span><span class="linha"><span class="num">63</span><span class="var">campo_altura</span> = <span class="var">tk</span>.<span class="var">Entry</span>(<span class="var">janela</span>)</span><span class="linha"><span class="num">64</span><span class="var">campo_altura</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">65</span></span><span class="linha"><span class="num">66</span><span class="com"># o botão chama a função calcular</span></span><span class="linha"><span class="num">67</span><span class="var">tk</span>.<span class="var">Button</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Calcular&quot;</span>, <span class="var">command</span>=<span class="var">calcular</span>).<span class="fn">pack</span>(<span class="var">pady</span>=<span class="str">12</span>)</span><span class="linha"><span class="num">68</span></span><span class="linha"><span class="num">69</span><span class="com"># onde aparece a resposta</span></span><span class="linha"><span class="num">70</span><span class="var">resultado</span> = <span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;&quot;</span>)</span><span class="linha"><span class="num">71</span><span class="var">resultado</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">72</span></span><span class="linha"><span class="num">73</span><span class="var">janela</span>.<span class="fn">mainloop</span>()</span></code></pre></div>
+            <div role="tabpanel" id="painel-match" aria-labelledby="aba-match" tabindex="0" hidden><pre class="codigo"><code><span class="linha"><span class="num">1</span><span class="com"># Calculadora de IMC com janela (tkinter) e match/case</span></span><span class="linha"><span class="num">2</span><span class="com"># precisa do Python 3.10 ou mais novo</span></span><span class="linha"><span class="num">3</span><span class="tag">import</span> <span class="var">tkinter</span> <span class="tag">as</span> <span class="var">tk</span></span><span class="linha"><span class="num">4</span></span><span class="linha"><span class="num">5</span></span><span class="linha muda"><span class="num">6</span><span class="tag">def</span> <span class="fn">classificar</span>(<span class="var">imc</span>):</span><span class="linha muda"><span class="num">7</span>    <span class="com"># decide a faixa do IMC (classificação da OMS)</span></span><span class="linha muda"><span class="num">8</span>    <span class="tag">match</span> <span class="var">imc</span>:</span><span class="linha muda"><span class="num">9</span>        <span class="tag">case</span> <span class="var">x</span> <span class="tag">if</span> <span class="var">x</span> &lt; <span class="str">18.5</span>:</span><span class="linha muda"><span class="num">10</span>            <span class="tag">return</span> <span class="str">&quot;Abaixo do peso&quot;</span></span><span class="linha muda"><span class="num">11</span>        <span class="tag">case</span> <span class="var">x</span> <span class="tag">if</span> <span class="var">x</span> &lt; <span class="str">25</span>:</span><span class="linha muda"><span class="num">12</span>            <span class="tag">return</span> <span class="str">&quot;Peso normal&quot;</span></span><span class="linha muda"><span class="num">13</span>        <span class="tag">case</span> <span class="var">x</span> <span class="tag">if</span> <span class="var">x</span> &lt; <span class="str">30</span>:</span><span class="linha muda"><span class="num">14</span>            <span class="tag">return</span> <span class="str">&quot;Sobrepeso&quot;</span></span><span class="linha muda"><span class="num">15</span>        <span class="tag">case</span> <span class="var">x</span> <span class="tag">if</span> <span class="var">x</span> &lt; <span class="str">35</span>:</span><span class="linha muda"><span class="num">16</span>            <span class="tag">return</span> <span class="str">&quot;Obesidade grau I&quot;</span></span><span class="linha muda"><span class="num">17</span>        <span class="tag">case</span> <span class="var">x</span> <span class="tag">if</span> <span class="var">x</span> &lt; <span class="str">40</span>:</span><span class="linha muda"><span class="num">18</span>            <span class="tag">return</span> <span class="str">&quot;Obesidade grau II&quot;</span></span><span class="linha muda"><span class="num">19</span>        <span class="tag">case</span> <span class="var">_</span>:</span><span class="linha muda"><span class="num">20</span>            <span class="tag">return</span> <span class="str">&quot;Obesidade grau III&quot;</span></span><span class="linha"><span class="num">21</span></span><span class="linha"><span class="num">22</span></span><span class="linha"><span class="num">23</span><span class="tag">def</span> <span class="fn">avisar</span>(<span class="var">mensagem</span>):</span><span class="linha"><span class="num">24</span>    <span class="com"># mostra um aviso em vermelho no lugar do resultado</span></span><span class="linha"><span class="num">25</span>    <span class="var">resultado</span>.<span class="fn">config</span>(<span class="var">text</span>=<span class="var">mensagem</span>, <span class="var">fg</span>=<span class="str">&quot;red&quot;</span>)</span><span class="linha"><span class="num">26</span></span><span class="linha"><span class="num">27</span></span><span class="linha"><span class="num">28</span><span class="tag">def</span> <span class="fn">calcular</span>():</span><span class="linha"><span class="num">29</span>    <span class="com"># roda quando o botão é clicado</span></span><span class="linha"><span class="num">30</span>    <span class="var">texto_peso</span> = <span class="var">campo_peso</span>.<span class="fn">get</span>().<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>)</span><span class="linha"><span class="num">31</span>    <span class="var">texto_altura</span> = <span class="var">campo_altura</span>.<span class="fn">get</span>().<span class="fn">replace</span>(<span class="str">&quot;,&quot;</span>, <span class="str">&quot;.&quot;</span>)</span><span class="linha"><span class="num">32</span></span><span class="linha"><span class="num">33</span>    <span class="com"># validação 1: os dois campos precisam ser números</span></span><span class="linha"><span class="num">34</span>    <span class="tag">try</span>:</span><span class="linha"><span class="num">35</span>        <span class="var">peso</span> = <span class="fn">float</span>(<span class="var">texto_peso</span>)</span><span class="linha"><span class="num">36</span>        <span class="var">altura</span> = <span class="fn">float</span>(<span class="var">texto_altura</span>)</span><span class="linha"><span class="num">37</span>    <span class="tag">except</span> <span class="var">ValueError</span>:</span><span class="linha"><span class="num">38</span>        <span class="fn">avisar</span>(<span class="str">&quot;Curto-circuito: digite só números.&quot;</span>)</span><span class="linha"><span class="num">39</span>        <span class="tag">return</span></span><span class="linha"><span class="num">40</span></span><span class="linha"><span class="num">41</span>    <span class="com"># validação 2: valores que fazem sentido</span></span><span class="linha"><span class="num">42</span>    <span class="tag">if</span> <span class="var">peso</span> &lt;= <span class="str">0</span> <span class="tag">or</span> <span class="var">altura</span> &lt;= <span class="str">0</span>:</span><span class="linha"><span class="num">43</span>        <span class="fn">avisar</span>(<span class="str">&quot;Peso e altura precisam ser maiores que zero.&quot;</span>)</span><span class="linha"><span class="num">44</span>        <span class="tag">return</span></span><span class="linha"><span class="num">45</span>    <span class="tag">if</span> <span class="var">altura</span> &gt; <span class="str">3</span>:</span><span class="linha"><span class="num">46</span>        <span class="fn">avisar</span>(<span class="str">&quot;A altura vai em metros: 1,75 e não 175.&quot;</span>)</span><span class="linha"><span class="num">47</span>        <span class="tag">return</span></span><span class="linha"><span class="num">48</span></span><span class="linha"><span class="num">49</span>    <span class="var">imc</span> = <span class="var">peso</span> / <span class="var">altura</span> ** <span class="str">2</span></span><span class="linha"><span class="num">50</span>    <span class="var">texto</span> = <span class="str">f&quot;Seu IMC é {imc:.1f}: {classificar(imc)}&quot;</span></span><span class="linha"><span class="num">51</span>    <span class="var">resultado</span>.<span class="fn">config</span>(<span class="var">text</span>=<span class="var">texto</span>, <span class="var">fg</span>=<span class="str">&quot;black&quot;</span>)</span><span class="linha"><span class="num">52</span></span><span class="linha"><span class="num">53</span></span><span class="linha"><span class="num">54</span><span class="com"># a janela</span></span><span class="linha"><span class="num">55</span><span class="var">janela</span> = <span class="var">tk</span>.<span class="var">Tk</span>()</span><span class="linha"><span class="num">56</span><span class="var">janela</span>.<span class="fn">title</span>(<span class="str">&quot;Calculadora de IMC&quot;</span>)</span><span class="linha"><span class="num">57</span><span class="var">janela</span>.<span class="fn">geometry</span>(<span class="str">&quot;340x220&quot;</span>)</span><span class="linha"><span class="num">58</span></span><span class="linha"><span class="num">59</span><span class="com"># os campos</span></span><span class="linha"><span class="num">60</span><span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Peso (kg):&quot;</span>).<span class="fn">pack</span>(<span class="var">pady</span>=(<span class="str">15</span>, <span class="str">0</span>))</span><span class="linha"><span class="num">61</span><span class="var">campo_peso</span> = <span class="var">tk</span>.<span class="var">Entry</span>(<span class="var">janela</span>)</span><span class="linha"><span class="num">62</span><span class="var">campo_peso</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">63</span></span><span class="linha"><span class="num">64</span><span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Altura (m):&quot;</span>).<span class="fn">pack</span>(<span class="var">pady</span>=(<span class="str">10</span>, <span class="str">0</span>))</span><span class="linha"><span class="num">65</span><span class="var">campo_altura</span> = <span class="var">tk</span>.<span class="var">Entry</span>(<span class="var">janela</span>)</span><span class="linha"><span class="num">66</span><span class="var">campo_altura</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">67</span></span><span class="linha"><span class="num">68</span><span class="com"># o botão chama a função calcular</span></span><span class="linha"><span class="num">69</span><span class="var">tk</span>.<span class="var">Button</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;Calcular&quot;</span>, <span class="var">command</span>=<span class="var">calcular</span>).<span class="fn">pack</span>(<span class="var">pady</span>=<span class="str">12</span>)</span><span class="linha"><span class="num">70</span></span><span class="linha"><span class="num">71</span><span class="com"># onde aparece a resposta</span></span><span class="linha"><span class="num">72</span><span class="var">resultado</span> = <span class="var">tk</span>.<span class="var">Label</span>(<span class="var">janela</span>, <span class="var">text</span>=<span class="str">&quot;&quot;</span>)</span><span class="linha"><span class="num">73</span><span class="var">resultado</span>.<span class="fn">pack</span>()</span><span class="linha"><span class="num">74</span></span><span class="linha"><span class="num">75</span><span class="var">janela</span>.<span class="fn">mainloop</span>()</span></code></pre></div>
+          </div>
+
+          <div class="imc-compara">
+            <div class="cartao">
+              <span class="olho">if / elif / else</span>
+              <p>Testa as condições de cima para baixo e para na primeira verdadeira. Por isso <code>elif imc &lt; 25</code> não precisa de <code>imc &gt;= 18.5</code>.</p>
+            </div>
+            <div class="cartao">
+              <span class="olho">match / case</span>
+              <p>Compara padrões. Para faixas de valores, quem decide é o <code>if</code> depois do <code>case</code> (a guarda). O <code>case _</code> é o "senão".</p>
+            </div>
+          </div>
+          <p class="dica cuidado">O <code>match</code> só existe a partir do <strong>Python 3.10</strong>. Num Python mais antigo, dá erro de sintaxe.</p>
+        </section>
+
+        <!-- ===================== VALIDAÇÃO ===================== -->
+        <section class="parte" id="validacao">
+          <div class="cab">
+            <span class="olho">V1 · validação da entrada</span>
+            <h2>Nunca confie no que foi digitado</h2>
+            <p>Quem usa o programa pode errar ou testar de propósito. Validar a entrada é a primeira linha de defesa em segurança.</p>
+          </div>
+
+          <div class="tabela-rola">
+            <table class="imc-testes">
+              <caption>O que acontece com cada entrada (testado nas duas versões)</caption>
+              <thead><tr><th scope="col">Peso</th><th scope="col">Altura</th><th scope="col">O que aparece</th><th scope="col">Quem barrou</th></tr></thead>
+              <tbody>
+                <tr><td>70</td><td>1,75</td><td class="ok">Seu IMC é 22.9: Peso normal</td><td>passou</td></tr>
+                <tr><td>abc</td><td>1,70</td><td class="erro">Curto-circuito: digite só números.</td><td><code>try / except</code></td></tr>
+                <tr><td><em>vazio</em></td><td><em>vazio</em></td><td class="erro">Curto-circuito: digite só números.</td><td><code>try / except</code></td></tr>
+                <tr><td>70</td><td>0</td><td class="erro">Peso e altura precisam ser maiores que zero.</td><td><code>if</code></td></tr>
+                <tr><td>-70</td><td>1,75</td><td class="erro">Peso e altura precisam ser maiores que zero.</td><td><code>if</code></td></tr>
+                <tr><td>70</td><td>175</td><td class="erro">A altura vai em metros: 1,75 e não 175.</td><td><code>if</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <ol class="log">
+            <li class="commit"><div class="commit-linha"><h3>Validação 1: é número?</h3><span class="hash">try</span></div><p>O <code>float()</code> dá <code>ValueError</code> com texto. O <code>except</code> pega o erro e mostra um aviso em vez de quebrar.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Validação 2: faz sentido?</h3><span class="hash">if</span></div><p>Número não basta: peso negativo ou altura 0 não existem. E o <code>return</code> para a função ali mesmo.</p></li>
+          </ol>
+        </section>
+
+        <!-- ===================== PARA PENSAR ===================== -->
+        <section class="parte" id="pensar">
+          <div class="cab">
+            <span class="olho">P1 · para pensar</span>
+            <h2>E se alguém digitar <code>nan</code>?</h2>
+            <p>Teste no peso. O Python aceita <code>float("nan")</code> ("não é um número", em inglês) e a janela mostra <code>Seu IMC é nan</code>. A validação deixou passar!</p>
+          </div>
+          <ul class="imc-desafios">
+            <li><strong>Desafio 1:</strong> descubra por que o <code>nan</code> passou pelo <code>if peso &lt;= 0</code>. Dica: teste <code>print(float("nan") &lt;= 0)</code>.</li>
+            <li><strong>Desafio 2:</strong> barre o <code>nan</code> e o <code>inf</code>. Dica: <code>import math</code> e <code>math.isfinite(peso)</code>.</li>
+            <li><strong>Desafio 3:</strong> qual peso máximo faz sentido? Crie a validação com uma mensagem no tom da sua calculadora.</li>
+          </ul>
+          <p class="dica">Esse é o pensamento de quem trabalha com segurança: procurar a entrada que ninguém imaginou.</p>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Lógica de Programação com Python</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>print("bons estudos!")</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="imc.js?v=1"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
