@@ -1,10 +1,24 @@
 [
  {
+  "id": "projeto",
+  "pasta": "",
+  "titulo": "Projeto",
+  "descricao": "",
+  "link": "",
+  "bimestre": "2º",
+  "valor": "6,0 pontos",
+  "arquivo": "",
+  "arquivo_nome": "",
+  "imagem": false,
+  "alt": ""
+ },
+ {
   "id": "introducao-a-ciencia-da-computacao",
+  "pasta": "",
   "titulo": "Introdução à Ciência da Computação",
   "descricao": "Acesse o site, faça o cadastro e adicione o código da turma:\nLongPanSafe",
   "link": "https://codecombat.com/",
-  "bimestre": "1º",
+  "bimestre": "2º",
   "valor": "2,0 pontos",
   "arquivo": "",
   "arquivo_nome": "",
