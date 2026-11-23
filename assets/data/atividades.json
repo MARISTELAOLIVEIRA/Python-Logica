@@ -1,18 +1,5 @@
 [
  {
-  "id": "projeto",
-  "pasta": "",
-  "titulo": "Projeto",
-  "descricao": "",
-  "link": "",
-  "bimestre": "2º",
-  "valor": "6,0 pontos",
-  "arquivo": "",
-  "arquivo_nome": "",
-  "imagem": false,
-  "alt": ""
- },
- {
   "id": "introducao-a-ciencia-da-computacao",
   "pasta": "",
   "titulo": "Introdução à Ciência da Computação",
