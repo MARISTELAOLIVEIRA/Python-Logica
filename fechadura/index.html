@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <title>Desafio final: fechadura eletrônica · Lógica de Programação com Python · Stela</title>
+  <meta name="description" content="Desafio final de Lógica de Programação com Python: programe a placa de uma fechadura eletrônica e resista aos ataques do Red Team.">
+
+  <link rel="icon" href="../assets/img/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <script src="../assets/js/placa.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mona+Sans:wdth,wght@100..125,400..900&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../assets/css/estilo.css">
+  <link rel="stylesheet" href="../assets/css/disciplina.css?v=4">
+  <link rel="stylesheet" href="../assets/css/aula.css?v=2">
+  <link rel="stylesheet" href="../assets/css/exercicios.css">
+  <link rel="stylesheet" href="../assets/css/neon.css?v=2">
+  <link rel="stylesheet" href="../assets/css/conta.css?v=4">
+  <link rel="stylesheet" href="fechadura.css?v=3">
+</head>
+<body>
+
+  <!-- ===================== BARRA DO TOPO (igual em todos os sites) ===================== -->
+  <header class="barra">
+    <div class="envolve">
+      <div class="marcas">
+        <a class="marca-disc marca-logo" href="../" title="Página inicial da disciplina"><img src="../assets/img/tec/python.svg" alt="Python: página inicial da disciplina" width="32" height="32"></a>
+      </div>
+      <button type="button" class="btn-menu" id="btn-menu" aria-expanded="false" aria-controls="menu">Menu</button>
+      <nav class="nav" id="menu" aria-label="Partes do desafio">
+        <a href="#historia">A história</a>
+        <a href="#missao">Missão</a>
+        <a href="#redteam">Red Team</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <div class="ajustes">
+        <button type="button" id="btn-tema" aria-label="Mudar para o tema claro">
+          <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button type="button" id="btn-fonte" aria-label="Aumentar o tamanho do texto">A+</button>
+        <button type="button" id="btn-movimento" aria-pressed="false">
+          <svg class="pausar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+          <svg class="tocar" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></svg>
+          <span class="rotulo">Pausar animações</span>
+        </button>
+        <a class="marca" href="/" title="Portal da Stela">
+          <img src="../assets/img/estrela.webp" alt="" width="26" height="24">
+          <span class="marca-texto">Stela</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <!-- ===================== CABEÇALHO ===================== -->
+    <section class="aula-cab">
+      <canvas class="chuva-matrix" aria-hidden="true"></canvas>
+      <div class="envolve">
+        <p class="trilha-migalhas">
+          <a href="/">Stela</a> <span aria-hidden="true">/</span>
+          <a href="../">Lógica com Python</a> <span aria-hidden="true">/</span>
+          <span>Desafio final</span>
+        </p>
+        <div class="aula-etiquetas">
+          <span class="etiqueta ouro">Desafio final</span>
+          <span class="etiqueta">Individual</span>
+          <span class="etiqueta">Vale nota</span>
+        </div>
+        <h1>Fechadura <span class="neon">eletrônica</span></h1>
+        <p class="subtitulo">Você programa a placa. O Red Team tenta invadir.</p>
+        <p class="status-python carregando" id="status-python" role="status">Soldando os componentes... (carregando o Python, leva alguns segundos)</p>
+      </div>
+    </section>
+
+    <div class="bloco">
+      <div class="envolve aula-corpo">
+
+        <!-- ===================== A HISTÓRIA ===================== -->
+        <section class="parte" id="historia">
+          <div class="cab">
+            <span class="olho">H1 · a história</span>
+            <h2>O hardware chegou. Falta o programa.</h2>
+            <p>A <strong>Candango Pay</strong>, uma fintech de Brasília (fictícia), comprou uma fechadura eletrônica para a sala dos servidores. Teclado, visor, LEDs e trava já estão instalados. Você foi contratado para escrever o <strong>programa da placa</strong>, em Python, em <strong>5 missões</strong>: a senha, o app, o alarme, o crachá e o expediente.</p>
+          </div>
+          <ol class="log">
+            <li class="commit"><div class="commit-linha"><h3>Escreva a função</h3><span class="hash">1</span></div><p>A fechadura chama a sua função e obedece ao que ela devolve com o <code>return</code>.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Grave na placa e teste</h3><span class="hash">2</span></div><p>Clique em <strong>Gravar na placa</strong> e use o teclado da fechadura como uma pessoa usaria.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Chame o Red Team</h3><span class="hash">3</span></div><p>Eles atacam a sua placa com várias tentativas. Cada ataque barrado conta ponto.</p></li>
+            <li class="commit"><div class="commit-linha"><h3>Entregue</h3><span class="hash">4</span></div><p>No fim da página. Pode entregar quantas vezes quiser: vale a última entrega.</p></li>
+          </ol>
+          <p class="dica">O seu código fica salvo neste navegador: dá para parar e continuar depois. A senha da sua sala é só sua, sorteada pelo seu e-mail.</p>
+        </section>
+
+        <!-- ===================== MISSÃO ===================== -->
+        <section class="parte" id="missao" data-exige-login>
+          <!-- as abas das 5 missões (montadas pelo fechadura.js a partir do missoes.js) -->
+          <div class="fe-abas" id="fe-abas" role="tablist" aria-label="Missões"></div>
+
+          <div class="cab">
+            <span class="olho" id="fe-olho">M1 · missão 1</span>
+            <h2 id="fe-titulo">A senha</h2>
+            <p id="fe-enunciado"></p>
+          </div>
+
+          <!-- manual do fabricante: o conceito explicado, com um exemplo que não é a resposta (missões 2 e 4) -->
+          <details class="fe-manual" id="fe-manual" open hidden>
+            <summary>📘 Manual do fabricante</summary>
+            <div id="fe-manual-corpo"></div>
+          </details>
+
+          <div class="fe-missao">
+            <!-- lado do código -->
+            <div class="fe-codigo">
+              <p class="fe-postit" id="fe-bilhete" aria-label="Bilhete colado no monitor"></p>
+
+              <label class="rotulo-campo" for="fe-editor">programa da placa: placa.py</label>
+              <textarea class="editor fe-editor" id="fe-editor" spellcheck="false" autocapitalize="off" autocomplete="off" rows="12"></textarea>
+
+              <div class="fe-botoes">
+                <button type="button" class="botao" id="fe-gravar">⚡ Gravar na placa</button>
+                <button type="button" class="botao contorno" id="fe-recomecar">↺ Recomeçar</button>
+              </div>
+              <pre class="fe-console" id="fe-console" role="status" aria-live="polite">A placa está vazia. Escreva o código e clique em Gravar na placa.</pre>
+
+              <p class="dica"><strong>Lembre:</strong> <code>return</code> responde à fechadura. O <code>print()</code> só mostra no console da placa.</p>
+            </div>
+
+            <!-- lado do hardware: os controles mudam conforme a missão (data-modo) -->
+            <div class="fe-hardware" id="fe-hardware" data-modo="teclado" aria-label="Simulador da fechadura" tabindex="-1">
+              <div class="fe-caixa" id="fe-caixa">
+                <div class="fe-marca">CANDANGO·LOCK <span>mod. PY-1</span></div>
+                <div class="fe-lcd" id="fe-lcd" role="status" aria-live="polite"><span class="fe-lcd-1">PLACA VAZIA</span><span class="fe-lcd-2">GRAVE O CODIGO</span></div>
+                <div class="fe-leds" aria-hidden="true">
+                  <span class="fe-led verde" id="fe-led-verde"></span>
+                  <span class="fe-led amarelo" id="fe-led-amarelo"></span>
+                  <span class="fe-led vermelho" id="fe-led-vermelho"></span>
+                </div>
+
+                <!-- missões 1 e 3: o teclado -->
+                <div class="fe-controle" data-para="teclado alarme">
+                  <div class="fe-teclado" id="fe-teclado" aria-label="Teclado da fechadura">
+                    <button type="button" data-tecla="1">1</button><button type="button" data-tecla="2">2</button><button type="button" data-tecla="3">3</button>
+                    <button type="button" data-tecla="4">4</button><button type="button" data-tecla="5">5</button><button type="button" data-tecla="6">6</button>
+                    <button type="button" data-tecla="7">7</button><button type="button" data-tecla="8">8</button><button type="button" data-tecla="9">9</button>
+                    <button type="button" data-tecla="apagar" aria-label="Apagar">⌫</button><button type="button" data-tecla="0">0</button><button type="button" data-tecla="ok" class="fe-ok">OK</button>
+                  </div>
+                  <button type="button" class="fe-destravar" id="fe-destravar" hidden>🔑 A segurança destrava</button>
+                </div>
+
+                <!-- missão 2: o app do celular -->
+                <div class="fe-controle fe-app" data-para="app">
+                  <label for="fe-app-texto">📱 App da fechadura: mande um código</label>
+                  <div class="fe-app-linha">
+                    <input id="fe-app-texto" autocomplete="off" placeholder="ex.: 4471">
+                    <button type="button" id="fe-app-enviar">Enviar</button>
+                  </div>
+                </div>
+
+                <!-- missão 4: os crachás -->
+                <div class="fe-controle" data-para="cracha">
+                  <p class="fe-ajuda">Aproxime um crachá do leitor:</p>
+                  <div class="fe-crachas" id="fe-crachas"></div>
+                </div>
+
+                <!-- missão 5: o relógio e o perfil -->
+                <div class="fe-controle fe-relogio" data-para="relogio">
+                  <label for="fe-hora">🕐 Hora: <strong id="fe-hora-valor">9h</strong></label>
+                  <input type="range" id="fe-hora" min="0" max="23" value="9">
+                  <label for="fe-perfil">Perfil do crachá</label>
+                  <select id="fe-perfil">
+                    <option value="visitante">visitante</option>
+                    <option value="funcionario" selected>funcionario</option>
+                    <option value="ti">ti</option>
+                    <option value="diretoria">diretoria</option>
+                  </select>
+                  <button type="button" id="fe-passar">Passar o crachá</button>
+                </div>
+              </div>
+
+              <!-- a placa no meio: as trilhas levam o pulso do controle até o chip e do chip até a trava -->
+              <div class="fe-placa" id="fe-placa" aria-hidden="true">
+                <span class="fe-trilha t1"></span>
+                <span class="fe-chip"><b>placa.py</b><i id="fe-chip-funcao">vazia</i></span>
+                <span class="fe-trilha t2"></span>
+              </div>
+
+              <!-- missão 4: as salas que o crachá abre -->
+              <div class="fe-salas fe-controle" data-para="cracha" aria-label="Salas que o crachá abre">
+                <span data-sala="recepcao">Recepção</span>
+                <span data-sala="escritorio">Escritório</span>
+                <span data-sala="servidores">Servidores</span>
+                <span data-sala="diretoria">Diretoria</span>
+              </div>
+
+              <div class="fe-porta" id="fe-porta">
+                <div class="fe-porta-folha"><span class="fe-porta-placa">SALA DOS SERVIDORES</span><span class="fe-trava" id="fe-trava" aria-hidden="true">🔒</span></div>
+              </div>
+
+              <button type="button" class="fe-som" id="fe-som" aria-pressed="true">🔊 Som ligado</button>
+            </div>
+          </div>
+
+          <h3 class="fe-sub">Log da portaria</h3>
+          <ol class="fe-log" id="fe-log" aria-live="polite"></ol>
+        </section>
+
+        <!-- ===================== RED TEAM ===================== -->
+        <section class="parte" id="redteam" data-exige-login="sem-aviso">
+          <div class="cab">
+            <span class="olho">RT · red team</span>
+            <h2 id="fe-rt-titulo">Hora do ataque</h2>
+            <p>O Red Team ataca a placa da missão aberta, com tentativas bem maldosas. Cada ataque que a sua placa responder certo conta ponto. Pode chamar quantas vezes quiser: vale o melhor resultado de cada missão.</p>
+          </div>
+          <button type="button" class="botao fe-chamar" id="fe-chamar">🔴 Chamar o Red Team</button>
+          <div class="fe-placar" id="fe-placar" hidden>
+            <p class="fe-placar-numero" id="fe-placar-numero" role="status"></p>
+            <ol class="fe-ataques" id="fe-ataques"></ol>
+          </div>
+        </section>
+
+        <!-- ===================== ENTREGA ===================== -->
+        <section class="parte" id="entrega" data-exige-login="sem-aviso">
+          <div class="cab">
+            <span class="olho">E1 · entrega</span>
+            <h2>Entregue o seu melhor resultado</h2>
+            <p>A nota vai direto para a professora. Pode entregar de novo depois de melhorar: vale a última entrega.</p>
+          </div>
+          <div class="fe-resumo" id="fe-resumo"></div>
+          <button type="button" class="botao" id="fe-entregar">📦 Entregar</button>
+          <p class="fe-comprovante" id="fe-comprovante" role="status" aria-live="polite"></p>
+        </section>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="envolve">
+      <div class="rodape-fim" style="margin-top:0; padding-top:0; border-top:0">
+        <span><a href="../">Lógica de Programação com Python</a> · Feito com ♥ e sucata eletrônica.</span>
+        <span>print("acesso liberado!")</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- a fechadura vem antes do conta.js: no modo demonstração (?demo) ela tira o bloqueio do login -->
+  <script src="missoes.js?v=3"></script>
+  <script src="fechadura.js?v=3"></script>
+  <!-- login dos alunos (e-mail da faculdade) e registro dos resultados para a professora -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="../assets/js/conta.js?v=7" data-disciplina="Python-Logica"></script>
+  <script src="../assets/js/matrix.js?v=2"></script>
+</body>
+</html>
