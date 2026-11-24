@@ -1,5 +1,18 @@
 [
  {
+  "id": "projeto",
+  "pasta": "",
+  "titulo": "Entrega da Mini Loja",
+  "descricao": "",
+  "link": "",
+  "bimestre": "2º",
+  "valor": "3,0 pontos",
+  "arquivo": "",
+  "arquivo_nome": "",
+  "imagem": false,
+  "alt": ""
+ },
+ {
   "id": "introducao-a-ciencia-da-computacao",
   "pasta": "",
   "titulo": "Introdução à Ciência da Computação",
