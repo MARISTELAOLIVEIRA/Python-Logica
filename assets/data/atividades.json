@@ -1,5 +1,18 @@
 [
  {
+  "id": "fechadura-eletronica",
+  "pasta": "fechadura/",
+  "titulo": "Desafio final: fechadura eletrônica",
+  "descricao": "Programe a placa de uma fechadura eletrônica em 5 missões e resista aos ataques do Red Team. Individual, em sala, com o login da faculdade.",
+  "link": "",
+  "bimestre": "2º",
+  "valor": "6,0 pontos",
+  "arquivo": "",
+  "arquivo_nome": "",
+  "imagem": false,
+  "alt": ""
+ },
+ {
   "id": "projeto",
   "pasta": "",
   "titulo": "Entrega da Mini Loja",

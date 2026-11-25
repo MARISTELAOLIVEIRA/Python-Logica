@@ -1,0 +1,709 @@
+/*
+  fechadura.css: o simulador da fechadura eletrônica (desafio final de Lógica com Python).
+  versão 3 · 2026-11-22 · 5 missões + manual do fabricante · o hardware é sempre escuro, nos dois temas, como um aparelho de verdade
+*/
+
+/* ---------- missão: código de um lado, hardware do outro ---------- */
+.fe-missao {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(1.2rem, 3vw, 2rem);
+  align-items: start;
+}
+
+.fe-codigo {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+/* o bilhete com a senha colado no monitor */
+.fe-postit {
+  align-self: flex-start;
+  margin: 0;
+  padding: .7rem 1rem;
+  background: #ffe873;
+  color: #3a3000;
+  border-radius: 3px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .25);
+  transform: rotate(-1.5deg);
+  font-family: var(--f-mono);
+  font-size: .9rem;
+}
+
+.fe-postit strong {
+  font-size: 1.15rem;
+  letter-spacing: .12em;
+}
+
+.fe-editor {
+  min-height: 15rem;
+  width: 100%;
+}
+
+.fe-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+/* o console da placa: mostra erros e o que o print() escreveu */
+.fe-console {
+  margin: 0;
+  padding: .8rem 1rem;
+  min-height: 3.2rem;
+  background: var(--chip);
+  color: #c9d6cf;
+  border-radius: var(--raio-p);
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  white-space: pre-wrap;
+}
+
+.fe-console.erro {
+  color: #ff9b94;
+}
+
+/* ---------- o hardware ---------- */
+.fe-hardware {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fe-caixa {
+  width: min(100%, 300px);
+  padding: 1rem 1.1rem 1.2rem;
+  background: linear-gradient(160deg, #3a4046, #1d2125);
+  border: 1px solid #555d63;
+  border-radius: 18px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+.fe-marca {
+  margin-bottom: .6rem;
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: #aab4ba;
+}
+
+.fe-marca span {
+  float: right;
+  color: #6f7a80;
+}
+
+/* visor de cristal líquido, verde, duas linhas */
+.fe-lcd {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: .6rem .7rem;
+  min-height: 3.6rem;
+  background: #9fc95a;
+  color: #1d2a0c;
+  border: 3px solid #12160f;
+  border-radius: 6px;
+  font-family: var(--f-mono);
+  font-size: .95rem;
+  letter-spacing: .08em;
+  text-shadow: 0 0 1px rgba(29, 42, 12, .5);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, .25);
+}
+
+.fe-lcd span {
+  min-height: 1.2em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* LEDs: apagados ficam foscos; acesos brilham */
+.fe-leds {
+  display: flex;
+  justify-content: center;
+  gap: 1.1rem;
+  margin: .9rem 0;
+}
+
+.fe-led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  opacity: .25;
+  transition: opacity .15s, box-shadow .15s;
+}
+
+.fe-led.verde { background: #3dff7a; }
+.fe-led.amarelo { background: #ffd43b; }
+.fe-led.vermelho { background: #ff4b4b; }
+
+.fe-led.aceso {
+  opacity: 1;
+  box-shadow: 0 0 12px 3px currentColor;
+}
+
+.fe-led.verde.aceso { color: #3dff7a; }
+.fe-led.amarelo.aceso { color: #ffd43b; }
+.fe-led.vermelho.aceso { color: #ff4b4b; }
+
+/* teclado de borracha */
+.fe-teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .55rem;
+}
+
+.fe-teclado button {
+  padding: .7rem 0;
+  background: linear-gradient(#4b535a, #2f353a);
+  color: #eef3f5;
+  border: 1px solid #1a1e21;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #15191b;
+  font-family: var(--f-mono);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.fe-teclado button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #15191b;
+}
+
+.fe-teclado .fe-ok {
+  background: linear-gradient(#2f8f55, #1d6038);
+  font-weight: 700;
+}
+
+.fe-teclado button:focus-visible,
+.fe-som:focus-visible {
+  outline: 3px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+/* ---------- a placa: trilhas douradas e o chip com o código do aluno ---------- */
+.fe-placa {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: min(100%, 300px);
+  padding: .8rem 1rem;
+  background: #0d4a2c;
+  border: 1px solid #1b6b43;
+  border-radius: 10px;
+}
+
+.fe-trilha {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  background: #b8913f;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* o pulso de luz que corre na trilha quando alguém aperta OK */
+.fe-trilha::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -12px;
+  width: 12px;
+  height: 9px;
+  border-radius: 50%;
+  background: #fff3b0;
+  box-shadow: 0 0 10px 3px #ffd43b;
+  opacity: 0;
+}
+
+.fe-placa.pulso .t1::after {
+  animation: fe-corre .45s ease-in forwards;
+}
+
+.fe-placa.pulso .t2::after {
+  animation: fe-corre .45s ease-out .45s forwards;
+}
+
+@keyframes fe-corre {
+  0% { left: -12px; opacity: 1; }
+  100% { left: 100%; opacity: 1; }
+}
+
+.fe-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 .6rem;
+  padding: .45rem .7rem;
+  background: #050807;
+  color: #8a9590;
+  border-radius: 4px;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  box-shadow: 0 0 0 2px #222;
+}
+
+.fe-chip b {
+  color: #d6d6d6;
+  font-weight: 500;
+}
+
+.fe-placa.gravada .fe-chip i {
+  color: #3dff7a;
+  font-style: normal;
+}
+
+/* ---------- a porta da sala dos servidores ---------- */
+.fe-porta {
+  width: min(100%, 300px);
+  height: 170px;
+  padding: 10px 10px 0;
+  background: #2a2f33;
+  border-radius: 10px 10px 0 0;
+  perspective: 700px;
+}
+
+.fe-porta-folha {
+  position: relative;
+  height: 100%;
+  background: linear-gradient(90deg, #7d8a93, #a4b0b8 60%, #8e9aa2);
+  border-radius: 4px 4px 0 0;
+  transform-origin: left center;
+  transition: transform .6s ease;
+}
+
+.fe-porta.aberta .fe-porta-folha {
+  transform: rotateY(-62deg);
+}
+
+.fe-porta-placa {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: .2rem .5rem;
+  background: #1f5f99;
+  color: #fff;
+  border-radius: 3px;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  white-space: nowrap;
+}
+
+.fe-trava {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.4rem;
+}
+
+.fe-som {
+  padding: .3rem .8rem;
+  background: var(--superficie);
+  color: var(--texto-2);
+  border: 1px solid var(--borda-forte);
+  border-radius: 999px;
+  font-size: .8rem;
+  cursor: pointer;
+}
+
+/* ---------- log da portaria ---------- */
+.fe-sub {
+  margin: 2rem 0 .8rem;
+}
+
+.fe-log {
+  margin: 0;
+  padding: .8rem 1rem .8rem 2.2rem;
+  min-height: 3rem;
+  background: var(--chip);
+  color: #c9d6cf;
+  border-radius: var(--raio-p);
+  font-family: var(--f-mono);
+  font-size: .82rem;
+}
+
+.fe-log li.ok { color: #3dff7a; }
+.fe-log li.falha { color: #ff8a80; }
+.fe-log li.info { color: #ecc874; }
+
+/* ---------- Red Team ---------- */
+.fe-chamar {
+  margin-bottom: 1rem;
+}
+
+.fe-placar-numero {
+  font-family: var(--f-titulo);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 800;
+}
+
+.fe-ataques {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.fe-ataques li {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  padding: .7rem 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-left: 4px solid var(--menta);
+  border-radius: var(--raio-p);
+  animation: fe-entra .3s ease;
+}
+
+.fe-ataques li.falha {
+  border-left-color: #ff6b6b;
+}
+
+.fe-ataques li span {
+  color: var(--texto-2);
+  font-size: .9rem;
+}
+
+@keyframes fe-entra {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- entrega ---------- */
+.fe-resumo p {
+  margin: .3rem 0;
+}
+
+.fe-total {
+  font-weight: 700;
+  color: var(--ouro);
+}
+
+.fe-comprovante {
+  margin-top: 1rem;
+  font-family: var(--f-mono);
+  color: var(--menta);
+}
+
+/* ---------- abas das 5 missões ---------- */
+.fe-abas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.4rem;
+}
+
+.fe-abas button {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .5rem;
+  align-items: center;
+  padding: .55rem .9rem;
+  background: var(--superficie);
+  color: var(--texto-2);
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-p);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fe-abas button span {
+  grid-row: span 2;
+  font-family: var(--f-mono);
+  color: var(--ouro);
+}
+
+.fe-abas button strong {
+  color: var(--texto);
+  font-size: .92rem;
+}
+
+.fe-abas button small {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+}
+
+.fe-abas button[aria-selected="true"] {
+  border-color: var(--neon);
+  box-shadow: 0 0 14px var(--neon-brilho);
+}
+
+.fe-abas button.completa small {
+  color: var(--menta);
+}
+
+.fe-abas button:focus-visible {
+  outline: 3px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+/* ---------- cada missão mostra só os seus controles ---------- */
+.fe-controle {
+  display: none;
+}
+
+[data-modo="teclado"] [data-para~="teclado"],
+[data-modo="alarme"] [data-para~="alarme"],
+[data-modo="app"] [data-para~="app"],
+[data-modo="cracha"] [data-para~="cracha"],
+[data-modo="relogio"] [data-para~="relogio"] {
+  display: block;
+}
+
+[data-modo="cracha"] .fe-salas {
+  display: grid;
+}
+
+/* botão da segurança (missão 3) */
+.fe-destravar {
+  width: 100%;
+  margin-top: .8rem;
+  padding: .6rem;
+  background: #ffd43b;
+  color: #2a2200;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* a sirene: a caixa pisca em vermelho */
+.fe-caixa.sirene {
+  animation: fe-sirene .5s steps(2) infinite;
+}
+
+@keyframes fe-sirene {
+  0% { box-shadow: 0 0 0 3px #ff4b4b, 0 0 30px 6px rgba(255, 75, 75, .7); }
+  100% { box-shadow: 0 14px 30px rgba(0, 0, 0, .4); }
+}
+
+/* app do celular (missão 2) */
+.fe-app label,
+.fe-relogio label,
+.fe-ajuda {
+  display: block;
+  margin: 0 0 .4rem;
+  color: #d4dde2;
+  font-size: .85rem;
+}
+
+.fe-app-linha {
+  display: flex;
+  gap: .4rem;
+}
+
+.fe-app input,
+.fe-relogio select {
+  flex: 1;
+  min-width: 0;
+  padding: .55rem .6rem;
+  background: #11161a;
+  color: #eef3f5;
+  border: 1px solid #555d63;
+  border-radius: 8px;
+  font-family: var(--f-mono);
+}
+
+.fe-app button,
+.fe-relogio button {
+  padding: .55rem .9rem;
+  background: linear-gradient(#2f8f55, #1d6038);
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fe-relogio input[type="range"] {
+  width: 100%;
+  margin-bottom: .8rem;
+  accent-color: #ffd43b;
+}
+
+.fe-relogio select {
+  width: 100%;
+  margin-bottom: .8rem;
+}
+
+.fe-relogio button {
+  width: 100%;
+}
+
+/* crachás (missão 4) */
+.fe-crachas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: .45rem;
+}
+
+.fe-cracha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .1rem;
+  padding: .5rem .3rem;
+  background: #f4f6f8;
+  color: #1a1f23;
+  border: 0;
+  border-top: 6px solid #1f5f99;
+  border-radius: 8px;
+  font-size: .72rem;
+  cursor: pointer;
+}
+
+.fe-cracha span {
+  font-size: 1.3rem;
+}
+
+.fe-cracha small {
+  font-family: var(--f-mono);
+  color: #555;
+}
+
+.fe-cracha:last-child {
+  border-top-color: #c0392b;
+}
+
+.fe-cracha:focus-visible,
+.fe-app button:focus-visible,
+.fe-relogio button:focus-visible,
+.fe-destravar:focus-visible {
+  outline: 3px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+/* painel das salas (missão 4) */
+.fe-salas {
+  grid-template-columns: repeat(2, 1fr);
+  gap: .4rem;
+  width: min(100%, 300px);
+}
+
+.fe-salas span {
+  padding: .45rem .6rem;
+  background: #1d2125;
+  color: #8a959b;
+  border: 1px solid #3a4046;
+  border-radius: 8px;
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  text-align: center;
+}
+
+.fe-salas span::before {
+  content: "🔒 ";
+}
+
+.fe-salas span.aberta {
+  background: #0f3d24;
+  color: #3dff7a;
+  border-color: #3dff7a;
+}
+
+.fe-salas span.aberta::before {
+  content: "🔓 ";
+}
+
+.pausado .fe-caixa.sirene {
+  animation: none;
+  box-shadow: 0 0 0 3px #ff4b4b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fe-caixa.sirene {
+    animation: none;
+    box-shadow: 0 0 0 3px #ff4b4b;
+  }
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 900px) {
+  .fe-missao {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- animações pausadas ---------- */
+.pausado .fe-porta-folha,
+.pausado .fe-led {
+  transition: none;
+}
+
+.pausado .fe-placa.pulso .fe-trilha::after,
+.pausado .fe-ataques li {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fe-porta-folha,
+  .fe-led {
+    transition: none;
+  }
+
+  .fe-placa.pulso .fe-trilha::after,
+  .fe-ataques li {
+    animation: none;
+  }
+}
+
+
+/* ---------- manual do fabricante (missões 2 e 4) ---------- */
+.fe-manual {
+  margin: 0 0 1.6rem;
+  padding: .9rem 1.2rem;
+  background: color-mix(in srgb, var(--neon) 8%, var(--superficie));
+  border: 1px solid color-mix(in srgb, var(--neon) 45%, transparent);
+  border-left: 5px solid var(--neon);
+  border-radius: var(--raio-p);
+}
+
+.fe-manual[hidden] {
+  display: none;
+}
+
+.fe-manual summary {
+  font-family: var(--f-titulo);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fe-manual p {
+  margin: .8rem 0 .5rem;
+}
+
+.fe-manual-codigo {
+  margin: .4rem 0 .8rem;
+  padding: .8rem 1rem;
+  background: var(--chip);
+  color: #e6e1d3;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.fe-manual-codigo code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+.fe-manual-lista {
+  margin: .4rem 0 .2rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.fe-manual-lista li {
+  margin: .35rem 0;
+}
